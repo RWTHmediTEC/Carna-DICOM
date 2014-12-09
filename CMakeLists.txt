@@ -47,6 +47,10 @@ find_package( Qt4 REQUIRED )
 include( ${QT_USE_FILE} )
 add_definitions( ${QT_DEFINITIONS} )
 
+# GDCM
+
+include( $ENV{MEDITEC_LIBS}/GDCM/2.0.16/configure.cmake )
+
 # Carna
 
 include( $ENV{MEDITEC_LIBS}/Carna/2.5.0/configure.cmake )
@@ -55,45 +59,49 @@ include( $ENV{MEDITEC_LIBS}/Carna/2.5.0/configure.cmake )
 
 include_directories(${CMAKE_PROJECT_DIR}include)
 set( PUBLIC_QOBJECT_HEADERS
-		include/${PROJECT_NAME}/base/qt/DicomController.h
+		include/${PROJECT_NAME}/dicom/DicomController.h
 )
 set( PUBLIC_HEADERS
 		${PUBLIC_QOBJECT_HEADERS}
-		include/${PROJECT_NAME}/base/model/Series.h
-		include/${PROJECT_NAME}/base/model/SeriesElement.h
-		include/${PROJECT_NAME}/base/model/SeriesLoadingRequest.h
+		include/${PROJECT_NAME}/dicom/Series.h
+		include/${PROJECT_NAME}/dicom/SeriesElement.h
+		include/${PROJECT_NAME}/dicom/SeriesLoadingRequest.h
 	)
 include_directories(${CMAKE_PROJECT_DIR}src/include)
-include_directories(${CMAKE_PROJECT_DIR}src/include/Carna/dicom/qt)	# required for /src/include/Carna/base/flowlayout.h
+include_directories(${CMAKE_PROJECT_DIR}src/include/Carna/dicom/qt)	# required by FlowLayout.h
 set( PRIVATE_QOBJECT_HEADERS
-		src/include/Carna/base/model/DicomManager.h
-		src/include/Carna/base/model/SeriesLoadingWorker.h
-		src/include/Carna/base/qt/DicomOpeningDialog.h
-		src/include/Carna/base/qt/QtDicomSeriesOpeningController.h
-		src/include/Carna/base/qt/SeriesPreview.h
-		src/include/Carna/base/qt/SeriesView.h
-		src/include/Carna/base/qt/ToggleSeriesPreview.h
+		src/include/Carna/dicom/DicomManager.h
+		src/include/Carna/dicom/SeriesLoadingWorker.h
+		src/include/Carna/dicom/DicomOpeningDialog.h
+		src/include/Carna/dicom/QtDicomSeriesOpeningController.h
+		src/include/Carna/dicom/SeriesPreview.h
+		src/include/Carna/dicom/SeriesView.h
+		src/include/Carna/dicom/ToggleSeriesPreview.h
 )
 set( PRIVATE_HEADERS
 		${PRIVATE_QOBJECT_HEADERS}
-		src/include/Carna/base/model/Patient.h
-		src/include/Carna/base/model/Study.h
-		src/include/Carna/base/qt/FlowLayout.h
+		src/include/Carna/dicom/Patient.h
+		src/include/Carna/dicom/Study.h
+		src/include/Carna/dicom/FlowLayout.h
+		src/include/dicom-interface/dicomImage.h
+		src/include/dicom-interface/dicomSeries.h
 	)
 set( SRC
-		src/base/model/DicomManager.cpp
-		src/base/model/Patient.cpp
-		src/base/model/Series.cpp
-		src/base/model/SeriesElement.cpp
-		src/base/model/SeriesLoadingWorker.cpp
-		src/base/model/Study.cpp
-		src/base/qt/DicomController.cpp
-		src/base/qt/DicomOpeningDialog.cpp
-		src/base/qt/FlowLayout.cpp
-		src/base/qt/QtDicomSeriesOpeningController.cpp
-		src/base/qt/SeriesPreview.cpp
-		src/base/qt/SeriesView.cpp
-		src/base/qt/ToggleSeriesPreview.cpp
+		src/dicom/DicomManager.cpp
+		src/dicom/Patient.cpp
+		src/dicom/Series.cpp
+		src/dicom/SeriesElement.cpp
+		src/dicom/SeriesLoadingWorker.cpp
+		src/dicom/Study.cpp
+		src/dicom/DicomController.cpp
+		src/dicom/DicomOpeningDialog.cpp
+		src/dicom/FlowLayout.cpp
+		src/dicom/QtDicomSeriesOpeningController.cpp
+		src/dicom/SeriesPreview.cpp
+		src/dicom/SeriesView.cpp
+		src/dicom/ToggleSeriesPreview.cpp
+		src/dicom-interface/dicomImage.cpp
+		src/dicom-interface/dicomSeries.cpp
 	)
 set( FORMS
 		""
@@ -158,7 +166,7 @@ add_library( ${TARGET_NAME} SHARED
 		)
 
 string( TOUPPER ${PROJECT_NAME} PROJECT_NAME_UPPER )
-add_definitions( -D${PROJECT_NAME_UPPER}_LIB -DNOMINMAX -D_NO_FRAMEBUFFER_DEBUG )
+add_definitions( -D${PROJECT_NAME_UPPER}_LIB -DNOMINMAX -D_NO_FRAMEBUFFER_DEBUG -D_WINDOWS -D_USRDLL )
 
 
 ############################################
@@ -166,8 +174,11 @@ add_definitions( -D${PROJECT_NAME_UPPER}_LIB -DNOMINMAX -D_NO_FRAMEBUFFER_DEBUG 
 ############################################
 
 target_link_libraries( ${TARGET_NAME}
-			${QT_LIBRARIES}
-		)
+		ws2_32
+		rpcrt4
+		${GDCM_LIBLIST}
+		${QT_LIBRARIES}
+	)
 
 
 
