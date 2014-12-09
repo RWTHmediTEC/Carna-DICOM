@@ -60,6 +60,7 @@ include( $ENV{MEDITEC_LIBS}/Carna/2.5.0/configure.cmake )
 include_directories(${CMAKE_PROJECT_DIR}include)
 set( PUBLIC_QOBJECT_HEADERS
 		include/Carna/dicom/DicomController.h
+		include/Carna/dicom/DicomSceneFactory.h
 )
 set( PUBLIC_HEADERS
 		${PUBLIC_QOBJECT_HEADERS}
@@ -76,6 +77,7 @@ set( PRIVATE_QOBJECT_HEADERS
 		src/include/Carna/dicom/SeriesPreview.h
 		src/include/Carna/dicom/SeriesView.h
 		src/include/Carna/dicom/ToggleSeriesPreview.h
+		src/include/Carna/dicom/UInt16VolumeComputationWorker.h
 )
 set( PRIVATE_HEADERS
 		${PRIVATE_QOBJECT_HEADERS}
@@ -93,10 +95,12 @@ set( SRC
 		src/dicom/Study.cpp
 		src/dicom/DicomController.cpp
 		src/dicom/DicomOpeningDialog.cpp
+		src/dicom/DicomSceneFactory.cpp
 		src/dicom/QtDicomSeriesOpeningController.cpp
 		src/dicom/SeriesPreview.cpp
 		src/dicom/SeriesView.cpp
 		src/dicom/ToggleSeriesPreview.cpp
+		src/dicom/UInt16VolumeComputationWorker.cpp
 		src/dicom-interface/dicomImage.cpp
 		src/dicom-interface/dicomSeries.cpp
 	)
