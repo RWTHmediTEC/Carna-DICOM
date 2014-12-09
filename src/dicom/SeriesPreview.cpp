@@ -9,9 +9,9 @@
  *
  */
 
-#include <Carna/base/qt/SeriesPreview.h>
-#include <Carna/base/model/Series.h>
-#include <Carna/base/model/SeriesElement.h>
+#include <Carna/dicom/SeriesPreview.h>
+#include <Carna/dicom/Series.h>
+#include <Carna/dicom/SeriesElement.h>
 #include <Carna/base/CarnaException.h>
 #include <QLabel>
 #include <QPixmap>
@@ -22,10 +22,7 @@
 namespace Carna
 {
 
-namespace base
-{
-
-namespace qt
+namespace dicom
 {
 
 
@@ -101,8 +98,6 @@ bool SeriesPreview::hasSeries() const
 
 
 
-}  // namespace Carna :: base :: qt
-
-}  // namespace Carna :: base
+}  // namespace Carna :: dicom
 
 }  // namespace Carna

@@ -13,7 +13,7 @@
 #define DICOMMANAGER_H_6014714286
 
 /** \file   DicomManager.h
-  * \brief  Defines \ref Carna::base::model::DicomManager.
+  * \brief  Defines \ref Carna::dicom::DicomManager.
   */
 
 #include <Carna/Carna.h>
@@ -25,18 +25,11 @@
 namespace Carna
 {
 
-namespace base
+namespace dicom
 {
 
-namespace qt
-{
-    class QtDicomSeriesOpeningController;
-    struct ImageData;
-}
-
-namespace model
-{
-
+class QtDicomSeriesOpeningController;
+struct ImageData;
 class Patient;
 class Series;
 class DicomExtractionSettings;
@@ -87,7 +80,7 @@ public slots:
 
     void cancel();
 
-    void extractSeries( const Carna::base::model::DicomExtractionSettings& );
+    void extractSeries( const Carna::dicom::DicomExtractionSettings& );
 
 
 signals:
@@ -120,7 +113,7 @@ private slots:
 
     void setProgressedFilesCount( unsigned int );
 
-    void processNewImage( const Carna::base::qt::ImageData& );
+    void processNewImage( const Carna::dicom::ImageData& );
 
     void fail( const QString& );
 
@@ -128,9 +121,7 @@ private slots:
 
 
 
-}  // namespace Carna :: base :: model
-
-}  // namespace Carna :: base
+}  // namespace Carna :: dicom
 
 }  // namespace Carna
 

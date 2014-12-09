@@ -13,7 +13,7 @@
 #define PATIENT_H_6014714286
 
 /** \file   Patient.h
-  * \brief  Defines \ref Carna::base::model::Patient.
+  * \brief  Defines \ref Carna::dicom::Patient.
   */
 
 #include <Carna/Carna.h>
@@ -23,10 +23,7 @@
 namespace Carna
 {
 
-namespace base
-{
-
-namespace model
+namespace dicom
 {
 
 class Study;
@@ -81,9 +78,7 @@ inline Patient& operator<<( Patient& patient, Study* study )
 
 
 
-}  // namespace Carna :: base :: model
-
-}  // namespace Carna :: base
+}  // namespace Carna :: dicom
 
 }  // namespace Carna
 

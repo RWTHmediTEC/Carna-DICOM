@@ -9,13 +9,13 @@
  *
  */
 
-#include <Carna/base/model/DicomManager.h>
-#include <Carna/base/model/Patient.h>
-#include <Carna/base/model/Study.h>
-#include <Carna/base/model/Series.h>
-#include <Carna/base/model/SeriesElement.h>
-#include <Carna/base/model/DicomExtractionSettings.h>
-#include <Carna/base/qt/QtDicomSeriesOpeningController.h>
+#include <Carna/dicom/DicomManager.h>
+#include <Carna/dicom/Patient.h>
+#include <Carna/dicom/Study.h>
+#include <Carna/dicom/Series.h>
+#include <Carna/dicom/SeriesElement.h>
+#include <Carna/dicom/DicomExtractionSettings.h>
+#include <Carna/dicom/QtDicomSeriesOpeningController.h>
 #include <Carna/base/CarnaException.h>
 #include <dicom-interface/dicomSeries.h>
 #include <QDirIterator>
@@ -27,10 +27,7 @@
 namespace Carna
 {
 
-namespace base
-{
-
-namespace model
+namespace dicom
 {
 
 
@@ -139,7 +136,7 @@ void DicomManager::openDirectory( const QString& path )
 
     connect( loadingController.get(), SIGNAL( onDirOpened( unsigned int ) ), this, SLOT( setTotalFilesCount( unsigned int ) ) );
     connect( loadingController.get(), SIGNAL( onDirIterationProgress( unsigned int ) ), this, SLOT( setProgressedFilesCount( unsigned int ) ) );
-    connect( loadingController.get(), SIGNAL( onNewImage( const Carna::base::qt::ImageData& ) ), this, SLOT( processNewImage( const Carna::base::qt::ImageData& ) ) );
+    connect( loadingController.get(), SIGNAL( onNewImage( const Carna::dicom::ImageData& ) ), this, SLOT( processNewImage( const Carna::dicom::ImageData& ) ) );
     connect( loadingController.get(), SIGNAL( onFailed( const QString& ) ), this, SLOT( fail( const QString& ) ) );
 
     ds.openDicomDir( fileIterator, *loadingController );
@@ -618,8 +615,6 @@ void DicomManager::fail( const QString& message )
 
 
 
-}  // namespace Carna :: base :: model
-
-}  // namespace Carna :: base
+}  // namespace Carna :: dicom
 
 }  // namespace Carna

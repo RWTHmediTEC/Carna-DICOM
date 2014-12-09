@@ -9,15 +9,12 @@
  *
  */
 
-#include <Carna/base/qt/ToggleSeriesPreview.h>
+#include <Carna/dicom/ToggleSeriesPreview.h>
 
 namespace Carna
 {
 
-namespace base
-{
-
-namespace qt
+namespace dicom
 {
 
 
@@ -89,8 +86,6 @@ void ToggleSeriesPreview::mouseDoubleClickEvent( QMouseEvent* ev )
 
 
 
-}  // namespace Carna :: base :: qt
-
-}  // namespace Carna :: base
+}  // namespace Carna :: dicom
 
 }  // namespace Carna

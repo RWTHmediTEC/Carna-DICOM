@@ -9,18 +9,15 @@
  *
  */
 
-#include <Carna/base/model/Series.h>
-#include <Carna/base/model/SeriesElement.h>
+#include <Carna/dicom/Series.h>
+#include <Carna/dicom/SeriesElement.h>
 #include <Carna/base/CarnaException.h>
 #include <climits>
 
 namespace Carna
 {
 
-namespace base
-{
-
-namespace model
+namespace dicom
 {
 
 
@@ -135,8 +132,6 @@ bool Series::contains( const std::string& fileName ) const
 
 
 
-}  // namespace Carna :: base :: model
-
-}  // namespace Carna :: base
+}  // namespace Carna :: dicom
 
 }  // namespace Carna

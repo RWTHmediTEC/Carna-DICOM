@@ -13,7 +13,7 @@
 #define STUDY_H_6014714286
 
 /** \file   Study.h
-  * \brief  Defines \ref Carna::base::model::Study.
+  * \brief  Defines \ref Carna::dicom::Study.
   */
 
 #include <Carna/Carna.h>
@@ -23,10 +23,7 @@
 namespace Carna
 {
 
-namespace base
-{
-
-namespace model
+namespace dicom
 {
 
 class Series;
@@ -81,9 +78,7 @@ inline Study& operator<<( Study& study, Series* series )
 
 
 
-}  // namespace Carna :: base :: model
-
-}  // namespace Carna :: base
+}  // namespace Carna :: dicom
 
 }  // namespace Carna
 

@@ -9,16 +9,13 @@
  *
  */
 
-#include <Carna/base/model/Study.h>
-#include <Carna/base/model/Series.h>
+#include <Carna/dicom/Study.h>
+#include <Carna/dicom/Series.h>
 
 namespace Carna
 {
 
-namespace base
-{
-
-namespace model
+namespace dicom
 {
 
 
@@ -52,8 +49,6 @@ void Study::put( Series* series )
 
 
 
-}  // namespace Carna :: base :: model
-
-}  // namespace Carna :: base
+}  // namespace Carna :: dicom
 
 }  // namespace Carna

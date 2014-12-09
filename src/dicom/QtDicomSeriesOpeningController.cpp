@@ -16,10 +16,7 @@
 namespace Carna
 {
 
-namespace base
-{
-
-namespace qt
+namespace dicom
 {
 
 
@@ -89,8 +86,6 @@ void QtDicomSeriesOpeningController::cancel()
 
 
 
-}  // namespace Carna :: base :: qt
-
-}  // namespace Carna :: base
+}  // namespace Carna :: dicom
 
 }  // namespace Carna

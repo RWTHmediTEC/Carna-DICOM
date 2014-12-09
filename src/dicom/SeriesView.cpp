@@ -9,12 +9,12 @@
  *
  */
 
-#include <Carna/base/model/Patient.h>
-#include <Carna/base/model/Study.h>
-#include <Carna/base/model/Series.h>
-#include <Carna/base/qt/SeriesView.h>
-#include <Carna/base/qt/ToggleSeriesPreview.h>
-#include <Carna/base/qt/FlowLayout.h>
+#include <Carna/dicom/Patient.h>
+#include <Carna/dicom/Study.h>
+#include <Carna/dicom/Series.h>
+#include <Carna/dicom/SeriesView.h>
+#include <Carna/dicom/ToggleSeriesPreview.h>
+#include <Carna/dicom/FlowLayout.h>
 #include <Carna/base/qt/ExpandableGroupBox.h>
 #include <QTimer>
 #include <QLabel>
@@ -24,11 +24,10 @@
 namespace Carna
 {
 
-namespace base
+namespace dicom
 {
 
-namespace qt
-{
+using Carna::base::qt::ExpendableGroupBox;
 
 
 
@@ -70,7 +69,7 @@ SeriesView::~SeriesView()
 }
 
 
-void SeriesView::addPatient( const model::Patient& patient )
+void SeriesView::addPatient( const Patient& patient )
 {
     patients.push_back( &patient );
     scheduleRebuild();
@@ -83,7 +82,7 @@ void SeriesView::clear()
 
  // ----------------------------------------------------------------------------------
 
-    std::set< const model::Series* > selected_series = selectedSeries;
+    std::set< const Series* > selected_series = selectedSeries;
     selectedSeries.clear();
 
     for( auto series_itr = selected_series.begin(); series_itr != selected_series.end(); ++series_itr )
@@ -126,7 +125,7 @@ void SeriesView::rebuild()
     
     for( auto patient_itr = patients.begin(); patient_itr != patients.end(); ++patient_itr )
     {
-        const model::Patient& patient = **patient_itr;
+        const Patient& patient = **patient_itr;
 
      // create and add patient name
 
@@ -139,7 +138,7 @@ void SeriesView::rebuild()
 
         for( auto study_itr = patient.getStudies().begin(); study_itr != patient.getStudies().end(); ++study_itr )
         {
-            const model::Study& study = **study_itr;
+            const Study& study = **study_itr;
 
          // create expendable group box for the series
 
@@ -153,9 +152,9 @@ void SeriesView::rebuild()
 
             for( auto series_itr = study.getSeries().begin(); series_itr != study.getSeries().end(); ++series_itr )
             {
-                const model::Series& current_series = **series_itr;
+                const Series& current_series = **series_itr;
 
-                if( current_series.getElements().size() < model::Series::MIN_ELEMENTS_COUNT )
+                if( current_series.getElements().size() < Series::MIN_ELEMENTS_COUNT )
                 {
                     continue;
                 }
@@ -164,8 +163,8 @@ void SeriesView::rebuild()
                 preview->setSeries( current_series );
                 series->addWidget( preview );
 
-                connect( preview, SIGNAL( toggled( Carna::base::qt::ToggleSeriesPreview& ) ), this, SLOT( seriesToggled( Carna::base::qt::ToggleSeriesPreview& ) ) );
-                connect( preview, SIGNAL( doubleClicked( Carna::base::qt::ToggleSeriesPreview& ) ), this, SLOT( seriesDoubleClicked( Carna::base::qt::ToggleSeriesPreview& ) ) );
+                connect( preview, SIGNAL( toggled( Carna::dicom::ToggleSeriesPreview& ) ), this, SLOT( seriesToggled( Carna::dicom::ToggleSeriesPreview& ) ) );
+                connect( preview, SIGNAL( doubleClicked( Carna::dicom::ToggleSeriesPreview& ) ), this, SLOT( seriesDoubleClicked( Carna::dicom::ToggleSeriesPreview& ) ) );
             }
         }
     }
@@ -187,7 +186,7 @@ void SeriesView::seriesToggled( ToggleSeriesPreview& seriesPreview )
         return;
     }
 
-    const model::Series& series = seriesPreview.getSeries();
+    const Series& series = seriesPreview.getSeries();
     if( seriesPreview.isToggled() )
     {
         selectedSeries.insert( &series );
@@ -205,7 +204,7 @@ void SeriesView::seriesToggled( ToggleSeriesPreview& seriesPreview )
 }
 
 
-const std::set< const model::Series* >& SeriesView::getSelectedSeries() const
+const std::set< const Series* >& SeriesView::getSelectedSeries() const
 {
     return selectedSeries;
 }
@@ -231,8 +230,6 @@ void SeriesView::seriesDoubleClicked( ToggleSeriesPreview& seriesPreview )
 
 
 
-}  // namespace Carna :: base :: qt
-
-}  // namespace Carna :: base
+}  // namespace Carna :: dicom
 
 }  // namespace Carna

@@ -13,16 +13,13 @@
 #define DICOMEXTRACTIONSETTINGS_H_6014714286
 
 /** \file   DicomExtractionSettings.h
-  * \brief  Defines \ref Carna::DicomExtractionSettings
+  * \brief  Defines \ref Carna::dicom::DicomExtractionSettings
   */
 
 namespace Carna
 {
 
-namespace base
-{
-
-namespace model
+namespace dicom
 {
 
 
@@ -56,9 +53,7 @@ public:
 
 
 
-}  // namespace Carna :: base :: model
-
-}  // namespace Carna :: base
+}  // namespace Carna :: dicom
 
 }  // namespace Carna
 

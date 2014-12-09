@@ -9,7 +9,7 @@
  *
  */
 
-#include <Carna/base/model/SeriesLoadingWorker.h>
+#include <Carna/dicom/SeriesLoadingWorker.h>
 #include <QStringList>
 #include <dicom-interface/dicomImage.h>
 #include <QApplication>
@@ -17,10 +17,7 @@
 namespace Carna
 {
 
-namespace base
-{
-
-namespace model
+namespace dicom
 {
 
 
@@ -67,8 +64,6 @@ void SeriesLoadingWorker::run()
 
 
 
-}  // namespace Carna :: base :: model
-
-}  // namespace Carna :: base
+}  // namespace Carna :: dicom
 
 }  // namespace Carna

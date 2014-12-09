@@ -13,7 +13,7 @@
 #define SERIESLOADINGWORKER_H_6014714286
 
 /** \file   SeriesLoadingWorker.h
-  * \brief  Defines Carna::base::model::SeriesLoadingWorker.
+  * \brief  Defines Carna::dicom::SeriesLoadingWorker.
   */
 
 #include <QThread>
@@ -24,10 +24,7 @@ class DicomImage;   // from dicom-interface
 namespace Carna
 {
 
-namespace base
-{
-
-namespace model
+namespace dicom
 {
 
 
@@ -136,9 +133,7 @@ private:
 
 
 
-}  // namespace Carna :: base :: model
-
-}  // namespace Carna :: base
+}  // namespace Carna :: dicom
 
 }  // namespace Carna
 

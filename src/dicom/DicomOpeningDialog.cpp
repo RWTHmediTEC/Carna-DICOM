@@ -9,17 +9,14 @@
  *
  */
 
-#include <Carna/base/qt/DicomOpeningDialog.h>
-#include <Carna/base/qt/DicomController.h>
+#include <Carna/dicom/DicomOpeningDialog.h>
+#include <Carna/dicom/DicomController.h>
 #include <QVBoxLayout>
 
 namespace Carna
 {
 
-namespace base
-{
-
-namespace qt
+namespace dicom
 {
 
 
@@ -39,8 +36,8 @@ DicomOpeningDialog::DicomOpeningDialog( QWidget* parent )
     this->layout()->addWidget( controller );
     controller->setMinimumHeight( 400 );
 
-    connect( controller, SIGNAL( seriesLoadingRequested( const Carna::base::model::SeriesLoadingRequest& ) ),
-        this, SLOT( loadingRequested( const Carna::base::model::SeriesLoadingRequest& ) ) );
+    connect( controller, SIGNAL( seriesLoadingRequested( const Carna::dicom::SeriesLoadingRequest& ) ),
+        this, SLOT( loadingRequested( const Carna::dicom::SeriesLoadingRequest& ) ) );
 }
 
 
@@ -63,8 +60,6 @@ const model::SeriesLoadingRequest& DicomOpeningDialog::getRequest() const
 
 
 
-}  // namespace Carna :: base :: qt
-
-}  // namespace Carna :: base
+}  // namespace Carna :: dicom
 
 }  // namespace Carna

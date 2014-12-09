@@ -13,7 +13,7 @@
 #define QTDICOMSERIESOPENINGCONTROLLER_H_6014714286
 
 /** \file   QtDicomSeriesOpeningController.h
-  * \brief  Defines \ref Carna::base::qt::QtDicomSeriesOpeningController.
+  * \brief  Defines \ref Carna::dicom::QtDicomSeriesOpeningController.
   */
 
 #include <QObject>
@@ -23,10 +23,7 @@
 namespace Carna
 {
 
-namespace base
-{
-
-namespace qt
+namespace dicom
 {
 
 
@@ -162,7 +159,7 @@ signals:
 
     /** \brief  Emitted when a new image is processed.
       */
-    void onNewImage( const Carna::base::qt::ImageData& );
+    void onNewImage( const Carna::dicom::ImageData& );
 
     /** \brief  Emitted right before scanning each image's meta data begins.
       */
@@ -199,9 +196,7 @@ private:
 
 
 
-}  // namespace Carna :: base :: qt
-
-}  // namespace Carna :: base
+}  // namespace Carna :: dicom
 
 }  // namespace Carna
 

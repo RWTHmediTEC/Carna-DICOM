@@ -13,7 +13,7 @@
 #define TOGGLESERIESPREVIEW_H_6014714286
 
 /** \file   ToggleSeriesPreview.h
-  * \brief  Defines \ref Carna::base::qt::ToggleSeriesPreview.
+  * \brief  Defines \ref Carna::dicom::ToggleSeriesPreview.
   */
 
 #include <Carna/base/qt/SeriesPreview.h>
@@ -21,10 +21,7 @@
 namespace Carna
 {
 
-namespace base
-{
-
-namespace qt
+namespace dicom
 {
 
 
@@ -65,11 +62,11 @@ signals:
 
     void toggled( bool );
 
-    void toggled( Carna::base::qt::ToggleSeriesPreview& );
+    void toggled( Carna::dicom::ToggleSeriesPreview& );
 
     void doubleClicked();
 
-    void doubleClicked( Carna::base::qt::ToggleSeriesPreview& );
+    void doubleClicked( Carna::dicom::ToggleSeriesPreview& );
 
 
 protected:
@@ -87,9 +84,7 @@ private:
 
 
 
-}  // namespace Carna :: base :: qt
-
-}  // namespace Carna :: base
+}  // namespace Carna :: dicom
 
 }  // namespace Carna
 

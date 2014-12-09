@@ -9,13 +9,13 @@
  *
  */
 
-#include <Carna/base/qt/DicomController.h>
-#include <Carna/base/qt/SeriesView.h>
+#include <Carna/dicom/DicomController.h>
+#include <Carna/dicom/SeriesView.h>
+#include <Carna/dicom/DicomManager.h>
+#include <Carna/dicom/DicomExtractionSettings.h>
+#include <Carna/dicom/Series.h>
+#include <Carna/dicom/SeriesLoadingRequest.h>
 #include <Carna/base/qt/CarnaProgressDialog.h>
-#include <Carna/base/model/DicomManager.h>
-#include <Carna/base/model/DicomExtractionSettings.h>
-#include <Carna/base/model/Series.h>
-#include <Carna/base/model/SeriesLoadingRequest.h>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QPushButton>
@@ -30,10 +30,7 @@
 namespace Carna
 {
 
-namespace base
-{
-
-namespace qt
+namespace dicom
 {
 
 
@@ -52,16 +49,16 @@ DicomController::DicomController()
     , managerThread( new QThread() )
     , manager( new model::DicomManager() )
 {
-    qRegisterMetaType< Carna::base::model::DicomExtractionSettings >( "Carna::base::model::DicomExtractionSettings" );
-    qRegisterMetaType< Carna::base::model::SeriesLoadingRequest >( "Carna::base::model::SeriesLoadingRequest" );
+    qRegisterMetaType< Carna::dicom::DicomExtractionSettings >( "Carna::dicom::DicomExtractionSettings" );
+    qRegisterMetaType< Carna::dicom::SeriesLoadingRequest >( "Carna::dicom::SeriesLoadingRequest" );
 
     manager->moveToThread( managerThread );
     managerThread->start();
     connect( this, SIGNAL( openDirectory( const QString& ) ), manager, SLOT( openDirectory( const QString& ) ) );
     connect( this, SIGNAL( openIndex( const QString& ) ), manager, SLOT( openIndex( const QString& ) ) );
     connect( this, SIGNAL( saveIndex( const QString& ) ), manager, SLOT( saveIndex( const QString& ) ) );
-    connect( this, SIGNAL( extractSeries( const Carna::base::model::DicomExtractionSettings& ) ),
-        manager, SLOT( extractSeries( const Carna::base::model::DicomExtractionSettings& ) ) );
+    connect( this, SIGNAL( extractSeries( const Carna::dicom::DicomExtractionSettings& ) ),
+        manager, SLOT( extractSeries( const Carna::dicom::DicomExtractionSettings& ) ) );
 
     connect( managerThread, SIGNAL( finished() ), managerThread, SLOT( deleteLater() ) );
     connect( managerThread, SIGNAL( finished() ), manager, SLOT( deleteLater() ) );
@@ -99,8 +96,8 @@ DicomController::DicomController()
     connect( buOpenIndex, SIGNAL( clicked() ), this, SLOT( openIndex() ) );
     connect( buSaveIndex, SIGNAL( clicked() ), this, SLOT( saveIndex() ) );
     connect( seriesView, SIGNAL( selectionChanged() ), this, SLOT( selectionChanged() ) );
-    connect( seriesView, SIGNAL( seriesSelected( const Carna::base::model::Series& ) ), this, SLOT( seriesSelected( const Carna::base::model::Series& ) ) );
-    connect( seriesView, SIGNAL( seriesDoubleClicked( const Carna::base::model::Series& ) ), this, SLOT( seriesDoubleClicked( const Carna::base::model::Series& ) ) );
+    connect( seriesView, SIGNAL( seriesSelected( const Carna::dicom::Series& ) ), this, SLOT( seriesSelected( const Carna::dicom::Series& ) ) );
+    connect( seriesView, SIGNAL( seriesDoubleClicked( const Carna::dicom::Series& ) ), this, SLOT( seriesDoubleClicked( const Carna::dicom::Series& ) ) );
     connect( buExtract, SIGNAL( clicked() ), this, SLOT( extractSeries() ) );
     connect( buLoad, SIGNAL( clicked() ), this, SLOT( loadSeries() ) );
 
@@ -388,8 +385,6 @@ void DicomController::seriesDoubleClicked( const model::Series& series )
 
 
 
-}  // namespace Carna :: base :: qt
-
-}  // namespace Carna :: base
+}  // namespace Carna :: dicom
 
 }  // namespace Carna

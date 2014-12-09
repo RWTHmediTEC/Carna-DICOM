@@ -13,7 +13,7 @@
 #define SERIESVIEW_H_6014714286
 
 /** \file   SeriesView.h
-  * \brief  Defines \ref Carna::base::qt::SeriesView.
+  * \brief  Defines \ref Carna::dicom::SeriesView.
   */
 
 #include <Carna/Carna.h>
@@ -27,18 +27,11 @@ class QVBoxLayout;
 namespace Carna
 {
 
-namespace base
+namespace dicom
 {
 
-namespace model
-{
-    class Patient;
-    class Series;
-}
-
-namespace qt
-{
-
+class Patient;
+class Series;
 class ToggleSeriesPreview;
 
 
@@ -70,7 +63,7 @@ public:
 
 public slots:
 
-    void addPatient( const Carna::base::model::Patient& );
+    void addPatient( const Carna::dicom::Patient& );
 
     void clear();
 
@@ -79,11 +72,11 @@ signals:
 
     void selectionChanged();
 
-    void seriesSelected( const Carna::base::model::Series& );
+    void seriesSelected( const Carna::dicom::Series& );
 
-    void seriesUnselected( const Carna::base::model::Series& );
+    void seriesUnselected( const Carna::dicom::Series& );
 
-    void seriesDoubleClicked( const Carna::base::model::Series& );
+    void seriesDoubleClicked( const Carna::dicom::Series& );
 
 
 private:
@@ -107,17 +100,15 @@ private slots:
 
     void scheduleRebuild();
 
-    void seriesToggled( Carna::base::qt::ToggleSeriesPreview& );
+    void seriesToggled( Carna::dicom::ToggleSeriesPreview& );
 
-    void seriesDoubleClicked( Carna::base::qt::ToggleSeriesPreview& );
+    void seriesDoubleClicked( Carna::dicom::ToggleSeriesPreview& );
 
 }; // SeriesView
 
 
 
-}  // namespace Carna :: base :: qt
-
-}  // namespace Carna :: base
+}  // namespace Carna :: dicom
 
 }  // namespace Carna
 

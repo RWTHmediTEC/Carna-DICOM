@@ -13,7 +13,7 @@
 #define DICOMCONTROLLER_H_6014714286
 
 /** \file   DicomController.h
-  * \brief  Defines \ref Carna::base::qt::DicomController.
+  * \brief  Defines \ref Carna::dicom::DicomController.
   */
 
 #include <Carna/Carna.h>
@@ -28,18 +28,11 @@ class QLabel;
 namespace Carna
 {
 
-namespace base
+namespace dicom
 {
 
-namespace model
-{
-    class DicomManager;
-    class DicomExtractionSettings;
-}
-
-namespace qt
-{
-
+class DicomManager;
+class DicomExtractionSettings;
 class SeriesView;
 
 
@@ -56,13 +49,13 @@ class SeriesView;
   *
   * \code
   * #include <QObject>
-  * #include <Carna/base/qt/DicomController.h>
-  * #include <Carna/base/model/SeriesLoadingRequest.h>
+  * #include <Carna/dicom/DicomController.h>
+  * #include <Carna/dicom/SeriesLoadingRequest.h>
   * #include <Carna/base/model/Scene.h>
   * #include <Carna/base/model/SceneFactory.h>
   *
-  * using Carna::base::qt::DicomController;
-  * using Carna::base::model::SeriesLoadingRequest;
+  * using Carna::dicom::DicomController;
+  * using Carna::dicom::SeriesLoadingRequest;
   * using Carna::base::model::Scene;
   * using Carna::base::model::SceneFactory;
   *
@@ -80,9 +73,9 @@ class SeriesView;
   *         controller->show();
   *         
   *         connect( controller
-  *                , SIGNAL( const Carna::base::model::SeriesLoadingRequest& )
+  *                , SIGNAL( const Carna::dicom::SeriesLoadingRequest& )
   *                , this
-  *                , SLOT( load( const Carna::base::model::SeriesLoadingRequest& ) ) );
+  *                , SLOT( load( const Carna::dicom::SeriesLoadingRequest& ) ) );
   *     }
   *
   * signals:
@@ -137,13 +130,13 @@ signals:
     void openDirectory( const QString& );
     void openIndex( const QString& );
     void saveIndex( const QString& );
-    void extractSeries( const Carna::base::model::DicomExtractionSettings& );
+    void extractSeries( const Carna::dicom::DicomExtractionSettings& );
     /** \endcond
       */
     
     /** \brief  The user has intended to load some DICOM series.
       */
-    void seriesLoadingRequested( const Carna::base::model::SeriesLoadingRequest& );
+    void seriesLoadingRequested( const Carna::dicom::SeriesLoadingRequest& );
 
 
 private:
@@ -183,9 +176,9 @@ private slots:
 
     void selectionChanged();
 
-    void seriesSelected( const Carna::base::model::Series& );
+    void seriesSelected( const Carna::dicom::Series& );
 
-    void seriesDoubleClicked( const Carna::base::model::Series& );
+    void seriesDoubleClicked( const Carna::dicom::Series& );
 
     void extractSeries();
 
@@ -195,9 +188,7 @@ private slots:
 
 
 
-}  // namespace Carna :: base :: qt
-
-}  // namespace Carna :: base
+}  // namespace Carna :: dicom
 
 }  // namespace Carna
 

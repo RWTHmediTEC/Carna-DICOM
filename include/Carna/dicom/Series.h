@@ -13,7 +13,7 @@
 #define SERIES_H_6014714286
 
 /** \file   Series.h
-  * \brief  Defines \ref Carna::base::model::Series.
+  * \brief  Defines \ref Carna::dicom::Series.
   */
 
 #include <Carna/Carna.h>
@@ -23,10 +23,7 @@
 namespace Carna
 {
 
-namespace base
-{
-
-namespace model
+namespace dicom
 {
 
 class SeriesElement;
@@ -122,9 +119,7 @@ private: // TODO: implement PIMPL
 
 
 
-}  // namesapce Carna :: base :: model
-
-}  // namespace Carna :: base
+}  // namespace Carna :: dicom
 
 }  // namespace Carna
 

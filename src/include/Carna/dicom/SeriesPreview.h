@@ -13,7 +13,7 @@
 #define SERIESPREVIEW_H_6014714286
 
 /** \file   SeriesPreview.h
-  * \brief  Defines \ref Carna::base::qt::SeriesPreview.
+  * \brief  Defines \ref Carna::dicom::SeriesPreview.
   */
 
 #include <Carna/Carna.h>
@@ -26,16 +26,10 @@ class QImage;
 namespace Carna
 {
 
-namespace base
+namespace dicom
 {
 
-namespace model
-{
-    class Series;
-}
-
-namespace qt
-{
+class Series;
 
 
 
@@ -79,9 +73,7 @@ private:
 
 
 
-}  // namespace Carna :: base :: qt
-
-}  // namespace Carna :: base
+}  // namespace Carna :: dicom
 
 }  // namespace Carna
 

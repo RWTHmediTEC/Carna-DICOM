@@ -13,7 +13,7 @@
 #define SERIESELEMENT_H_6014714286
 
 /** \file   SeriesElement.h
-  * \brief  Defines \ref Carna::base::model::SeriesElement.
+  * \brief  Defines \ref Carna::dicom::SeriesElement.
   */
 
 #include <Carna/Carna.h>
@@ -26,10 +26,7 @@ class DicomImage;   // from dicom-interface
 namespace Carna
 {
 
-namespace base
-{
-
-namespace model
+namespace dicom
 {
 
 class Series;
@@ -98,9 +95,7 @@ private:
 
 
 
-}  // namesapce Carna :: base :: model
-
-}  // namespace Carna :: base
+}  // namesapce Carna :: dicom
 
 }  // namespace Carna
 

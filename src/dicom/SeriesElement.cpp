@@ -9,8 +9,8 @@
  *
  */
 
-#include <Carna/base/model/SeriesElement.h>
-#include <Carna/base/model/Series.h>
+#include <Carna/dicom/SeriesElement.h>
+#include <Carna/dicom/Series.h>
 #include <Carna/base/Math.h>
 #include <Carna/base/CarnaException.h>
 #include <dicom-interface/dicomImage.h>
@@ -20,10 +20,7 @@
 namespace Carna
 {
 
-namespace base
-{
-
-namespace model
+namespace dicom
 {
 
 
@@ -107,8 +104,6 @@ void SeriesElement::setSeries(  const Series& series )
 
 
 
-}  // namespace Carna :: base :: model
-
-}  // namespace Carna :: base
+}  // namespace Carna :: dicom
 
 }  // namespace Carna

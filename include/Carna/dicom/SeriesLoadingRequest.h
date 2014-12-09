@@ -13,7 +13,7 @@
 #define SERIESLOADINGREQUEST_H_6014714286
 
 /** \file   SeriesLoadingRequest.h
-  * \brief  Defines \ref Carna::base::model::SeriesLoadingRequest.
+  * \brief  Defines \ref Carna::dicom::SeriesLoadingRequest.
   */
 
 #include <Carna/Carna.h>
@@ -21,10 +21,7 @@
 namespace Carna
 {
 
-namespace base
-{
-
-namespace model
+namespace dicom
 {
 
 class Series;
@@ -37,7 +34,7 @@ class Series;
 
 /** \brief  Represents library-intent to create a \ref Scene from some DICOM series.
   *
-  * \see    \ref qt::DicomController, \ref SceneFactory
+  * \see    \ref DicomController, \ref SceneFactory
   *
   * \author Leonid Kostrykin
   * \date   5.10.12 - 8.10.12
@@ -101,9 +98,7 @@ private:
 
 
 
-}  // namesapce Carna :: base :: model
-
-}  // namespace Carna :: base
+}  // namespace Carna :: dicom
 
 }  // namespace Carna
 

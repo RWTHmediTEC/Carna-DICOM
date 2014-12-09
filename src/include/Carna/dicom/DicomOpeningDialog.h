@@ -13,20 +13,17 @@
 #define DICOMOPENINGDIALOG_H_6014714286
 
 /** \file   DicomOpeningDialog.h
-  * \brief  Defines \ref Carna::base::qt::DicomOpeningDialog.
+  * \brief  Defines \ref Carna::dicom::DicomOpeningDialog.
   */
 
 #include <Carna/Carna.h>
-#include <Carna/base/model/SeriesLoadingRequest.h>
+#include <Carna/dicom/SeriesLoadingRequest.h>
 #include <QDialog>
 
 namespace Carna
 {
 
-namespace base
-{
-
-namespace qt
+namespace dicom
 {
 
 
@@ -52,7 +49,7 @@ public:
 
 private slots:
 
-    void loadingRequested( const Carna::base::model::SeriesLoadingRequest& );
+    void loadingRequested( const Carna::dicom::SeriesLoadingRequest& );
 
 
 private:
@@ -63,9 +60,7 @@ private:
 
 
 
-}  // namespace Carna :: base :: qt
-
-}  // namespace Carna :: base
+}  // namespace Carna :: dicom
 
 }  // namespace Carna
 
