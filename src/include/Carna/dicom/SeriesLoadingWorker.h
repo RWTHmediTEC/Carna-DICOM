@@ -19,13 +19,13 @@
 #include <QThread>
 #include <vector>
 
-class DicomImage;   // from dicom-interface
-
 namespace Carna
 {
 
 namespace dicom
 {
+
+class DicomImage;
 
 
 

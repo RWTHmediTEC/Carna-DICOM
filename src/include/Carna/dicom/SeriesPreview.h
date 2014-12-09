@@ -55,16 +55,16 @@ public:
     virtual ~SeriesPreview();
 
 
-    void setSeries( const model::Series& );
+    void setSeries( const Series& );
 
-    const model::Series& getSeries() const;
+    const Series& getSeries() const;
 
     bool hasSeries() const;
 
 
 private:
 
-    const model::Series* series;
+    const Series* series;
 
     QLabel* const image;
     QLabel* const caption;

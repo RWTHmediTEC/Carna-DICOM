@@ -61,7 +61,7 @@ SeriesPreview::~SeriesPreview()
 }
 
 
-void SeriesPreview::setSeries( const model::Series& series )
+void SeriesPreview::setSeries( const Series& series )
 {
     this->series = &series;
 
@@ -84,7 +84,7 @@ void SeriesPreview::setSeries( const model::Series& series )
 }
 
 
-const model::Series& SeriesPreview::getSeries() const
+const Series& SeriesPreview::getSeries() const
 {
     CARNA_ASSERT( series != nullptr );
     return *series;

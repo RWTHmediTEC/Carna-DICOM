@@ -44,9 +44,11 @@ signed int series_huv_at
 // UInt16VolumeComputationWorker
 // ----------------------------------------------------------------------------------
 
-UInt16VolumeComputationWorker::UInt16VolumeComputationWorker( const DicomSeries& dicomSeries
-                                                            , const Vector3ui& size
-                                                            , DestinationBuffer& dst )
+UInt16VolumeComputationWorker::UInt16VolumeComputationWorker
+    ( const DicomSeries& dicomSeries
+    , const base::Vector3ui& size
+    , base::model::UInt16VolumeBaseWorker::DestinationBuffer& dst )
+
     : UInt16VolumeBaseWorker( dst )
     , dicomSeries( dicomSeries )
     , size( size )  // full target size
@@ -58,7 +60,7 @@ void UInt16VolumeComputationWorker::run()
 {
     DicomSeries& ds = const_cast< DicomSeries& >( dicomSeries );
 
-    const Vector3ui src_size( ds.width(), ds.height(), ds.images()->size() );
+    const base::Vector3ui src_size( ds.width(), ds.height(), ds.images()->size() );
 
     unsigned int progress = 0;
 
@@ -83,7 +85,7 @@ void UInt16VolumeComputationWorker::run()
             {
                 const unsigned int position = array_element_index( size, x, y, z );
                 const signed int i0 = series_huv_at( ds, x, y, z );
-                dst[ position ] = static_cast< UInt16Volume::VoxelType >( ( i0 + 1024 ) << 4 );
+                dst[ position ] = static_cast< base::model::UInt16Volume::VoxelType >( ( i0 + 1024 ) << 4 );
             }
 
             ++progress;
@@ -150,7 +152,7 @@ void UInt16VolumeComputationWorker::run()
 
                     const signed int average_value = sum / static_cast< signed int >( source_pixels_count );
                     const unsigned int destination_index = array_element_index( size, x, y, z );
-                    dst.at( destination_index ) = static_cast< UInt16Volume::VoxelType >( average_value + 1024 + 0.5 ) << 4;
+                    dst.at( destination_index ) = static_cast< base::model::UInt16Volume::VoxelType >( average_value + 1024 + 0.5 ) << 4;
                 }
             }
 

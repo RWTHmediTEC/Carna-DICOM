@@ -34,6 +34,7 @@ namespace dicom
 class DicomManager;
 class DicomExtractionSettings;
 class SeriesView;
+class SeriesLoadingRequest;
 
 
 
@@ -105,7 +106,7 @@ class SeriesView;
   * \author Leonid Kostrykin
   * \date   5.10.12 - 8.10.12
   */
-class CARNA_EXPORT DicomController : public QWidget
+class CARNA_DICOM_LIB DicomController : public QWidget
 {
 
     NON_COPYABLE
@@ -151,7 +152,7 @@ private:
     QPushButton* const buLoad;
 
     QThread* const managerThread;
-    model::DicomManager* const manager;
+    DicomManager* const manager;
 
 
 private slots:

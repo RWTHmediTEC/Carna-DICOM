@@ -46,14 +46,14 @@ DicomOpeningDialog::~DicomOpeningDialog()
 }
 
 
-void DicomOpeningDialog::loadingRequested( const model::SeriesLoadingRequest& request )
+void DicomOpeningDialog::loadingRequested( const SeriesLoadingRequest& request )
 {
     this->request = request;
     this->accept();
 }
 
 
-const model::SeriesLoadingRequest& DicomOpeningDialog::getRequest() const
+const SeriesLoadingRequest& DicomOpeningDialog::getRequest() const
 {
     return this->request;
 }

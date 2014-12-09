@@ -24,8 +24,6 @@ namespace Carna
 namespace dicom
 {
 
-class DicomSeries;
-
 
 
 // ----------------------------------------------------------------------------------
@@ -50,7 +48,7 @@ class DicomSeries;
   * \author Leonid Kostrykin
   * \date   26.10.11 - 21.2.13
   */
-class CARNA_EXPORT DicomSceneFactory : public SceneFactory
+class CARNA_DICOM_LIB DicomSceneFactory : public base::model::SceneFactory
 {
 
     Q_OBJECT
@@ -61,7 +59,7 @@ public:
       */
     explicit DicomSceneFactory
         ( QWidget* dialogParent = nullptr
-        , const ParallelizationSettings& = ParallelizationSettings()
+        , const base::ParallelizationSettings& = base::ParallelizationSettings()
         , QObject* parent = nullptr );
 
 
@@ -69,19 +67,20 @@ public slots:
 
     /** \brief  Prompts the user for the data set to load using a \ref qt::DicomController dialog.
       */
-    Scene* createFromUserInput();
+    base::model::Scene* createFromUserInput();
     
     /** \brief  Dispatches the given request.
       *
       * Refer to the \ref qt::DicomController documentation for an example.
       */
-    Scene* createFromRequest( const Carna::dicom::SeriesLoadingRequest& );
+    base::model::Scene* createFromRequest( const Carna::dicom::SeriesLoadingRequest& );
 
 
 private:
 
-    Scene* createFromDicomSeries( const DicomSeries& dicomSeries
-                                , const Vector3ui& targetVolumeSize );
+    base::model::Scene* createFromDicomSeries
+        ( const DicomSeries& dicomSeries
+        , const base::Vector3ui& targetVolumeSize );
 
 }; // DicomSceneFactory
 

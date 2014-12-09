@@ -44,7 +44,7 @@ public:
     virtual ~DicomOpeningDialog();
 
 
-    const model::SeriesLoadingRequest& getRequest() const;
+    const SeriesLoadingRequest& getRequest() const;
 
 
 private slots:
@@ -54,7 +54,7 @@ private slots:
 
 private:
 
-    model::SeriesLoadingRequest request;
+    SeriesLoadingRequest request;
 
 }; // DicomOpeningDialog
 

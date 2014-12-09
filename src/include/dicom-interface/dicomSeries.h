@@ -10,29 +10,19 @@ The Class DicomSeries might be used to add a delete, and adding function for ima
 #ifndef __DICOMSERIES_H__6487941264__
 #define __DICOMSERIES_H__6487941264__
 
-#ifdef _WIN32
-    #ifdef DICOMINTERFACE_EXPORTS
-        #define DLL_IMPORT_EXPORT_DICOMINTERFACE  __declspec(dllexport)   // export DLL information
-    #else
-        #define DLL_IMPORT_EXPORT_DICOMINTERFACE  __declspec(dllimport)   // import DLL information
-    #endif
-#else
-    #include <Qt/qglobal.h>
-    #ifdef DICOMINTERFACE_EXPORTS
-        #define DLL_IMPORT_EXPORT_DICOMINTERFACE Q_DECL_EXPORT // export shared library definitions
-    #else
-        #define DLL_IMPORT_EXPORT_DICOMINTERFACE Q_DECL_IMPORT // import shared library definitions
-    #endif
-#endif
-
-class DicomImage;
-
 #include <vector>
 #include <list>
 #include <string>
 
+namespace Carna
+{
+namespace dicom
+{
 
-class DLL_IMPORT_EXPORT_DICOMINTERFACE DicomSeriesOpeningController
+class DicomImage;
+
+
+class DicomSeriesOpeningController
 {
 private:
     DicomSeriesOpeningController( const DicomSeriesOpeningController& )
@@ -75,7 +65,7 @@ private:
 };
 
 
-class DLL_IMPORT_EXPORT_DICOMINTERFACE DicomSeriesFileIterator
+class DicomSeriesFileIterator
 {
 public:
     virtual ~DicomSeriesFileIterator()
@@ -86,7 +76,7 @@ public:
 };
 
 
-class DLL_IMPORT_EXPORT_DICOMINTERFACE DicomSeries
+class DicomSeries
 {
 public:
 	DicomSeries(void);
@@ -125,5 +115,8 @@ private:
 	double m_dSpacingZ; 
 	double m_dSpacingXY; 	//int getImageNumber();
 };
+
+}
+}
 
 #endif // __DICOMSERIES_H__6487941264__

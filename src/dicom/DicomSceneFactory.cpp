@@ -10,15 +10,15 @@
  */
 
 #include <Carna/dicom/DicomSceneFactory.h>
+#include <Carna/dicom/UInt16VolumeComputationWorker.h>
+#include <Carna/dicom/SeriesLoadingWorker.h>
+#include <Carna/dicom/SeriesLoadingRequest.h>
+#include <Carna/dicom/SeriesElement.h>
+#include <Carna/dicom/Series.h>
+#include <Carna/dicom/DicomOpeningDialog.h>
 #include <Carna/base/model/Scene.h>
 #include <Carna/base/model/Volume.h>
-#include <Carna/base/model/VolumeDetails.h>
-#include <Carna/base/model/SeriesLoadingWorker.h>
-#include <Carna/base/model/SeriesLoadingRequest.h>
-#include <Carna/base/model/SeriesElement.h>
-#include <Carna/base/model/Series.h>
 #include <Carna/base/qt/CarnaProgressDialog.h>
-#include <Carna/base/qt/DicomOpeningDialog.h>
 #include <Carna/base/view/SceneProvider.h>
 #include <Carna/base/CarnaException.h>
 #include <Carna/base/Parallelization.h>
@@ -45,14 +45,14 @@ namespace dicom
 
 DicomSceneFactory::DicomSceneFactory
         ( QWidget* dialogParent
-        , const ParallelizationSettings& parallelizationSettings
+        , const base::ParallelizationSettings& parallelizationSettings
         , QObject* parent )
-    : SceneFactory( dialogParent, parallelizationSettings, parent )
+    : base::model::SceneFactory( dialogParent, parallelizationSettings, parent )
 {
 }
 
 
-Scene* DicomSceneFactory::createFromUserInput()
+base::model::Scene* DicomSceneFactory::createFromUserInput()
 {
     DicomOpeningDialog openingDialog( dialogParent );
 
@@ -67,8 +67,9 @@ Scene* DicomSceneFactory::createFromUserInput()
 }
 
 
-Scene* DicomSceneFactory::createFromRequest( const SeriesLoadingRequest& request )
+base::model::Scene* DicomSceneFactory::createFromRequest( const SeriesLoadingRequest& request )
 {
+    using namespace Carna::base::model;
     DicomSeries ds;
 
     ds.setSpacingZ( 0 );
@@ -88,7 +89,7 @@ Scene* DicomSceneFactory::createFromRequest( const SeriesLoadingRequest& request
 
     const unsigned int numWorkers = std::min( unsigned( sFilenameList.size() ), unsigned( parallelizationSettings.threads ) );
     const unsigned int filesPerWorker = sFilenameList.size() / numWorkers;
-    Parallelization< SeriesLoadingWorker > parallel_job;
+    base::Parallelization< SeriesLoadingWorker > parallel_job;
     for( unsigned int i = 0; i < numWorkers; ++i )
     {
         const unsigned int first = i * filesPerWorker;
@@ -150,10 +151,11 @@ Scene* DicomSceneFactory::createFromRequest( const SeriesLoadingRequest& request
 
  // compute required volume size
 
-    const Vector3ui full_size( ds.width(), ds.height(), ds.size() );
+    const base::Vector3ui full_size( ds.width(), ds.height(), ds.size() );
     const unsigned int longest_side = std::max( full_size.x, std::max( full_size.y, full_size.z ) );
 
-    Vector3ui used_size = full_size;
+    base::Vector3ui used_size = full_size;
+    const auto max_allowed_side_length = maximumAllowedSideLength();
     if( longest_side > max_allowed_side_length )
     {
         used_size.x = ( used_size.x * max_allowed_side_length ) / longest_side;
@@ -176,13 +178,15 @@ Scene* DicomSceneFactory::createFromRequest( const SeriesLoadingRequest& request
 }
 
 
-Scene* DicomSceneFactory::createFromDicomSeries( const DicomSeries& dicomSeries
-                                               , const Vector3ui& size )
+base::model::Scene* DicomSceneFactory::createFromDicomSeries
+    ( const DicomSeries& dicomSeries
+    , const base::Vector3ui& size )
 {
+    using namespace Carna::base::model;
     UInt16Volume::BufferType& data = *( new UInt16Volume::BufferType( size.x * size.y * size.z ) );
 
     DicomSeries& ds = const_cast< DicomSeries& >( dicomSeries );
-    const Vector3ui src_size( ds.width(), ds.height(), ds.images()->size() );
+    const base::Vector3ui src_size( ds.width(), ds.height(), ds.images()->size() );
 
     CARNA_ASSERT_EX
         ( size.x >= 2 && size.y >= 2 && size.z >= 2
@@ -200,8 +204,8 @@ Scene* DicomSceneFactory::createFromDicomSeries( const DicomSeries& dicomSeries
 
  // parallel execution
 
-    const unsigned int num_workers = getWorkerCount( parallelizationSettings );
-    Parallelization< UInt16VolumeComputationWorker > parallel_job;
+    const unsigned int num_workers = getWorkerCount();
+    base::Parallelization< UInt16VolumeComputationWorker > parallel_job;
 
     for( unsigned int i = 0; i < num_workers; ++i )
     {
@@ -219,11 +223,11 @@ Scene* DicomSceneFactory::createFromDicomSeries( const DicomSeries& dicomSeries
 
  // create volume
 
-    UInt16Volume* const volume = new UInt16Volume( size, new Composition< UInt16Volume::BufferType >( &data ) );
+    UInt16Volume* const volume = new UInt16Volume( size, new base::Composition< UInt16Volume::BufferType >( &data ) );
 
  // create model
 
-    Scene* const model = new Scene( new Composition< Volume >( volume )
+    Scene* const model = new Scene( new base::Composition< Volume >( volume )
                                   , ds.spacingXY()
                                   , ds.spacingXY()
                                   , ds.spacingZ () );

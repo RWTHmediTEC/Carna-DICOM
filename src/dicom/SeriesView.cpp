@@ -14,7 +14,7 @@
 #include <Carna/dicom/Series.h>
 #include <Carna/dicom/SeriesView.h>
 #include <Carna/dicom/ToggleSeriesPreview.h>
-#include <Carna/dicom/FlowLayout.h>
+#include <Carna/base/qt/FlowLayout.h>
 #include <Carna/base/qt/ExpandableGroupBox.h>
 #include <QTimer>
 #include <QLabel>
@@ -27,7 +27,7 @@ namespace Carna
 namespace dicom
 {
 
-using Carna::base::qt::ExpendableGroupBox;
+using Carna::base::qt::ExpandableGroupBox;
 
 
 

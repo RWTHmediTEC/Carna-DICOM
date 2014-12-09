@@ -39,9 +39,10 @@ class UInt16VolumeComputationWorker : public Carna::base::model::UInt16VolumeBas
 
 public:
 
-    UInt16VolumeComputationWorker( const DicomSeries& dicomSeries
-                                 , const Vector3ui& size
-                                 , DestinationBuffer& dst );
+    UInt16VolumeComputationWorker
+        ( const DicomSeries& dicomSeries
+        , const base::Vector3ui& size
+        , base::model::UInt16VolumeBaseWorker::DestinationBuffer& dst );
 
 
 public slots:
@@ -52,7 +53,7 @@ public slots:
 private:
 
     const DicomSeries& dicomSeries;
-    const Vector3ui size;
+    const base::Vector3ui size;
 
 }; // UInt16VolumeComputationWorker
 

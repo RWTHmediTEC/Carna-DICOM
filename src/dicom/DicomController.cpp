@@ -47,7 +47,7 @@ DicomController::DicomController()
     , buExtract( new QPushButton( "Extract Series..." ) )
     , buLoad( new QPushButton( "Load Series" ) )
     , managerThread( new QThread() )
-    , manager( new model::DicomManager() )
+    , manager( new DicomManager() )
 {
     qRegisterMetaType< Carna::dicom::DicomExtractionSettings >( "Carna::dicom::DicomExtractionSettings" );
     qRegisterMetaType< Carna::dicom::SeriesLoadingRequest >( "Carna::dicom::SeriesLoadingRequest" );
@@ -136,7 +136,7 @@ void DicomController::openDirectory()
         return;
     }
 
-    CarnaProgressDialog loadingController( dirName, "Cancel", 0, 0, this );
+    base::qt::CarnaProgressDialog loadingController( dirName, "Cancel", 0, 0, this );
     loadingController.setWindowTitle( "Scan Directory" );
     loadingController.setWindowModality( Qt::WindowModal );
     loadingController.setModal( true );
@@ -200,7 +200,7 @@ void DicomController::openIndex()
     QPushButton* const cancelButton = new QPushButton( "Cancel" );
     cancelButton->setEnabled( false );
 
-    CarnaProgressDialog loadingController( fileName, "Cancel", 0, 0, this );
+    base::qt::CarnaProgressDialog loadingController( fileName, "Cancel", 0, 0, this );
     loadingController.setCancelButton( cancelButton );
     loadingController.setWindowTitle( "Open Index" );
     loadingController.setWindowModality( Qt::WindowModal );
@@ -239,7 +239,7 @@ void DicomController::saveIndex()
     QPushButton* const cancelButton = new QPushButton( "Cancel" );
     cancelButton->setEnabled( false );
 
-    CarnaProgressDialog savingController( fileName, "Cancel", 0, 0, this );
+    base::qt::CarnaProgressDialog savingController( fileName, "Cancel", 0, 0, this );
     savingController.setCancelButton( cancelButton );
     savingController.setWindowTitle( "Save Index" );
     savingController.setWindowModality( Qt::WindowModal );
@@ -271,7 +271,7 @@ void DicomController::seriesLoaded()
 
     for( auto patient_it = manager->getPatients().begin(); patient_it != manager->getPatients().end(); ++patient_it )
     {
-        const model::Patient& patient = *( patient_it->second );
+        const Patient& patient = *( patient_it->second );
         seriesView->addPatient( patient );
     }
 
@@ -314,7 +314,7 @@ void DicomController::selectionChanged()
 }
 
 
-void DicomController::seriesSelected( const model::Series& series )
+void DicomController::seriesSelected( const Series& series )
 {
     sbSpacingZ->setValue( series.getSpacingZ() );
 }
@@ -342,7 +342,7 @@ void DicomController::extractSeries()
     QPushButton* const cancelButton = new QPushButton( "Cancel" );
     cancelButton->setEnabled( false );
 
-    CarnaProgressDialog extractingController( dirName, "Cancel", 0, 0, this );
+    base::qt::CarnaProgressDialog extractingController( dirName, "Cancel", 0, 0, this );
     extractingController.setCancelButton( cancelButton );
     extractingController.setWindowTitle( "Extract Series" );
     extractingController.setWindowModality( Qt::WindowModal );
@@ -354,7 +354,7 @@ void DicomController::extractSeries()
     connect( manager, SIGNAL( totalFilesCountChanged( unsigned int ) ), &extractingController, SLOT( setMaximum( unsigned int ) ) );
     connect( manager, SIGNAL( processedFilesCountChanged( unsigned int ) ), &extractingController, SLOT( setValue( unsigned int ) ) );
 
-    model::DicomExtractionSettings settings( dirName, selected_series );
+    DicomExtractionSettings settings( dirName, selected_series );
 
     emit extractSeries( settings );
 
@@ -374,13 +374,13 @@ void DicomController::loadSeries()
 
     const double zSpacing = sbSpacingZ->value();
 
-    emit seriesLoadingRequested( model::SeriesLoadingRequest( **selected_series.begin(), zSpacing ) );
+    emit seriesLoadingRequested( SeriesLoadingRequest( **selected_series.begin(), zSpacing ) );
 }
 
 
-void DicomController::seriesDoubleClicked( const model::Series& series )
+void DicomController::seriesDoubleClicked( const Series& series )
 {
-    emit seriesLoadingRequested( model::SeriesLoadingRequest( series, series.getSpacingZ() ) );
+    emit seriesLoadingRequested( SeriesLoadingRequest( series, series.getSpacingZ() ) );
 }
 
 

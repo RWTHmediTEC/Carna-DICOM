@@ -21,7 +21,6 @@
 #include <string>
 
 class QImage;
-class DicomImage;   // from dicom-interface
 
 namespace Carna
 {
@@ -30,6 +29,7 @@ namespace dicom
 {
 
 class Series;
+class DicomImage;
 
 
 
@@ -44,7 +44,7 @@ class Series;
   * \author Leonid Kostrykin
   * \date   1.10.12
   */
-class CARNA_EXPORT SeriesElement
+class CARNA_DICOM_LIB SeriesElement
 {
 
     NON_COPYABLE

@@ -124,12 +124,10 @@ void DicomManager::releasePatients()
 
 void DicomManager::openDirectory( const QString& path )
 {
-    using namespace qt;
-
     releasePatients();
 
     failedFiles.clear();
-    loadingController.reset( new qt::QtDicomSeriesOpeningController() );
+    loadingController.reset( new QtDicomSeriesOpeningController() );
 
     QtDicomSeriesFileIterator fileIterator( path );
     DicomSeries ds;
@@ -180,7 +178,7 @@ void DicomManager::setProgressedFilesCount( unsigned int progressedFilesCount )
 }
 
 
-void DicomManager::processNewImage( const qt::ImageData& imageData )
+void DicomManager::processNewImage( const ImageData& imageData )
 {
     if( patients.find( imageData.patientID ) == patients.end() )
     {

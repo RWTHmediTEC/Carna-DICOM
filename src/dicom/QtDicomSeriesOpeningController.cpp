@@ -9,7 +9,7 @@
  *
  */
 
-#include <Carna/base/qt/QtDicomSeriesOpeningController.h>
+#include <Carna/dicom/QtDicomSeriesOpeningController.h>
 #include <QMessageBox>
 #include <sstream>
 

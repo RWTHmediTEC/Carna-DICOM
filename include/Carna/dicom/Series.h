@@ -41,7 +41,7 @@ class SeriesElement;
   * \author Leonid Kostrykin
   * \date   1.10.12 - 8.5.13
   */
-class CARNA_EXPORT Series
+class CARNA_DICOM_LIB Series
 {
 
     NON_COPYABLE

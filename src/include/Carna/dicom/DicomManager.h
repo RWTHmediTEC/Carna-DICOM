@@ -102,7 +102,7 @@ private:
 
     unsigned int totalFilesCount;
 
-    std::unique_ptr< qt::QtDicomSeriesOpeningController > loadingController;
+    std::unique_ptr< QtDicomSeriesOpeningController > loadingController;
 
     std::deque< std::string > failedFiles;
 

@@ -58,7 +58,7 @@ public:
     virtual ~SeriesView();
 
 
-    const std::set< const model::Series* >& getSelectedSeries() const;
+    const std::set< const Series* >& getSelectedSeries() const;
 
 
 public slots:
@@ -87,9 +87,9 @@ private:
 
     bool rebuildRequired;
 
-    std::deque< const model::Patient* > patients;
+    std::deque< const Patient* > patients;
 
-    std::set< const model::Series* > selectedSeries;
+    std::set< const Series* > selectedSeries;
 
     std::set< ToggleSeriesPreview* > selectedSeriesPreviews;
 

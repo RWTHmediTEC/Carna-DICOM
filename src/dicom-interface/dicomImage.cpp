@@ -1,5 +1,3 @@
-#define DICOM_INTERFACE_BUILD
-
 #include <gdcm/gdcmDataSet.h>
 #include <gdcm/gdcmFile.h>
 #include <gdcm/gdcmImageReader.h>
@@ -7,6 +5,11 @@
 #include <gdcm/gdcmAnonymizer.h>
 #include "dicom-interface/dicomImage.h"
 #include <climits>
+
+namespace Carna
+{
+namespace dicom
+{
 
 template< typename To, typename From >
 To lexical_cast( const From& from )
@@ -761,4 +764,5 @@ double DicomImage::readPositionZ( const gdcm::DataSet& dataSet )
     }
 }
 
-#undef DICOM_INTERFACE_BUILD
+}
+}

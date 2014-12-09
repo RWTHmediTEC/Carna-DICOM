@@ -12,27 +12,22 @@ It uses the gdcm library from Sourceforge.
 #ifndef __DICOMIMAGE_H__4856971254__
 #define __DICOMIMAGE_H__4856971254__
 
-#ifdef _WIN32
-    #ifdef DICOMINTERFACE_EXPORTS
-        #define DLL_IMPORT_EXPORT_DICOMINTERFACE  __declspec(dllexport)   // export DLL information
-    #else
-        #define DLL_IMPORT_EXPORT_DICOMINTERFACE  __declspec(dllimport)   // import DLL information
-    #endif
-#else
-    #include <Qt/qglobal.h>
-    #ifdef DICOMINTERFACE_EXPORTS
-        #define DLL_IMPORT_EXPORT_DICOMINTERFACE Q_DECL_EXPORT // export shared library definitions
-    #else
-        #define DLL_IMPORT_EXPORT_DICOMINTERFACE Q_DECL_IMPORT // import shared library definitions
-    #endif
-#endif
+namespace gdcm
+{
+    class DataSet;
+}
+
+namespace Carna
+{
+namespace dicom
+{
 
 // C++ includes
 #include <string>
 #include <stdexcept>
 
 
-class DLL_IMPORT_EXPORT_DICOMINTERFACE DicomImage 
+class DicomImage 
 {
 public:
 	DicomImage();									///< Standard constructor
@@ -84,9 +79,7 @@ public:
 	void resetWindowSettings();						///< Resets the user-defined window settings to the recommended settings
 
     static double readPositionZ( const std::string& filename );
-#ifdef DICOM_INTERFACE_BUILD
     static double readPositionZ( const gdcm::DataSet& dataset );
-#endif // DICOM_INTERFACE_BUILD
 
 protected:
 	// Image properties
@@ -113,5 +106,8 @@ protected:
 	void flipUserImage();							///< Modifies the image buffer so that a flipped version is stored afterwards
 
 };
+
+}
+}
 
 #endif // __DICOMIMAGE_H__4856971254__

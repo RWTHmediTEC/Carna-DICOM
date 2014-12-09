@@ -1,5 +1,3 @@
-#define DICOM_INTERFACE_BUILD
-
 #include <gdcm/gdcmDataSet.h>
 #include <gdcm/gdcmFile.h>
 #include <gdcm/gdcmImageReader.h>
@@ -7,6 +5,11 @@
 #include "dicom-interface/dicomSeries.h"
 #include "dicom-interface/dicomImage.h"
 #include <QDebug>
+
+namespace Carna
+{
+namespace dicom
+{
 
 DicomSeries::DicomSeries(void)
 {
@@ -212,4 +215,5 @@ void DicomSeries::openDicomDir( DicomSeriesFileIterator& it, DicomSeriesOpeningC
 	}
 }
 
-#undef DICOM_INTERFACE_BUILD
+}
+}

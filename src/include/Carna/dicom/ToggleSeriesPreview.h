@@ -16,7 +16,7 @@
   * \brief  Defines \ref Carna::dicom::ToggleSeriesPreview.
   */
 
-#include <Carna/base/qt/SeriesPreview.h>
+#include <Carna/dicom/SeriesPreview.h>
 
 namespace Carna
 {
