@@ -16,6 +16,7 @@
   * \brief  Defines \ref Carna::dicom::SeriesLoadingRequest.
   */
 
+#include <Carna/dicom/CarnaDICOM.h>
 #include <Carna/Carna.h>
 
 namespace Carna

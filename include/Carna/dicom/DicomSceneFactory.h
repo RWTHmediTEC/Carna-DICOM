@@ -16,6 +16,7 @@
   * \brief  Defines \ref Carna::dicom::DicomSceneFactory.
   */
 
+#include <Carna/dicom/CarnaDICOM.h>
 #include <Carna/base/model/SceneFactory.h>
 
 namespace Carna

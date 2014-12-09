@@ -16,6 +16,7 @@
   * \brief  Defines \ref Carna::dicom::Series.
   */
 
+#include <Carna/dicom/CarnaDICOM.h>
 #include <Carna/Carna.h>
 #include <Carna/base/noncopyable.h>
 #include <set>
