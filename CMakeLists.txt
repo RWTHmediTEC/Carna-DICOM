@@ -59,16 +59,15 @@ include( $ENV{MEDITEC_LIBS}/Carna/2.5.0/configure.cmake )
 
 include_directories(${CMAKE_PROJECT_DIR}include)
 set( PUBLIC_QOBJECT_HEADERS
-		include/${PROJECT_NAME}/dicom/DicomController.h
+		include/Carna/dicom/DicomController.h
 )
 set( PUBLIC_HEADERS
 		${PUBLIC_QOBJECT_HEADERS}
-		include/${PROJECT_NAME}/dicom/Series.h
-		include/${PROJECT_NAME}/dicom/SeriesElement.h
-		include/${PROJECT_NAME}/dicom/SeriesLoadingRequest.h
+		include/Carna/dicom/Series.h
+		include/Carna/dicom/SeriesElement.h
+		include/Carna/dicom/SeriesLoadingRequest.h
 	)
 include_directories(${CMAKE_PROJECT_DIR}src/include)
-include_directories(${CMAKE_PROJECT_DIR}src/include/Carna/dicom/qt)	# required by FlowLayout.h
 set( PRIVATE_QOBJECT_HEADERS
 		src/include/Carna/dicom/DicomManager.h
 		src/include/Carna/dicom/SeriesLoadingWorker.h
@@ -82,7 +81,6 @@ set( PRIVATE_HEADERS
 		${PRIVATE_QOBJECT_HEADERS}
 		src/include/Carna/dicom/Patient.h
 		src/include/Carna/dicom/Study.h
-		src/include/Carna/dicom/FlowLayout.h
 		src/include/dicom-interface/dicomImage.h
 		src/include/dicom-interface/dicomSeries.h
 	)
@@ -95,7 +93,6 @@ set( SRC
 		src/dicom/Study.cpp
 		src/dicom/DicomController.cpp
 		src/dicom/DicomOpeningDialog.cpp
-		src/dicom/FlowLayout.cpp
 		src/dicom/QtDicomSeriesOpeningController.cpp
 		src/dicom/SeriesPreview.cpp
 		src/dicom/SeriesView.cpp
