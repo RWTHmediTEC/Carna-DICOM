@@ -30,13 +30,12 @@ if( DEFINED ENV{MEDITEC_LIBS} )
 		set(INSTALL_CMAKE_DIR "CMake/Modules" PARENT_SCOPE)
 	endif()
 	
-	# find GLEW headers
-	list(APPEND CMAKE_INCLUDE_PATH "$ENV{MEDITEC_LIBS}/GLEW/1.7.0/include")
-	find_path(GLEW_INCLUDE_DIR GL/glew.h)
-	
-	# find GLEW libraries
-	list(APPEND CMAKE_LIBRARY_PATH "$ENV{MEDITEC_LIBS}/GLEW/1.7.0/bin")
-	find_library(GLEW_LIBRARY NAMES glew32-1.7.0 PATH_SUFFIXES lib64)
+	# find Eigen headers
+	find_path(	EIGEN3_INCLUDE_DIR
+				Eigen/Core
+				PATHS ENV MEDITEC_LIBS
+				PATH_SUFFIXES "Eigen/3.0.5/include"
+				DOC "Eigen3 headers")
 
 endif( DEFINED ENV{MEDITEC_LIBS} )
 
