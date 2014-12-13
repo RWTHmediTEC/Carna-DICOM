@@ -1,48 +1,89 @@
 cmake_minimum_required(VERSION 2.8.7)
-
-set(CMAKE_DEBUG_POSTFIX d)
-set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin)
-set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin)
-
-############################################
-# Library name
-############################################
 project( Carna-DICOM )
-############################################
 
-############################################
-# Version declaration
-# Target file will be named with version suffix
-############################################
 set( MAJOR_VERSION		0 )
 set( MINOR_VERSION		1 )
 set( RELEASE_VERSION	0 )
 
-set( FULL_VERSION		${MAJOR_VERSION}.${MINOR_VERSION}.${RELEASE_VERSION} )
-
-set( TARGET_NAME		${PROJECT_NAME}-${FULL_VERSION} )
-
-configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/misc/configure.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/misc/configure.cmake @ONLY )
-configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/misc/install.bat.in ${CMAKE_CURRENT_BINARY_DIR}/misc/install.bat @ONLY )
-configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/src/doc/Doxyfile.in ${CMAKE_CURRENT_SOURCE_DIR}/src/doc/Doxyfile @ONLY )
 ############################################
+
+set(CMAKE_DEBUG_POSTFIX d)
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin)
+set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin)
+set( FULL_VERSION		${MAJOR_VERSION}.${MINOR_VERSION}.${RELEASE_VERSION} )
+set( TARGET_NAME		${PROJECT_NAME}-${FULL_VERSION} )
 
 ############################################
 # Options
 # Set default options for this build
 ############################################
+
 option(BUILD_DOC	"Build and install the API documentation"	OFF)
-option(BUILD_TEST	"Build the unit tests"				OFF)
-############################################
+option(BUILD_TEST	"Build the unit tests"						OFF)
 
 ############################################
-# Find dependencies and add them later to the linker (see below)
+# Macro that sets variable to default value
+# only when the variable isn't defined yet
+############################################
+
+macro( option_default_to var_name default_val var_type doc_string )
+	if( NOT DEFINED ${var_name} )
+		set(${var_name} ${default_val})
+	endif()
+	set(${var_name} ${${var_name}} CACHE ${var_type} ${doc_string} FORCE)
+endmacro()
+
+############################################
+# Locate Find<ModuleName>.cmake scripts
+############################################
+
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/misc/CMake-Modules)
+
+############################################
+# Run MediTEC compatiblity script
+############################################
+
+add_subdirectory(misc/MediTEC)
+
+############################################
+# Define default paths for the installation
+############################################
+
+# set default library and header destinations (relative to CMAKE_INSTALL_PREFIX)
+option_default_to(INSTALL_LIBRARY_DIR "lib" String "Installation directory for libraries")
+option_default_to(INSTALL_HEADERS_DIR "include" String "Installation directory for headers")
+
+# set default destination for CMake modules
+if( WIN32 )
+	option_default_to(INSTALL_CMAKE_DIR "share/cmake-3.0/Modules" String "Installation directory for CMake files")
+else( WIN32 )
+	option_default_to(INSTALL_CMAKE_DIR "share/cmake/Modules" String "Installation directory for CMake files")
+endif( WIN32 )
+
+############################################
+# Normalize installation paths
+# (get rid of Windows-style delimiters)
+############################################
+
+file(	TO_CMAKE_PATH	${INSTALL_LIBRARY_DIR}	INSTALL_LIBRARY_DIR )
+file(	TO_CMAKE_PATH	${INSTALL_HEADERS_DIR}	INSTALL_HEADERS_DIR )
+file(	TO_CMAKE_PATH	${INSTALL_CMAKE_DIR}	INSTALL_CMAKE_DIR )
+
+############################################
+
+configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/src/doc/Doxyfile.in
+				${CMAKE_CURRENT_SOURCE_DIR}/src/doc/Doxyfile @ONLY)
+
+configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/misc/FindCarnaDICOM.cmake.in
+				${CMAKE_CURRENT_BINARY_DIR}/misc/FindCarnaDICOM.cmake @ONLY)
+
+############################################
+# Find required dependencies
 ############################################
 
 # Qt
 
 set( QT_USE_QTMAIN		TRUE )
-set( QT_USE_QTOPENGL	TRUE )
 set( QT_USE_QTXML		TRUE )
 find_package( Qt4 REQUIRED )
 include( ${QT_USE_FILE} )
@@ -50,11 +91,13 @@ add_definitions( ${QT_DEFINITIONS} )
 
 # GDCM
 
-include( $ENV{MEDITEC_LIBS}/GDCM/2.0.16/configure.cmake )
+find_package( GDCM 2.0.16 REQUIRED )
+include_directories( ${GDCM_INCLUDE_DIR} )
 
 # Carna
 
-include( $ENV{MEDITEC_LIBS}/Carna/2.5.0/configure.cmake )
+find_package( Carna REQUIRED )
+include_directories( ${CARNA_INCLUDE_DIR} )
 
 # Project
 
@@ -179,9 +222,9 @@ add_definitions( -D${PROJECT_NAME_UPPER}_EXPORT -DNOMINMAX -D_WINDOWS -D_USRDLL 
 target_link_libraries( ${TARGET_NAME}
 		ws2_32
 		rpcrt4
-		${GDCM_LIBLIST}
 		${QT_LIBRARIES}
-		${CARNA_LIBLIST}
+		${GDCM_LIBRARIES}
+		${CARNA_LIBRARIES}
 	)
 
 

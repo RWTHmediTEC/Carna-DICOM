@@ -1,0 +1,41 @@
+############################################
+# Locates Carna-DICOM library.
+#-------------------------------------------
+# The following variables are set:
+#	CARNA_DICOM_INCLUDE_DIR		points to headers
+#	CARNA_DICOM_LIBRARIES		points to lib files
+#	CARNA_DICOM_FOUND			indicates success
+#-------------------------------------------
+# Leonid Kostrykin, 13.12.2014
+############################################
+
+set(FOUND_VERSION @FULL_VERSION@)
+
+# set directory where headers are located
+get_filename_component(CARNA_DICOM_INCLUDE_DIR "@CMAKE_INSTALL_PREFIX@/@INSTALL_HEADERS_DIR@" ABSOLUTE)
+
+# set path to RELEASE library file
+find_library(	CARNA_DICOM_LIBRARY_RELEASE
+				NAMES @TARGET_NAME@
+				PATHS "@CMAKE_INSTALL_PREFIX@/@INSTALL_LIBRARY_DIR@"
+				DOC "Carna-DICOM library (Release)" )
+
+# set path to DEBUG library file
+find_library(	CARNA_DICOM_LIBRARY_DEBUG
+				NAMES @TARGET_NAME@@CMAKE_DEBUG_POSTFIX@
+				PATHS "@CMAKE_INSTALL_PREFIX@/@INSTALL_LIBRARY_DIR@"
+				DOC "Carna-DICOM library (Debug)" )
+
+# handles REQUIRED, QUIET and version-related
+# arguments and also sets the _FOUND variable
+find_package_handle_standard_args( CARNA_DICOM
+	REQUIRED_VARS CARNA_DICOM_INCLUDE_DIR CARNA_DICOM_LIBRARY_RELEASE CARNA_DICOM_LIBRARY_DEBUG
+	VERSION_VAR FOUND_VERSION)
+
+# set paths to library files
+if( DEFINED CARNA_DICOM_LIBRARY_RELEASE AND DEFINED CARNA_DICOM_LIBRARY_DEBUG )
+	set( CARNA_DICOM_LIBRARIES
+			optimized	${CARNA_DICOM_LIBRARY_RELEASE}
+			debug		${CARNA_DICOM_LIBRARY_DEBUG}
+		PARENT_SCOPE )
+endif()
