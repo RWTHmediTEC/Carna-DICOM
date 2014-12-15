@@ -108,7 +108,7 @@ class SeriesLoadingRequest;
   * \author Leonid Kostrykin
   * \date   5.10.12 - 8.10.12
   */
-class CARNA_DICOM_LIB DicomController : public QWidget
+class CARNADICOM_LIB DicomController : public QWidget
 {
 
     NON_COPYABLE

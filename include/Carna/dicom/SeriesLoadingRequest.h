@@ -40,7 +40,7 @@ class Series;
   * \author Leonid Kostrykin
   * \date   5.10.12 - 8.10.12
   */
-class CARNA_DICOM_LIB SeriesLoadingRequest
+class CARNADICOM_LIB SeriesLoadingRequest
 {
 
 public:

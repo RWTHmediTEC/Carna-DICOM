@@ -1,17 +1,18 @@
 cmake_minimum_required(VERSION 2.8.7)
-project( Carna-DICOM )
+project( CarnaDICOM )
 
-set( MAJOR_VERSION		0 )
-set( MINOR_VERSION		1 )
-set( RELEASE_VERSION	0 )
+set( MAJOR_VERSION	0 )
+set( MINOR_VERSION	1 )
+set( PATCH_VERSION	0 )
 
 ############################################
 
 set(CMAKE_DEBUG_POSTFIX d)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin)
-set( FULL_VERSION		${MAJOR_VERSION}.${MINOR_VERSION}.${RELEASE_VERSION} )
-set( TARGET_NAME		${PROJECT_NAME}-${FULL_VERSION} )
+set(FULL_VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION})
+set(TARGET_NAME ${PROJECT_NAME}-${FULL_VERSION})
+string(TOUPPER ${PROJECT_NAME} PROJECT_NAME_CAPS)
 
 ############################################
 # Options
@@ -74,8 +75,8 @@ file(	TO_CMAKE_PATH	${INSTALL_CMAKE_DIR}	INSTALL_CMAKE_DIR )
 configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/src/doc/Doxyfile.in
 				${CMAKE_CURRENT_SOURCE_DIR}/src/doc/Doxyfile @ONLY)
 
-configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/misc/FindCarnaDICOM.cmake.in
-				${CMAKE_CURRENT_BINARY_DIR}/misc/FindCarnaDICOM.cmake @ONLY)
+configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/misc/Find${PROJECT_NAME}.cmake.in
+				${CMAKE_CURRENT_BINARY_DIR}/misc/Find${PROJECT_NAME}.cmake @ONLY)
 
 ############################################
 # Find required dependencies
@@ -248,9 +249,7 @@ add_library( ${TARGET_NAME} SHARED
 
 ############################################
 
-string( TOUPPER ${PROJECT_NAME} PROJECT_NAME_UPPER )
-string( REGEX REPLACE "-" "_" PROJECT_NAME_UPPER ${PROJECT_NAME_UPPER} )
-add_definitions( -D${PROJECT_NAME_UPPER}_EXPORT -DNOMINMAX -D_WINDOWS -D_USRDLL -D_CRT_SECURE_NO_WARNINGS )
+add_definitions( -D${PROJECT_NAME_CAPS}_EXPORT -DNOMINMAX -D_WINDOWS -D_USRDLL -D_CRT_SECURE_NO_WARNINGS )
 
 ############################################
 # Add dependencies to the linker
@@ -288,7 +287,7 @@ if( WIN32 )
 endif( WIN32 )
 
 # install CMake Find<Module> file
-install(	FILES ${CMAKE_CURRENT_BINARY_DIR}/misc/FindCarnaDICOM.cmake
+install(	FILES ${CMAKE_CURRENT_BINARY_DIR}/misc/Find${PROJECT_NAME}.cmake
 			DESTINATION ${INSTALL_CMAKE_DIR})
 
 # install MediTEC-specific files			

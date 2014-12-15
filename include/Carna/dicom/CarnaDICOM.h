@@ -14,10 +14,10 @@
 
 #include <QtCore/qglobal.h>
 
-#ifdef CARNA_DICOM_EXPORT
-#   define CARNA_DICOM_LIB Q_DECL_EXPORT
+#ifdef CARNADICOM_EXPORT
+#   define CARNADICOM_LIB Q_DECL_EXPORT
 #else
-#   define CARNA_DICOM_LIB Q_DECL_IMPORT
+#   define CARNADICOM_LIB Q_DECL_IMPORT
 #endif
 
 namespace Carna

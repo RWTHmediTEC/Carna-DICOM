@@ -45,7 +45,7 @@ class DicomImage;
   * \author Leonid Kostrykin
   * \date   1.10.12
   */
-class CARNA_DICOM_LIB SeriesElement
+class CARNADICOM_LIB SeriesElement
 {
 
     NON_COPYABLE

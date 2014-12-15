@@ -49,7 +49,7 @@ namespace dicom
   * \author Leonid Kostrykin
   * \date   26.10.11 - 21.2.13
   */
-class CARNA_DICOM_LIB DicomSceneFactory : public base::model::SceneFactory
+class CARNADICOM_LIB DicomSceneFactory : public base::model::SceneFactory
 {
 
     Q_OBJECT
