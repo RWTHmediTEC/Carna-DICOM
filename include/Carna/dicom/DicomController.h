@@ -34,6 +34,7 @@ namespace dicom
 
 class DicomManager;
 class DicomExtractionSettings;
+class Series;
 class SeriesView;
 class SeriesLoadingRequest;
 
