@@ -20,4 +20,16 @@
 #   define CARNA_DICOM_LIB Q_DECL_IMPORT
 #endif
 
+namespace Carna
+{
+	namespace dicom
+	{
+		class DicomController;
+		class DicomSceneFactory;
+		class Series;
+		class SeriesView;
+		class SeriesLoadingRequest;
+	}
+}
+
 #endif // CARNA_DICOM_H_6014714286
