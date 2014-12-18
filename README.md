@@ -29,7 +29,7 @@ Go to: [Library Documentation](https://rwthmeditec.github.io/Carna-DICOM/)
 
 * Qt ≥ 4.8
 * GDCM ≥ 2.0.16
-* [Carna](https://github.com/RWTHmediTEC/Carna) ≥ 2.5
+* [Carna](https://github.com/RWTHmediTEC/Carna) = 2.5
 * [TRTK](https://github.com/Haenisch/TRTK) ≥ 0.13.1
 * [Eigen](http://eigen.tuxfamily.org/) ≥ 3.0.5
 
