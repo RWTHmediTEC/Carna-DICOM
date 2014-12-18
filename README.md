@@ -38,10 +38,10 @@ Go to: [Library Documentation](https://rwthmeditec.github.io/Carna-DICOM/)
 
 The default build process requires CMake ≥ 3.0.2.
 
-This section explains three ways of building Carna:
+This section explains three ways of building Carna-DICOM:
 
 1. Creating Visual Studio project files and building it from the IDE
-2. Building Carna directly through CMake from command line
+2. Building Carna-DICOM directly through CMake from command line
 3. If you are a colleague from MediTEC, you can use the batch script.
 
 Regardless which build method you pick,
@@ -62,7 +62,7 @@ at your current working directory.
 First create the directory where the Visual Studio files should go to:
 
 ```bat
-cd Carna
+cd Carna-DICOM
 
 mkdir build
 mkdir build\VisualStudio2010
