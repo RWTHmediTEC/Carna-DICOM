@@ -40,8 +40,6 @@ class DicomImage;
 
 /** \brief  Represents an element of \ref Series.
   *
-  * \see    \ref Series
-  *
   * \author Leonid Kostrykin
   * \date   1.10.12
   */

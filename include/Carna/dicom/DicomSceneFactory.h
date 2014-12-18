@@ -31,12 +31,11 @@ namespace dicom
 // DicomSceneFactory
 // ----------------------------------------------------------------------------------
 
-/** \brief  Offers \ref Scene instantiating with little effort.
+/** \brief  Instantiates \c Carna::base::model::Scene from DICOM series with little effort.
   *
   * All factory methods do throw the same exceptions.
   *
-  * \ref AssertionFailure is thrown if at least one of the following pre-conditions
-  * is not met:
+  * \c Carna::base::AssertionFailure is thrown if at least one of the following pre-conditions is not met:
   *
   * - The requested number of parallelized workers is not supported by implementation.
   * - The requested target volume size is larger than the original data.
@@ -66,13 +65,13 @@ public:
 
 public slots:
 
-    /** \brief  Prompts the user for the data set to load using a \ref qt::DicomController dialog.
+    /** \brief  Prompts the user for the data set to load using a \ref DicomController dialog.
       */
     base::model::Scene* createFromUserInput();
     
     /** \brief  Dispatches the given request.
       *
-      * Refer to the \ref qt::DicomController documentation for an example.
+      * Refer to the \ref DicomController documentation for an example.
       */
     base::model::Scene* createFromRequest( const Carna::dicom::SeriesLoadingRequest& );
 

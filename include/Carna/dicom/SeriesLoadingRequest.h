@@ -33,12 +33,12 @@ class Series;
 // SeriesLoadingRequest
 // ----------------------------------------------------------------------------------
 
-/** \brief  Represents library-intent to create a \ref Scene from some DICOM series.
+/** \brief  Represents request to instantiate \c Carna::base::model::Scene from DICOM series.
   *
-  * \see    \ref DicomController, \ref SceneFactory
+  * \see    \ref DicomController, \ref DicomSceneFactory
   *
   * \author Leonid Kostrykin
-  * \date   5.10.12 - 8.10.12
+  * \date   5.10.12 - 8.18.14
   */
 class CARNADICOM_LIB SeriesLoadingRequest
 {
@@ -51,7 +51,7 @@ public:
     {
     }
     
-    /** \brief  Instantiates request to create \ref Scene from given DICOM series and given spacing.
+    /** \brief  Instantiates request to create \c Carna::base::model::Scene from given DICOM series and given spacing.
       */
     SeriesLoadingRequest( const Series& series, double zSpacing )
         : series( &series )
@@ -60,14 +60,14 @@ public:
     }
 
     
-    /** \brief  Sets the DICOM series a \ref Scene shall be created from by this request.
+    /** \brief  Sets the DICOM series a \c Carna::base::model::Scene shall be created from by this request.
       */
     void setSeries( const Series& series )
     {
         this->series = &series;
     }
 
-    /** \brief  References the DICOM series a \ref Scene shall be created from by this request.
+    /** \brief  References the DICOM series a \c Carna::base::model::Scene shall be created from by this request.
       */
     const Series& getSeries() const
     {

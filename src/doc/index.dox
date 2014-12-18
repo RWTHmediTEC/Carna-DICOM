@@ -1,5 +1,24 @@
 /** \mainpage
   *
-  * %Carna provides classes for simple and fast visualization of CT data.
+  * <a href="https://github.com/RWTHmediTEC/Carna">%Carna</a>
+  * provides classes for simple and fast visualization of CT data.
+  *
   * This package provides additional classes that make loading DICOM data easy.
+  *
+  * \image html DicomController01.png
+  *
+  * The example below triggers the dialog shown above, that requests the user
+  * to choose a filesystem directory that contains one or more DICOM series.
+  *
+  * \code
+  * using namespace Carna::base::model;
+  *
+  * using Carna::dicom::DicomSceneFactory;
+  * DicomSceneFactory modelFactory;
+  *
+  * std::unique_ptr< Scene > model( modelFactory.createFromUserInput() );
+  * \endcode
+  *
+  * If the user cancels the dialog, \c model is set to \c nullptr.
+  * Otherwise an appropriate \c Carna::base::model::Scene object is instantiated.
   */
