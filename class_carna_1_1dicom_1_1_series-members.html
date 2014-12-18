@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>CarnaDICOM: Main Page</title>
+<title>CarnaDICOM: Member List</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
@@ -71,8 +71,8 @@ function toggleVisibility(linkObj) {
 </div>
   <div id="navrow1" class="tabs">
     <ul class="tablist">
-      <li class="current"><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -92,26 +92,37 @@ function toggleVisibility(linkObj) {
       </li>
     </ul>
   </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
+      <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
+    </ul>
+  </div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>Carna</b>      </li>
+      <li class="navelem"><b>dicom</b>      </li>
+      <li class="navelem"><a class="el" href="class_carna_1_1dicom_1_1_series.html">Series</a>      </li>
+    </ul>
+  </div>
 </div>
 <div class="header">
   <div class="headertitle">
-<div class="title">CarnaDICOM Documentation</div>  </div>
+<div class="title">Carna::dicom::Series Member List</div>  </div>
 </div>
 <div class="contents">
-<div class="textblock"><p><a href="https://github.com/RWTHmediTEC/Carna">Carna</a> provides classes for simple and fast visualization of CT data.</p>
-<p>This package provides additional classes that make loading DICOM data easy.</p>
-<div class="image">
-<img src="DicomController01.png" alt="DicomController01.png"/>
-</div>
-<p>The example below triggers the dialog shown above, that requests the user to choose a filesystem directory that contains one or more DICOM series.</p>
-<div class="fragment"><pre class="fragment"> <span class="keyword">using namespace </span>Carna::base::model;
-
- <span class="keyword">using</span> <a class="code" href="class_carna_1_1dicom_1_1_dicom_scene_factory.html" title="Instantiates Carna::base::model::Scene from DICOM series with little effort.">Carna::dicom::DicomSceneFactory</a>;
- DicomSceneFactory modelFactory;
-
- std::unique_ptr&lt; Scene &gt; model( modelFactory.createFromUserInput() );
-</pre></div><p>If the user cancels the dialog, <code>model</code> is set to <code>nullptr</code>. Otherwise an appropriate <code>Carna::base::model::Scene</code> object is instantiated. </p>
-</div></div>
+This is the complete list of members for <a class="el" href="class_carna_1_1dicom_1_1_series.html">Carna::dicom::Series</a>, including all inherited members.<table>
+  <tr class="memlist"><td><a class="el" href="class_carna_1_1dicom_1_1_series.html#ac503f63b4cc3f2fb71fdc67d52517a69">contains</a>(const std::string &amp;fileName) const </td><td><a class="el" href="class_carna_1_1dicom_1_1_series.html">Carna::dicom::Series</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_carna_1_1dicom_1_1_series.html#a99e531dbb905760249b494de0c229ac2">getCentralElement</a>() const </td><td><a class="el" href="class_carna_1_1dicom_1_1_series.html">Carna::dicom::Series</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_carna_1_1dicom_1_1_series.html#a695aeb6f02a31dde0a5c732178c7e42b">getElements</a>() const </td><td><a class="el" href="class_carna_1_1dicom_1_1_series.html">Carna::dicom::Series</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_carna_1_1dicom_1_1_series.html#afa7ad80f8d62a75c83c0ccce8134b964">getSpacingZ</a>() const </td><td><a class="el" href="class_carna_1_1dicom_1_1_series.html">Carna::dicom::Series</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_carna_1_1dicom_1_1_series.html#a5bf75488a92bebf8dad9889b7ef8e108">MIN_ELEMENTS_COUNT</a></td><td><a class="el" href="class_carna_1_1dicom_1_1_series.html">Carna::dicom::Series</a></td><td><code> [static]</code></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_carna_1_1dicom_1_1_series.html#a972fea14d7a44bb3fe6770489170f7bd">name</a></td><td><a class="el" href="class_carna_1_1dicom_1_1_series.html">Carna::dicom::Series</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_carna_1_1dicom_1_1_series.html#a2d645fbe211042905e799433e3f3f30a">OrderedElements</a> typedef</td><td><a class="el" href="class_carna_1_1dicom_1_1_series.html">Carna::dicom::Series</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_carna_1_1dicom_1_1_series.html#a34c700ba8bcac0426426e1b1d19711d3">put</a>(SeriesElement *)</td><td><a class="el" href="class_carna_1_1dicom_1_1_series.html">Carna::dicom::Series</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_carna_1_1dicom_1_1_series.html#a6785b07da603e6f7bb2363eec2b88b8a">Series</a>(const std::string &amp;name)</td><td><a class="el" href="class_carna_1_1dicom_1_1_series.html">Carna::dicom::Series</a></td><td><code> [explicit]</code></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_carna_1_1dicom_1_1_series.html#a103d435e71c89dcbd6a2738400071b1b">~Series</a>()</td><td><a class="el" href="class_carna_1_1dicom_1_1_series.html">Carna::dicom::Series</a></td><td></td></tr>
+</table></div>
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"

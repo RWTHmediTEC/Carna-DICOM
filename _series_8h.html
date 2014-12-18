@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>CarnaDICOM: Main Page</title>
+<title>CarnaDICOM: include/Carna/dicom/Series.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
@@ -71,9 +71,9 @@ function toggleVisibility(linkObj) {
 </div>
   <div id="navrow1" class="tabs">
     <ul class="tablist">
-      <li class="current"><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
-      <li><a href="files.html"><span>Files</span></a></li>
+      <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -92,25 +92,49 @@ function toggleVisibility(linkObj) {
       </li>
     </ul>
   </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>File&#160;List</span></a></li>
+    </ul>
+  </div>
 </div>
 <div class="header">
+  <div class="summary">
+<a href="#nested-classes">Classes</a>  </div>
   <div class="headertitle">
-<div class="title">CarnaDICOM Documentation</div>  </div>
+<div class="title">include/Carna/dicom/Series.h File Reference</div>  </div>
 </div>
 <div class="contents">
-<div class="textblock"><p><a href="https://github.com/RWTHmediTEC/Carna">Carna</a> provides classes for simple and fast visualization of CT data.</p>
-<p>This package provides additional classes that make loading DICOM data easy.</p>
-<div class="image">
-<img src="DicomController01.png" alt="DicomController01.png"/>
+
+<p>Defines <a class="el" href="class_carna_1_1dicom_1_1_series.html">Carna::dicom::Series</a>.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;Carna/dicom/CarnaDICOM.h&gt;</code><br/>
+<code>#include &lt;Carna/Carna.h&gt;</code><br/>
+<code>#include &lt;Carna/base/noncopyable.h&gt;</code><br/>
+<code>#include &lt;set&gt;</code><br/>
+</div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png"/> Include dependency graph for Series.h:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
-<p>The example below triggers the dialog shown above, that requests the user to choose a filesystem directory that contains one or more DICOM series.</p>
-<div class="fragment"><pre class="fragment"> <span class="keyword">using namespace </span>Carna::base::model;
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="_series_8h__incl.png" border="0" usemap="#include_2_carna_2dicom_2_series_8h" alt=""/></div>
+<map name="include_2_carna_2dicom_2_series_8h" id="include_2_carna_2dicom_2_series_8h">
+<area shape="rect" id="node3" href="_carna_d_i_c_o_m_8h_source.html" title="Carna/dicom/CarnaDICOM.h" alt="" coords="5,80,192,107"/></map>
+</div>
+</div>
+<p><a href="_series_8h_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr><td colspan="2"><h2><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_carna_1_1dicom_1_1_series.html">Carna::dicom::Series</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a z-ordered set of DICOM files.  <a href="class_carna_1_1dicom_1_1_series.html#details">More...</a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_carna_1_1dicom_1_1_series_1_1_is_closer.html">Carna::dicom::Series::IsCloser</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines <a class="el" href="class_carna_1_1dicom_1_1_series_element.html">series elements</a> ordering.  <a href="struct_carna_1_1dicom_1_1_series_1_1_is_closer.html#details">More...</a><br/></td></tr>
+</table>
+<hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
+<div class="textblock"><p>Defines <a class="el" href="class_carna_1_1dicom_1_1_series.html">Carna::dicom::Series</a>. </p>
 
- <span class="keyword">using</span> <a class="code" href="class_carna_1_1dicom_1_1_dicom_scene_factory.html" title="Instantiates Carna::base::model::Scene from DICOM series with little effort.">Carna::dicom::DicomSceneFactory</a>;
- DicomSceneFactory modelFactory;
-
- std::unique_ptr&lt; Scene &gt; model( modelFactory.createFromUserInput() );
-</pre></div><p>If the user cancels the dialog, <code>model</code> is set to <code>nullptr</code>. Otherwise an appropriate <code>Carna::base::model::Scene</code> object is instantiated. </p>
+<p>Definition in file <a class="el" href="_series_8h_source.html">Series.h</a>.</p>
 </div></div>
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"

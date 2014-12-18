@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>CarnaDICOM: Main Page</title>
+<title>CarnaDICOM: Class Index</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
@@ -71,8 +71,8 @@ function toggleVisibility(linkObj) {
 </div>
   <div id="navrow1" class="tabs">
     <ul class="tablist">
-      <li class="current"><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -92,26 +92,25 @@ function toggleVisibility(linkObj) {
       </li>
     </ul>
   </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
+      <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
+    </ul>
+  </div>
 </div>
 <div class="header">
   <div class="headertitle">
-<div class="title">CarnaDICOM Documentation</div>  </div>
+<div class="title">Class Index</div>  </div>
 </div>
 <div class="contents">
-<div class="textblock"><p><a href="https://github.com/RWTHmediTEC/Carna">Carna</a> provides classes for simple and fast visualization of CT data.</p>
-<p>This package provides additional classes that make loading DICOM data easy.</p>
-<div class="image">
-<img src="DicomController01.png" alt="DicomController01.png"/>
+<div class="qindex"><a class="qindex" href="#letter_D">D</a>&#160;|&#160;<a class="qindex" href="#letter_I">I</a>&#160;|&#160;<a class="qindex" href="#letter_S">S</a></div>
+<table align="center" width="95%" border="0" cellspacing="0" cellpadding="0">
+<tr><td><a name="letter_D"></a><table border="0" cellspacing="0" cellpadding="0"><tr><td><div class="ah">&#160;&#160;D&#160;&#160;</div></td></tr></table>
+</td><td><a class="el" href="class_carna_1_1dicom_1_1_dicom_scene_factory.html">DicomSceneFactory</a> (Carna::dicom)&#160;&#160;&#160;</td><td><a class="el" href="struct_carna_1_1dicom_1_1_series_1_1_is_closer.html">Series::IsCloser</a> (Carna::dicom)&#160;&#160;&#160;</td><td><a class="el" href="class_carna_1_1dicom_1_1_series.html">Series</a> (Carna::dicom)&#160;&#160;&#160;</td><td><a class="el" href="class_carna_1_1dicom_1_1_series_loading_request.html">SeriesLoadingRequest</a> (Carna::dicom)&#160;&#160;&#160;</td></tr><tr><td><a class="el" href="class_carna_1_1dicom_1_1_dicom_controller.html">DicomController</a> (Carna::dicom)&#160;&#160;&#160;</td><td><a name="letter_I"></a><table border="0" cellspacing="0" cellpadding="0"><tr><td><div class="ah">&#160;&#160;I&#160;&#160;</div></td></tr></table>
+</td><td><a name="letter_S"></a><table border="0" cellspacing="0" cellpadding="0"><tr><td><div class="ah">&#160;&#160;S&#160;&#160;</div></td></tr></table>
+</td><td><a class="el" href="class_carna_1_1dicom_1_1_series_element.html">SeriesElement</a> (Carna::dicom)&#160;&#160;&#160;</td></tr></table><div class="qindex"><a class="qindex" href="#letter_D">D</a>&#160;|&#160;<a class="qindex" href="#letter_I">I</a>&#160;|&#160;<a class="qindex" href="#letter_S">S</a></div>
 </div>
-<p>The example below triggers the dialog shown above, that requests the user to choose a filesystem directory that contains one or more DICOM series.</p>
-<div class="fragment"><pre class="fragment"> <span class="keyword">using namespace </span>Carna::base::model;
-
- <span class="keyword">using</span> <a class="code" href="class_carna_1_1dicom_1_1_dicom_scene_factory.html" title="Instantiates Carna::base::model::Scene from DICOM series with little effort.">Carna::dicom::DicomSceneFactory</a>;
- DicomSceneFactory modelFactory;
-
- std::unique_ptr&lt; Scene &gt; model( modelFactory.createFromUserInput() );
-</pre></div><p>If the user cancels the dialog, <code>model</code> is set to <code>nullptr</code>. Otherwise an appropriate <code>Carna::base::model::Scene</code> object is instantiated. </p>
-</div></div>
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
