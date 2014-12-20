@@ -1,4 +1,4 @@
-Carna-DICOM
+CarnaDICOM
 ========
 
 [Carna](https://github.com/RWTHmediTEC/Carna)
@@ -6,9 +6,9 @@ provides classes for simple and fast visualization of CT data.
 
 This package provides additional classes that make loading DICOM data easy.
 
-<img src="https://rwthmeditec.github.io/Carna-DICOM/DicomController01.png">
+<img src="https://rwthmeditec.github.io/CarnaDICOM/DicomController01.png">
 
-Go to: [Library Documentation](https://rwthmeditec.github.io/Carna-DICOM/)
+Go to: [Library Documentation](https://rwthmeditec.github.io/CarnaDICOM/)
 
 ---
 ## Contents
@@ -38,10 +38,10 @@ Go to: [Library Documentation](https://rwthmeditec.github.io/Carna-DICOM/)
 
 The default build process requires CMake ≥ 3.0.2.
 
-This section explains three ways of building Carna-DICOM:
+This section explains three ways of building CarnaDICOM:
 
 1. Creating Visual Studio project files and building it from the IDE
-2. Building Carna-DICOM directly through CMake from command line
+2. Building CarnaDICOM directly through CMake from command line
 3. If you are a colleague from MediTEC, you can use the batch script.
 
 Regardless which build method you pick,
@@ -51,10 +51,10 @@ you can simply run following command
 from within the directory where you want to download the sources:
 
 ```bat
-git clone https://github.com/RWTHmediTEC/Carna-DICOM.git
+git clone https://github.com/RWTHmediTEC/CarnaDICOM.git
 ```
     
-After a few seconds there should be a new folder named `Carna-DICOM`
+After a few seconds there should be a new folder named `CarnaDICOM`
 at your current working directory.
 
 ### 2.1. Creating Visual Studio project files
@@ -62,7 +62,7 @@ at your current working directory.
 First create the directory where the Visual Studio files should go to:
 
 ```bat
-cd Carna-DICOM
+cd CarnaDICOM
 
 mkdir build
 mkdir build\VisualStudio2010
@@ -89,7 +89,7 @@ which is the value of the environmental variable `%ProgramFiles%` on Windows.
 
 At this point the Visual Studio project files are ready.
 You can proceed by opening the solution file `CarnaDICOM.sln`
-that was created in `Carna-DICOM\build\VisualStudio2010`.
+that was created in `CarnaDICOM\build\VisualStudio2010`.
 Note that building the `INSTALL` project from the solution
 actually triggers the installation routine
 to the destination you configured via `-DCMAKE_INSTALL_PREFIX`.
@@ -102,7 +102,7 @@ You can use any names you like for the directories,
 it's only important to distinguish between "debug" and "release" files:
 
 ```bat
-cd Carna-DICOM
+cd CarnaDICOM
 
 mkdir build
 mkdir build\debug
@@ -173,7 +173,7 @@ than
 ---
 ## 3. Including in your project
 
-It is assumed at this point that you either have built and installed Carna-DICOM with CMake,
+It is assumed at this point that you either have built and installed CarnaDICOM with CMake,
 or you have fetched the binaries and the corresponding headers from somewhere.
 
 ### 3.1. The CMake-way
@@ -201,14 +201,14 @@ find_package( TRTK 0.13.1 REQUIRED )
 include_directories( ${TRTK_INCLUDE_DIR} )
 ```
 
-Finally add Carna-DICOM to the linking stage:
+Finally add CarnaDICOM to the linking stage:
 
 ```CMake
 target_link_libraries( ${TARGET_NAME} ${SOME_OTHER_LIBRARIES} ${CARNADICOM_LIBRARIES} )
 ```
 
 This method relies on CMake being able to locate the proper `FindCarnaDICOM.cmake` file.
-If you've built Carna-DICOM from source,
+If you've built CarnaDICOM from source,
 than you have determined it's location either through `CMAKE_INSTALL_PREFIX`
 or `INSTALL_CMAKE_DIR` as described in ["installation notes"](#23-installation-notes).
 You can specify the paths CMake searches for `FindCarnaDICOM.cmake` by adjustung the
@@ -221,7 +221,7 @@ list( APPEND CMAKE_MODULE_PATH "C:/CMake/Modules" )
 ### 3.2 The MediTEC-way
 
 If you are a colleague from MediTEC, you must also add the following line of code
-*before* `find_package`, otherwise CMake will not find Carna-DICOM:
+*before* `find_package`, otherwise CMake will not find CarnaDICOM:
 
 ```CMake
 list(APPEND CMAKE_MODULE_PATH "${MEDITEC_LIBS}/CarnaDICOM/0.1")
@@ -236,7 +236,7 @@ that contains `CarnaDICOM.h` in turn,
 to your project's include directories.
 
 Then find the appropriate library file.
-It's name depends on your platform and Carna-DICOM version,
+It's name depends on your platform and CarnaDICOM version,
 e.g. `CarnaDICOM-0.1.0.lib` for the release and `CarnaDICOM-0.1.0d.lib`
 for the debug version respectively of Carna 0.1.0 on Windows.
 Add both of these files to your project's linker stage.
