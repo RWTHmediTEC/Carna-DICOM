@@ -6,7 +6,7 @@ provides classes for simple and fast visualization of CT data.
 
 This package provides additional classes that make loading DICOM data easy.
 
-<img src="https://rwthmeditec.github.io/CarnaDICOM/DicomController01.png">
+<img src="https://github.com/RWTHmediTEC/CarnaDICOM/blob/gh-pages/DicomController01.png">
 
 Go to: [Library Documentation](https://rwthmeditec.github.io/CarnaDICOM/)
 
