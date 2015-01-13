@@ -30,7 +30,7 @@ The function AddImage(CDicomImage* pDicom) saves the file IDs
 
 void DicomSeries::addImage(DicomImage* pDicom)
 {
-	m_aImages.push_back(pDicom); ///< m_aImages.push_back(pDicom) vektor where all iIDs are given back in pDicom 
+    m_aImages.push_back(pDicom); ///< m_aImages.push_back(pDicom) vektor where all iIDs are given back in pDicom 
 }
 
 /**
@@ -41,14 +41,14 @@ The function DeleteAll() deletes the vector. First the elements with a loop, the
 
 void DicomSeries::deleteAll()
 {
-	// for loop from i = 0 to size off m_aImages
-	for (unsigned int i = 0; i<m_aImages.size(); i++) 
-	{
-	// delete element off place i
-		delete m_aImages[i]; 
-	}
-	// delete vector
-	m_aImages.clear(); 
+    // for loop from i = 0 to size off m_aImages
+    for (unsigned int i = 0; i<m_aImages.size(); i++) 
+    {
+    // delete element off place i
+        delete m_aImages[i]; 
+    }
+    // delete vector
+    m_aImages.clear(); 
 }
 
 /**
@@ -62,14 +62,14 @@ of m_pImageBuffer.
 
 DicomImage* DicomSeries::getImage(int iImageID)
 {
-	// vector of iImageID is matched to the image in m_pImageBuffer
-	return m_aImages[iImageID];  
+    // vector of iImageID is matched to the image in m_pImageBuffer
+    return m_aImages[iImageID];  
 }
 
 const DicomImage* DicomSeries::getImage(int iImageID) const
 {
-	// vector of iImageID is matched to the image in m_pImageBuffer
-	return m_aImages[iImageID];  
+    // vector of iImageID is matched to the image in m_pImageBuffer
+    return m_aImages[iImageID];  
 }
 
 /**
@@ -81,127 +81,127 @@ The function DeleteImage(int iID) deletes a single element off the vector.
 
 void DicomSeries::deleteImage(int iID)
 {
-	// storage is released
-	delete m_aImages[iID]; 
-	// delete pointer from list
-	m_aImages.erase(m_aImages.begin() + iID);
+    // storage is released
+    delete m_aImages[iID]; 
+    // delete pointer from list
+    m_aImages.erase(m_aImages.begin() + iID);
 }
 
 
 int DicomSeries::width() const
 {
-	return m_iWidth;
+    return m_iWidth;
 }
 int DicomSeries::height() const
 {
-	return m_iHeight;
+    return m_iHeight;
 }
 double DicomSeries::spacingXY() const
 {
-	return m_dSpacingXY;
+    return m_dSpacingXY;
 }
 double DicomSeries::spacingZ() const
 {
-	return m_dSpacingZ;
+    return m_dSpacingZ;
 }
 int DicomSeries::size() const
 {
-	return m_aImages.size();
+    return m_aImages.size();
 }
 
 void DicomSeries::setWidth(int iWidth)
 {
-	m_iWidth = iWidth;
+    m_iWidth = iWidth;
 }
 void DicomSeries::setHeight(int iHeight)
 {
-	m_iHeight = iHeight;
+    m_iHeight = iHeight;
 }
 void DicomSeries::setSpacingXY(double dSpacingXY)
 {
-	m_dSpacingXY = dSpacingXY;
+    m_dSpacingXY = dSpacingXY;
 }
 void DicomSeries::setSpacingZ(double dSpacingZ)
 {
-	m_dSpacingZ = dSpacingZ;
+    m_dSpacingZ = dSpacingZ;
 }
 
 char *DicomSeries::getRawImage(int iID)
 {
-	return m_aImages[iID]->getRawImage();
+    return m_aImages[iID]->getRawImage();
 }
 
 const char *DicomSeries::getRawImage(int iID) const
 {
-	return m_aImages[iID]->getRawImage();
+    return m_aImages[iID]->getRawImage();
 }
 
 std::vector <DicomImage *>* DicomSeries::images()
 {
-	return &m_aImages;
+    return &m_aImages;
 }
 
 void DicomSeries::openDicomDir( DicomSeriesFileIterator& it, DicomSeriesOpeningController& ctrl )
 {
-	std::vector<std::string> sFilenameVector;
+    std::vector<std::string> sFilenameVector;
 
-	while( it.hasNextFile() )
-	{
+    while( it.hasNextFile() )
+    {
         sFilenameVector.push_back( it.getNextFile() );
-	}
-	
-	if( sFilenameVector.size() == 0 )
-	{
-		return;
-	}
+    }
+    
+    if( sFilenameVector.size() == 0 )
+    {
+        return;
+    }
 
     ctrl.dirOpened( sFilenameVector.size() );
 
     std::vector< std::string > succeeded;
-	for( int i = 0; i < sFilenameVector.size(); ++i )
-	{
+    for( int i = 0; i < sFilenameVector.size(); ++i )
+    {
         if( ctrl.isAborted() )
         {
             break;
         }
 
         const std::string filename = sFilenameVector.at(i);
-		// read dicom files with the gdcm library
-		gdcm::ImageReader reader;   
-		reader.SetFileName( filename.c_str() );
-		if( !reader.Read() )
-		{
+        // read dicom files with the gdcm library
+        gdcm::ImageReader reader;   
+        reader.SetFileName( filename.c_str() );
+        if( !reader.Read() )
+        {
             if( !ctrl.failedReadFile( filename, succeeded ) )
             {
-			    return;
+                return;
             }
-		}
+        }
         else
         {
             succeeded.push_back( filename );
 
-		    gdcm::File &file = reader.GetFile(); 
-		    gdcm::DataSet& dataSet = file.GetDataSet();
+            gdcm::File &file = reader.GetFile(); 
+            gdcm::DataSet& dataSet = file.GetDataSet();
 
-		    std::string sPatientID, sStudyID, sSeriesID, sImageNumber;
-		    if (dataSet(0x0010,0x0020).GetByteValue())
-			    sPatientID = std::string(dataSet(0x0010,0x0020).GetByteValue()->GetPointer(), dataSet(0x0010,0x0020).GetByteValue()->GetLength()); // hole die Patienten ID des Bildes
-		    else
-			    sPatientID = "unknown";
+            std::string sPatientID, sStudyID, sSeriesID, sImageNumber;
+            if (dataSet(0x0010,0x0020).GetByteValue())
+                sPatientID = std::string(dataSet(0x0010,0x0020).GetByteValue()->GetPointer(), dataSet(0x0010,0x0020).GetByteValue()->GetLength()); // hole die Patienten ID des Bildes
+            else
+                sPatientID = "unknown";
 
-		    if (dataSet(0x0020, 0x000D).GetByteValue())
-			    sStudyID = std::string(dataSet(0x0020, 0x000D).GetByteValue()->GetPointer(), dataSet(0x0020, 0x000D).GetByteValue()->GetLength()); // hole die StudienID des Bildes
-		    else
-			    sStudyID = "unknown";
+            if (dataSet(0x0020, 0x000D).GetByteValue())
+                sStudyID = std::string(dataSet(0x0020, 0x000D).GetByteValue()->GetPointer(), dataSet(0x0020, 0x000D).GetByteValue()->GetLength()); // hole die StudienID des Bildes
+            else
+                sStudyID = "unknown";
 
-		    if (dataSet(0x0020, 0x000E).GetByteValue())
-			    sSeriesID = std::string(dataSet(0x0020, 0x000E).GetByteValue()->GetPointer(), dataSet(0x0020, 0x000E).GetByteValue()->GetLength()); // hole die SerienID des Bildes
-		    else
-			    sSeriesID = "unknown";
+            if (dataSet(0x0020, 0x000E).GetByteValue())
+                sSeriesID = std::string(dataSet(0x0020, 0x000E).GetByteValue()->GetPointer(), dataSet(0x0020, 0x000E).GetByteValue()->GetLength()); // hole die SerienID des Bildes
+            else
+                sSeriesID = "unknown";
 
-		    if (dataSet(0x0020, 0x0013).GetByteValue())
-			    sImageNumber = std::string(dataSet(0x0020, 0x0013).GetByteValue()->GetPointer(), dataSet(0x0020, 0x0013).GetByteValue()->GetLength());
-		    else
+            if (dataSet(0x0020, 0x0013).GetByteValue())
+                sImageNumber = std::string(dataSet(0x0020, 0x0013).GetByteValue()->GetPointer(), dataSet(0x0020, 0x0013).GetByteValue()->GetLength());
+            else
                 sImageNumber = "0";
 
             const double zPosition = DicomImage::readPositionZ( dataSet );
@@ -212,7 +212,7 @@ void DicomSeries::openDicomDir( DicomSeriesFileIterator& it, DicomSeriesOpeningC
         }
 
         ctrl.dirIterationProgress( i + 1 );
-	}
+    }
 }
 
 }
