@@ -22,14 +22,16 @@
 
 namespace Carna
 {
-	namespace dicom
-	{
-		class DicomController;
-		class DicomSceneFactory;
-		class Series;
-		class SeriesView;
-		class SeriesLoadingRequest;
-	}
+    namespace dicom
+    {
+        class DicomSeries;
+        class DicomImage;
+        class DicomController;
+        class DicomSceneFactory;
+        class Series;
+        class SeriesView;
+        class SeriesLoadingRequest;
+    }
 }
 
 #endif // CARNA_DICOM_H_6014714286

@@ -23,8 +23,8 @@ namespace dicom
 // Types & Globals
 // ----------------------------------------------------------------------------------
 
-const static QString NOT_TOGGLED_CSS = "Carna--ToggleSeriesPreview{ border: 1px solid #AAAAAA; background-color: #000000; }";
-const static QString TOGGLED_CSS     = "Carna--ToggleSeriesPreview{ border: 1px solid #FFFFFF; background-color: #404040; }";
+const static QString NOT_TOGGLED_CSS = "Carna--dicom--ToggleSeriesPreview{ border: 1px solid #AAAAAA; background-color: #000000; }";
+const static QString TOGGLED_CSS     = "Carna--dicom--ToggleSeriesPreview{ border: 1px solid #FFFFFF; background-color: #404040; }";
 
 
 

@@ -743,13 +743,9 @@ double DicomImage::readPositionZ( const gdcm::DataSet& dataSet )
             + position_y * normal_y
             + position_z * normal_z;
 
-        const double offset_x = position_and_normal_scalar_product * normal_x;
-        const double offset_y = position_and_normal_scalar_product * normal_y;
-        const double offset_z = position_and_normal_scalar_product * normal_z;
-
      // finish
 
-        return std::sqrt( sq( offset_x ) + sq( offset_y ) + sq( offset_z ) );
+        return position_and_normal_scalar_product;
     }
     catch( const insufficient_header_information& )
     {
