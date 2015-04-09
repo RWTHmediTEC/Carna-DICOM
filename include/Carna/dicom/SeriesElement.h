@@ -48,6 +48,14 @@ class CARNADICOM_LIB SeriesElement
 
     NON_COPYABLE
 
+    /*
+    mutable std::unique_ptr< DicomImage > dicomImage;
+    const Series* series;
+     */
+    
+    struct Details;
+    const std::unique_ptr< Details > pimpl;
+
 public:
 
     /** \brief  Instantiates with given arguments.
@@ -70,25 +78,17 @@ public:
 
     /** \brief  References the represented DICOM image.
       */
-    const DicomImage& getDicomImage() const;
+    const DicomImage& dicomImage() const;
 
     /** \brief  Creates and returns new \c QImage object that contains the represented DICOM image.
       */
     QImage* createImage( unsigned int maxWidth, unsigned int maxHeight ) const;
-
 
     /** \cond 0
     */
     void setSeries( const Series& );
     /** \endcond
       */
-
-
-private:
-
-    mutable std::unique_ptr< DicomImage > dicomImage;
-
-    const Series* series;
 
 }; // SeriesElement
 

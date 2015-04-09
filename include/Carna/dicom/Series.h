@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef SERIES_H_6014714286
-#define SERIES_H_6014714286
+#ifndef SERIES_H_3294808493
+#define SERIES_H_3294808493
 
 /** \file   Series.h
   * \brief  Defines \ref Carna::dicom::Series.
@@ -35,86 +35,97 @@ class SeriesElement;
 // Series
 // ----------------------------------------------------------------------------------
 
-/** \brief  Represents a z-ordered set of DICOM files.
-  *
-  * \see    \ref SeriesElement, \ref SeriesLoadingRequest
+/** \brief
+  * Represents a z-ordered set of DICOM files.
   *
   * \author Leonid Kostrykin
-  * \date   1.10.12 - 8.5.13
+  * \date   1.10.12 - 9.4.15
   */
 class CARNADICOM_LIB Series
 {
 
     NON_COPYABLE
 
+    /*
+    OrderedElements elements;
+    mutable double zSpacing;
+    */
+    
+    struct Details;
+    const std::unique_ptr< Details > pimpl;
+
 public:
 
-    /** \brief  Defines \ref SeriesElement "series elements" ordering.
+    /** \brief
+      * Defines partial \ref SeriesElement "series elements" ordering.
       */
     struct IsCloser
     {
-        /** \brief  Tells whether \c zPosition of \a e1 is less than \c zPosition of \a e2.
+        /** \brief
+          * Tells whether `zPosition` of \a e1 is less than `zPosition` of \a e2.
           *
-          * If the \c zPosition attribute of both elements is equal, the value returned tells
-          * whether \c fileName of \a e1 is ordered lower than the \c fileName of \a e2.
+          * If the `zPosition` attribute of both elements is equal, the value
+          * returned tells whether `fileName` of \a e1 is ordered lower than the
+          * `fileName` of \a e2.
           */
         bool operator()( SeriesElement* e1, SeriesElement* e2 ) const;
     };
 
-    /** \brief  Defines set of z-ordered \ref SeriesElement "series elements".
+    /** \brief
+      * Defines set of z-ordered \ref SeriesElement "series elements".
       */
     typedef std::set< SeriesElement*, IsCloser > OrderedElements;
 
-
-    /** \brief  Minimal \ref SeriesElement "elements" number any series must have in order to work properly.
+    /** \brief
+      * Minimal \ref SeriesElement "elements" number any series must have in order to
+      * work properly.
       */
-    const static unsigned int MIN_ELEMENTS_COUNT = 2;
+    const static unsigned int MINIMUM_ELEMENTS_COUNT = 2;
 
-
-    /** \brief  Instantiates.
+    /** \brief
+      * Instantiates.
       */
     explicit Series( const std::string& name );
 
-    /** \brief  Releases acquired resources.
+    /** \brief
+      * Deletes.
       */
     ~Series();
 
-
-    /** \brief  Holds the name of this series.
+    /** \brief
+      * Holds the name of this series.
       */
     const std::string name;
 
-
-    /** \brief  References z-ordered set of \ref SeriesElement "series elements".
+    /** \brief
+      * References z-ordered set of \ref SeriesElement "series elements".
       */
-    const OrderedElements& getElements() const;
+    const OrderedElements& elements() const;
 
-    /** \brief  References the \ref SeriesElement "series element" which is most closest to the volume's center.
+    /** \brief
+      * References the \ref SeriesElement "series element" which is most closest to
+      * the volume's center.
       *
-      * \pre    <code>getElements().size() >= MIN_ELEMENTS_COUNT</code>
+      * \pre `elements().size() >= MINIMUM_ELEMENTS_COUNT`
       */
-    const SeriesElement& getCentralElement() const;
+    const SeriesElement& centralElement() const;
 
-    /** \brief  Makes the given \ref SeriesElement "series elements" become part of this series.
+    /** \brief
+      * Makes the \a seriesElements become part of this series.
       */
-    void put( SeriesElement* );
+    void put( SeriesElement* seriesElement );
 
-    /** \brief  Tells the z-spacing between two neighbored \ref SeriesElement "series elements".
-      *
-      * \pre    <code>getElements().size() >= MIN_ELEMENTS_COUNT</code>
+    /** \brief
+      * Tells the z-spacing between two neighbored \ref SeriesElement "series elements".
+      * \pre `elements().size() >= MINIMUM_ELEMENTS_COUNT`
       */
-    double getSpacingZ() const;
+    double spacingZ() const;
 
-    /** \brief  Tells whether this series already has an \ref SeriesElement "elements" whose DICOM image file is located at the given path.
+    /** \brief
+      * Tells whether this series already has an \ref SeriesElement "element" whose
+      * DICOM image file is located at \a path.
       */
-    bool contains( const std::string& fileName ) const;
-
-
-private: // TODO: implement PIMPL
-
-    OrderedElements elements;
-
-    mutable double zSpacing;
+    bool contains( const std::string& path ) const;
 
 }; // Series
 
@@ -124,4 +135,4 @@ private: // TODO: implement PIMPL
 
 }  // namespace Carna
 
-#endif // SERIES_H_6014714286
+#endif // SERIES_H_3294808493

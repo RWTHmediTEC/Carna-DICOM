@@ -96,7 +96,7 @@ find_package( GDCM 2.0.16 REQUIRED )
 include_directories( ${GDCM_INCLUDE_DIR} )
 
 # Carna
-find_package( Carna 3.0.0 REQUIRED )
+find_package( Carna 3.0.1 REQUIRED )
 include_directories( ${CARNA_INCLUDE_DIR} )
 
 # CarnaQt

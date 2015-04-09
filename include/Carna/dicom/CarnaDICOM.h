@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2010 - 2014 Leonid Kostrykin
+ *  Copyright (C) 2010 - 2015 Leonid Kostrykin
  *
  *  Chair of Medical Engineering (mediTEC)
  *  RWTH Aachen University
@@ -9,29 +9,40 @@
  *
  */
 
-#ifndef CARNA_DICOM_H_6014714286
-#define CARNA_DICOM_H_6014714286
+#ifndef CARNADICOM_H_3294808493
+#define CARNADICOM_H_3294808493
 
-#include <QtCore/qglobal.h>
-
-#ifdef CARNADICOM_EXPORT
-#   define CARNADICOM_LIB Q_DECL_EXPORT
+#if defined( CARNADICOM_EXPORT )
+#   if defined( _MSC_VER )
+#       define CARNADICOM_LIB __declspec( dllexport )
+#       pragma warning( disable : 4251 )
+#   elif defined( _GCC )
+#       define CARNADICOM_LIB __attribute__( ( visibility( "default" ) ) )
+#   else
+#       define CARNADICOM_LIB
+#   endif
 #else
-#   define CARNADICOM_LIB Q_DECL_IMPORT
+#   if defined( _MSC_VER )
+#       define CARNADICOM_LIB __declspec( dllimport )
+#   else
+#       define CARNADICOM_LIB
+#   endif
 #endif
+#if defined( NO_OVERRIDE_KEYWORD )
+#   define override
+#endif
+
+#include <Carna/Carna.h>
 
 namespace Carna
 {
     namespace dicom
     {
-        class DicomSeries;
-        class DicomImage;
-        class DicomController;
-        class DicomSceneFactory;
+        class VolumeGridFactoryBase;
         class Series;
-        class SeriesView;
-        class SeriesLoadingRequest;
+        
+        template< typename SegmentHUVolumeType, typename SegmentNormalsVolumeType = void > class VolumeFactoryLoader;
     }
 }
 
-#endif // CARNA_DICOM_H_6014714286
+#endif // CARNADICOM_H_3294808493
