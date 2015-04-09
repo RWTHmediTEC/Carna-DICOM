@@ -1,8 +1,8 @@
-#include <gdcm/gdcmDataSet.h>
-#include <gdcm/gdcmFile.h>
-#include <gdcm/gdcmImageReader.h>
-#include <gdcm/gdcmImage.h>
-#include <gdcm/gdcmAnonymizer.h>
+#include <gdcmDataSet.h>
+#include <gdcmFile.h>
+#include <gdcmImageReader.h>
+#include <gdcmImage.h>
+#include <gdcmAnonymizer.h>
 #include "dicom-interface/dicomImage.h"
 #include <climits>
 
@@ -47,7 +47,7 @@ DicomImage::DicomImage()
 DicomImage::DicomImage(std::string filename, bool bAnonymize)
 : _sdRefCounter(new short(1)), m_pRawImage(0), m_pUserImage(0), m_imageFlipped(false)
 {
-	open(filename, bAnonymize);
+    open(filename, bAnonymize);
 }
 
 
@@ -61,22 +61,22 @@ DicomImage::DicomImage(std::string filename, bool bAnonymize)
  */
 DicomImage::DicomImage(const DicomImage &source)
 :	_sdRefCounter(source._sdRefCounter),
-	m_iWidth(source.m_iWidth),
-	m_iHeight(source.m_iHeight),
-	m_bitsAllocated(source.m_bitsAllocated),
-	m_bitsStored(source.m_bitsStored),
-	m_dSpacingXY(source.m_dSpacingXY),
-	m_dSpacingZ(source.m_dSpacingZ),
-	m_recommendedWindowLevel(source.m_recommendedWindowLevel),
-	m_recommendedWindowWidth(source.m_recommendedWindowWidth),
-	m_currentWindowLevel(source.m_currentWindowLevel),
-	m_currentWindowWidth(source.m_currentWindowWidth),
-	m_imageFlipped(source.m_imageFlipped),
-	m_distanceSource2Detector(source.m_distanceSource2Detector),
-	m_pRawImage(source.m_pRawImage),
-	m_pUserImage(source.m_pUserImage)
+    m_iWidth(source.m_iWidth),
+    m_iHeight(source.m_iHeight),
+    m_bitsAllocated(source.m_bitsAllocated),
+    m_bitsStored(source.m_bitsStored),
+    m_dSpacingXY(source.m_dSpacingXY),
+    m_dSpacingZ(source.m_dSpacingZ),
+    m_recommendedWindowLevel(source.m_recommendedWindowLevel),
+    m_recommendedWindowWidth(source.m_recommendedWindowWidth),
+    m_currentWindowLevel(source.m_currentWindowLevel),
+    m_currentWindowWidth(source.m_currentWindowWidth),
+    m_imageFlipped(source.m_imageFlipped),
+    m_distanceSource2Detector(source.m_distanceSource2Detector),
+    m_pRawImage(source.m_pRawImage),
+    m_pUserImage(source.m_pUserImage)
 {
-	++*_sdRefCounter;
+    ++*_sdRefCounter;
 }
 
 
@@ -88,13 +88,13 @@ DicomImage::DicomImage(const DicomImage &source)
  */
 DicomImage::~DicomImage(void)
 {
-	if (--*_sdRefCounter == 0)
-	{
-		// Release image data
-		if (m_pRawImage != 0)	{	delete[] m_pRawImage;	}
-		if (m_pUserImage != 0)	{	delete[] m_pUserImage;	}
-		delete _sdRefCounter;
-	}
+    if (--*_sdRefCounter == 0)
+    {
+        // Release image data
+        if (m_pRawImage != 0)	{	delete[] m_pRawImage;	}
+        if (m_pUserImage != 0)	{	delete[] m_pUserImage;	}
+        delete _sdRefCounter;
+    }
 }
 
 
@@ -108,36 +108,36 @@ DicomImage::~DicomImage(void)
  */
 DicomImage& DicomImage::operator =(const DicomImage &rhs)
 {
-	// Check if this was the last reference on an existing image (actually, this is a simulated destructor)
-	if (--*_sdRefCounter == 0)
-	{
-		// Release image data
-		if (m_pRawImage != 0)	{	delete[] m_pRawImage;	}
-		if (m_pUserImage != 0)	{	delete[] m_pUserImage;	}
-		delete _sdRefCounter;
-	}
-	// Copy the class members
-	_sdRefCounter = rhs._sdRefCounter;
-	m_iWidth = rhs.m_iWidth;
-	m_iHeight = rhs.m_iHeight;
-	m_bitsAllocated = rhs.m_bitsAllocated;
-	m_bitsStored = rhs.m_bitsStored;
-	m_dSpacingXY = rhs.m_dSpacingXY;
-	m_dSpacingZ = rhs.m_dSpacingZ;
-	m_recommendedWindowLevel = rhs.m_recommendedWindowLevel;
-	m_recommendedWindowWidth = rhs.m_recommendedWindowWidth;
-	m_currentWindowLevel = rhs.m_currentWindowLevel;
-	m_currentWindowWidth = rhs.m_currentWindowWidth;
-	m_imageFlipped = rhs.m_imageFlipped;
-	m_distanceSource2Detector = rhs.m_distanceSource2Detector;
-	m_pRawImage = rhs.m_pRawImage;
-	m_pUserImage = rhs.m_pUserImage;
-	
-	// Increment counter as this object is now a new reference to the image data
-	++*_sdRefCounter;
+    // Check if this was the last reference on an existing image (actually, this is a simulated destructor)
+    if (--*_sdRefCounter == 0)
+    {
+        // Release image data
+        if (m_pRawImage != 0)	{	delete[] m_pRawImage;	}
+        if (m_pUserImage != 0)	{	delete[] m_pUserImage;	}
+        delete _sdRefCounter;
+    }
+    // Copy the class members
+    _sdRefCounter = rhs._sdRefCounter;
+    m_iWidth = rhs.m_iWidth;
+    m_iHeight = rhs.m_iHeight;
+    m_bitsAllocated = rhs.m_bitsAllocated;
+    m_bitsStored = rhs.m_bitsStored;
+    m_dSpacingXY = rhs.m_dSpacingXY;
+    m_dSpacingZ = rhs.m_dSpacingZ;
+    m_recommendedWindowLevel = rhs.m_recommendedWindowLevel;
+    m_recommendedWindowWidth = rhs.m_recommendedWindowWidth;
+    m_currentWindowLevel = rhs.m_currentWindowLevel;
+    m_currentWindowWidth = rhs.m_currentWindowWidth;
+    m_imageFlipped = rhs.m_imageFlipped;
+    m_distanceSource2Detector = rhs.m_distanceSource2Detector;
+    m_pRawImage = rhs.m_pRawImage;
+    m_pUserImage = rhs.m_pUserImage;
+    
+    // Increment counter as this object is now a new reference to the image data
+    ++*_sdRefCounter;
 
-	// Return this object for operator chaining
-	return (*this);
+    // Return this object for operator chaining
+    return (*this);
 }
 
 
@@ -150,14 +150,14 @@ The function OpenImage(std::string filename) opens Dicom formats
 */
 bool DicomImage::open(std::string filename, bool bAnonymize)
 {	
-	// read dicom files with the gdcm library
-	gdcm::ImageReader reader;   
-	reader.SetFileName( filename.c_str() );
-	if( !reader.Read() )
+    // read dicom files with the gdcm library
+    gdcm::ImageReader reader;   
+    reader.SetFileName( filename.c_str() );
+    if( !reader.Read() )
     {
-		return false;
+        return false;
     }
-	gdcm::File &file = reader.GetFile();
+    gdcm::File &file = reader.GetFile();
 
     if( bAnonymize )
     {
@@ -166,93 +166,93 @@ bool DicomImage::open(std::string filename, bool bAnonymize)
         anonymizer.RemovePrivateTags();
     }
 
-	const gdcm::DataSet dataset = file.GetDataSet();
-	const gdcm::Image &image = reader.GetImage();
-	unsigned int ndim = image.GetNumberOfDimensions();
-	const unsigned int *dims = image.GetDimensions();
-	
-	m_iWidth = dims[0];
-	m_iHeight = dims[1];
-	m_dSpacingXY = image.GetSpacing(0);
+    const gdcm::DataSet dataset = file.GetDataSet();
+    const gdcm::Image &image = reader.GetImage();
+    unsigned int ndim = image.GetNumberOfDimensions();
+    const unsigned int *dims = image.GetDimensions();
+    
+    m_iWidth = dims[0];
+    m_iHeight = dims[1];
+    m_dSpacingXY = image.GetSpacing(0);
     m_dSpacingZ = image.GetSpacing(2);
     m_dPositionZ = readPositionZ( dataset );
 
-	m_bitsAllocated = image.GetPixelFormat().GetBitsAllocated();
-	m_bitsStored = image.GetPixelFormat().GetBitsStored();
-	if (dataset(0x0018, 0x1110).GetByteValue())
-		m_distanceSource2Detector = atof(dataset(0x0018, 0x1110).GetByteValue()->GetPointer());
+    m_bitsAllocated = image.GetPixelFormat().GetBitsAllocated();
+    m_bitsStored = image.GetPixelFormat().GetBitsStored();
+    if (dataset(0x0018, 0x1110).GetByteValue())
+        m_distanceSource2Detector = atof(dataset(0x0018, 0x1110).GetByteValue()->GetPointer());
 
-	bool bRecommendedWindowExist = true;
-	if (dataset(0x0028, 0x1050).GetByteValue())
-		m_currentWindowLevel = m_recommendedWindowLevel = atoi(dataset(0x0028, 0x1050).GetByteValue()->GetPointer());
-	else
-		bRecommendedWindowExist = false;
-	if (dataset(0x0028, 0x1051).GetByteValue())
-		m_currentWindowWidth = m_recommendedWindowWidth = atoi(dataset(0x0028, 0x1051).GetByteValue()->GetPointer());
-	else
-		bRecommendedWindowExist = false;
+    bool bRecommendedWindowExist = true;
+    if (dataset(0x0028, 0x1050).GetByteValue())
+        m_currentWindowLevel = m_recommendedWindowLevel = atoi(dataset(0x0028, 0x1050).GetByteValue()->GetPointer());
+    else
+        bRecommendedWindowExist = false;
+    if (dataset(0x0028, 0x1051).GetByteValue())
+        m_currentWindowWidth = m_recommendedWindowWidth = atoi(dataset(0x0028, 0x1051).GetByteValue()->GetPointer());
+    else
+        bRecommendedWindowExist = false;
 
-	// Copy image data and prepare user image buffer
-	if (m_pRawImage != 0)
-		throw std::logic_error("Multiple calls of -open- are bad for the implicit data sharing. TODO: Get this to work! :-)");
-	m_pRawImage = new char[image.GetBufferLength()]; 
-	image.GetBuffer(m_pRawImage);
-	if (m_pUserImage != 0)
-		throw std::logic_error("Multiple calls of -open- are bad for the implicit data sharing. TODO: Get this to work! :-)");
-	m_pUserImage = new unsigned char[m_iWidth*m_iHeight];
+    // Copy image data and prepare user image buffer
+    if (m_pRawImage != 0)
+        throw std::logic_error("Multiple calls of -open- are bad for the implicit data sharing. TODO: Get this to work! :-)");
+    m_pRawImage = new char[image.GetBufferLength()]; 
+    image.GetBuffer(m_pRawImage);
+    if (m_pUserImage != 0)
+        throw std::logic_error("Multiple calls of -open- are bad for the implicit data sharing. TODO: Get this to work! :-)");
+    m_pUserImage = new unsigned char[m_iWidth*m_iHeight];
 
 
-	// adjust the pixel values in HU values and create the viewable representation
-	if (m_bitsAllocated == 8)
-	{
-		// If no recommended Windowing is stored, create a "full" window...
-		if (!bRecommendedWindowExist)
-		{
-			int iMax = INT_MIN;
-			int iMin = INT_MAX;
-			// Look at all pixels stored to find min/max values
-			for (int i = 0; i<m_iWidth*m_iHeight; i++) 
-			{
-				if (((short*)(m_pRawImage))[i] * image.GetSlope() + image.GetIntercept() < iMin)
-					iMin = ((short*)(m_pRawImage))[i] * image.GetSlope() + image.GetIntercept() + image.GetIntercept();
-				if (((short*)(m_pRawImage))[i] * image.GetSlope() + image.GetIntercept() > iMax)
-					iMax = ((short*)(m_pRawImage))[i] * image.GetSlope() + image.GetIntercept() + image.GetIntercept();
-			}
-			m_currentWindowLevel = iMin + (iMax-iMin)/2;
-			m_currentWindowWidth = iMax-iMin;
-		}
-		for (int i = 0; i<m_iWidth*m_iHeight; i++) 
-		{
-			m_pRawImage[i] = m_pRawImage[i] * image.GetSlope() + image.GetIntercept();
-			m_pUserImage[i] = getWindowedPixel(m_pRawImage[i], m_currentWindowLevel, m_currentWindowWidth);
-		}
-	}
-	else if (m_bitsAllocated == 16)
-	{
-		// If no recommended Windowing is stored, create a "full" window...
-		if (!bRecommendedWindowExist)
-		{
-			int iMax = INT_MIN;
-			int iMin = INT_MAX;
-			// Look at all pixels stored to find min/max values
-			for (int i = 0; i<m_iWidth*m_iHeight; i++) 
-			{
-				if (((short*)(m_pRawImage))[i] * image.GetSlope() + image.GetIntercept() < iMin)
-					iMin = ((short*)(m_pRawImage))[i] * image.GetSlope() + image.GetIntercept() + image.GetIntercept();
-				if (((short*)(m_pRawImage))[i] * image.GetSlope() + image.GetIntercept() > iMax)
-					iMax = ((short*)(m_pRawImage))[i] * image.GetSlope() + image.GetIntercept() + image.GetIntercept();
-			}
-			m_currentWindowLevel = iMin + (iMax-iMin)/2;
-			m_currentWindowWidth = iMax-iMin;
-		}
-		for (int i = 0; i<m_iWidth*m_iHeight; i++) 
-		{
-			((short*)(m_pRawImage))[i] = ((short*)(m_pRawImage))[i] * image.GetSlope() + image.GetIntercept(); 
-			m_pUserImage[i] = getWindowedPixel(((short*)(m_pRawImage))[i], m_currentWindowLevel, m_currentWindowWidth);
-		}
-	}
-	
-	return true;
+    // adjust the pixel values in HU values and create the viewable representation
+    if (m_bitsAllocated == 8)
+    {
+        // If no recommended Windowing is stored, create a "full" window...
+        if (!bRecommendedWindowExist)
+        {
+            int iMax = INT_MIN;
+            int iMin = INT_MAX;
+            // Look at all pixels stored to find min/max values
+            for (int i = 0; i<m_iWidth*m_iHeight; i++) 
+            {
+                if (((short*)(m_pRawImage))[i] * image.GetSlope() + image.GetIntercept() < iMin)
+                    iMin = ((short*)(m_pRawImage))[i] * image.GetSlope() + image.GetIntercept() + image.GetIntercept();
+                if (((short*)(m_pRawImage))[i] * image.GetSlope() + image.GetIntercept() > iMax)
+                    iMax = ((short*)(m_pRawImage))[i] * image.GetSlope() + image.GetIntercept() + image.GetIntercept();
+            }
+            m_currentWindowLevel = iMin + (iMax-iMin)/2;
+            m_currentWindowWidth = iMax-iMin;
+        }
+        for (int i = 0; i<m_iWidth*m_iHeight; i++) 
+        {
+            m_pRawImage[i] = m_pRawImage[i] * image.GetSlope() + image.GetIntercept();
+            m_pUserImage[i] = getWindowedPixel(m_pRawImage[i], m_currentWindowLevel, m_currentWindowWidth);
+        }
+    }
+    else if (m_bitsAllocated == 16)
+    {
+        // If no recommended Windowing is stored, create a "full" window...
+        if (!bRecommendedWindowExist)
+        {
+            int iMax = INT_MIN;
+            int iMin = INT_MAX;
+            // Look at all pixels stored to find min/max values
+            for (int i = 0; i<m_iWidth*m_iHeight; i++) 
+            {
+                if (((short*)(m_pRawImage))[i] * image.GetSlope() + image.GetIntercept() < iMin)
+                    iMin = ((short*)(m_pRawImage))[i] * image.GetSlope() + image.GetIntercept() + image.GetIntercept();
+                if (((short*)(m_pRawImage))[i] * image.GetSlope() + image.GetIntercept() > iMax)
+                    iMax = ((short*)(m_pRawImage))[i] * image.GetSlope() + image.GetIntercept() + image.GetIntercept();
+            }
+            m_currentWindowLevel = iMin + (iMax-iMin)/2;
+            m_currentWindowWidth = iMax-iMin;
+        }
+        for (int i = 0; i<m_iWidth*m_iHeight; i++) 
+        {
+            ((short*)(m_pRawImage))[i] = ((short*)(m_pRawImage))[i] * image.GetSlope() + image.GetIntercept(); 
+            m_pUserImage[i] = getWindowedPixel(((short*)(m_pRawImage))[i], m_currentWindowLevel, m_currentWindowWidth);
+        }
+    }
+    
+    return true;
 }
 
 //! Constructs a DICOM image from ultrasound image data
@@ -267,23 +267,23 @@ bool DicomImage::open(std::string filename, bool bAnonymize)
  */
 void DicomImage::buildFromUSData(int width, int height, unsigned char* imageData)
 {
-	m_iWidth = width;
-	m_iHeight = height;
-	m_bitsAllocated = 8;
-	m_bitsStored = 8;
-	m_dSpacingZ = 0;		
-	m_dSpacingXY = 1;		// May be something senseful after an ultrasound calibration
-	m_recommendedWindowLevel = 128;
-	m_recommendedWindowWidth = 128;
-	m_currentWindowLevel = 128;
-	m_currentWindowWidth = 128;
-	m_imageFlipped = false;
-	m_distanceSource2Detector = 0;
+    m_iWidth = width;
+    m_iHeight = height;
+    m_bitsAllocated = 8;
+    m_bitsStored = 8;
+    m_dSpacingZ = 0;		
+    m_dSpacingXY = 1;		// May be something senseful after an ultrasound calibration
+    m_recommendedWindowLevel = 128;
+    m_recommendedWindowWidth = 128;
+    m_currentWindowLevel = 128;
+    m_currentWindowWidth = 128;
+    m_imageFlipped = false;
+    m_distanceSource2Detector = 0;
 
-	m_pRawImage = new char[m_iWidth*m_iHeight];
-	memcpy(m_pRawImage, imageData, m_iWidth*m_iHeight);
-	m_pUserImage = new unsigned char[m_iWidth*m_iHeight];
-	memcpy(m_pUserImage, imageData, m_iWidth*m_iHeight);
+    m_pRawImage = new char[m_iWidth*m_iHeight];
+    memcpy(m_pRawImage, imageData, m_iWidth*m_iHeight);
+    m_pUserImage = new unsigned char[m_iWidth*m_iHeight];
+    memcpy(m_pUserImage, imageData, m_iWidth*m_iHeight);
 }
 
 /**
@@ -300,20 +300,20 @@ smaller then the full spectrum as from -1024 to 3071
 
 unsigned char DicomImage::getWindowedPixel(short iValue, int iWindowLevel, int iWindowWidth) 
 {
-	if (iValue < iWindowLevel-iWindowWidth/2) ///< if pixelvalue is smaller than lower window border, than return black (=0)
-	{
-		return 0;
-	}
-	
-	else if (iValue > iWindowLevel+iWindowWidth/2) ///< if pixelvalue is greater than upper window border, than return white (=255)
-	{
-		return 255;
-	}
-	  
-	else ///< else return a gray value between 0 and 255
-	{		 
-		return (iValue - (iWindowLevel-iWindowWidth/2)) * (255.0/(iWindowWidth-1));
-	}	
+    if (iValue < iWindowLevel-iWindowWidth/2) ///< if pixelvalue is smaller than lower window border, than return black (=0)
+    {
+        return 0;
+    }
+    
+    else if (iValue > iWindowLevel+iWindowWidth/2) ///< if pixelvalue is greater than upper window border, than return white (=255)
+    {
+        return 255;
+    }
+      
+    else ///< else return a gray value between 0 and 255
+    {		 
+        return (iValue - (iWindowLevel-iWindowWidth/2)) * (255.0/(iWindowWidth-1));
+    }	
 }
 
 /**
@@ -326,17 +326,17 @@ The function GetPixel returns the pixelvalue of the dicom image at the position 
 */
 int DicomImage::getPixel(int iX, int iY) 
 {
-	return ((short*)(m_pRawImage))[iX+iY*m_iWidth];
+    return ((short*)(m_pRawImage))[iX+iY*m_iWidth];
 }
 
 double DicomImage::getSpacingZ() const
 {
-	return m_dSpacingZ;
+    return m_dSpacingZ;
 }
 
 double DicomImage::getPositionZ() const
 {
-	return m_dPositionZ;
+    return m_dPositionZ;
 }
 
 void DicomImage::setPositionZ( const double& zPosition )
@@ -346,7 +346,7 @@ void DicomImage::setPositionZ( const double& zPosition )
 
 double DicomImage::getSpacingXY() const
 {
-	return m_dSpacingXY;
+    return m_dSpacingXY;
 }
 
 void DicomImage::setSpacingZ( double spacingZ )
@@ -367,7 +367,7 @@ void DicomImage::setSpacingZ( double spacingZ )
  */
 const unsigned char *DicomImage::getImage() const
 {
-	return m_pUserImage;
+    return m_pUserImage;
 }
 
 
@@ -386,8 +386,8 @@ const unsigned char *DicomImage::getImage() const
  */
 unsigned char *DicomImage::getImage()
 {
-	_checkDeepCopy();
-	return m_pUserImage;
+    _checkDeepCopy();
+    return m_pUserImage;
 }
 
 
@@ -403,7 +403,7 @@ unsigned char *DicomImage::getImage()
  */
 const char *DicomImage::getRawImage() const
 {
-	return m_pRawImage;
+    return m_pRawImage;
 }
 
 
@@ -421,8 +421,8 @@ const char *DicomImage::getRawImage() const
  */
 char *DicomImage::getRawImage()
 {
-	_checkDeepCopy();
-	return m_pRawImage;
+    _checkDeepCopy();
+    return m_pRawImage;
 }
 
 
@@ -434,21 +434,21 @@ char *DicomImage::getRawImage()
  */
 void DicomImage::_checkDeepCopy()
 {
-	if (*_sdRefCounter > 1)
-	{
-		// Multiple reference, deep copy image data
-		char *newRawImage = new char[m_iWidth*m_iHeight*m_bitsAllocated/8];
-		memcpy(m_pRawImage, newRawImage, m_iWidth*m_iHeight*m_bitsAllocated/8);
-		unsigned char *newUserImage = new unsigned char[m_iWidth*m_iHeight];
-		memcpy(m_pUserImage, newUserImage, m_iWidth*m_iHeight);
+    if (*_sdRefCounter > 1)
+    {
+        // Multiple reference, deep copy image data
+        char *newRawImage = new char[m_iWidth*m_iHeight*m_bitsAllocated/8];
+        memcpy(m_pRawImage, newRawImage, m_iWidth*m_iHeight*m_bitsAllocated/8);
+        unsigned char *newUserImage = new unsigned char[m_iWidth*m_iHeight];
+        memcpy(m_pUserImage, newUserImage, m_iWidth*m_iHeight);
 
-		// Change the data pointer in this instance
-		m_pRawImage = newRawImage;
-		m_pUserImage = newUserImage;
-		// Decrease ref counter and create a new for our own use as this is now an independent instance
-		--*_sdRefCounter;
-		_sdRefCounter = new short(1);
-	}
+        // Change the data pointer in this instance
+        m_pRawImage = newRawImage;
+        m_pUserImage = newUserImage;
+        // Decrease ref counter and create a new for our own use as this is now an independent instance
+        --*_sdRefCounter;
+        _sdRefCounter = new short(1);
+    }
 }
 
 
@@ -461,7 +461,7 @@ void DicomImage::_checkDeepCopy()
  */
 short DicomImage::getRecommendedWindowLevel()
 {
-	return m_recommendedWindowLevel;
+    return m_recommendedWindowLevel;
 }
 
 
@@ -474,7 +474,7 @@ short DicomImage::getRecommendedWindowLevel()
  */
 unsigned short DicomImage::getRecommendedWindowWidth()
 {
-	return m_recommendedWindowWidth;
+    return m_recommendedWindowWidth;
 }
 
 
@@ -487,7 +487,7 @@ unsigned short DicomImage::getRecommendedWindowWidth()
  */
 bool DicomImage::isFlipped()
 {
-	return m_imageFlipped;
+    return m_imageFlipped;
 }
 
 
@@ -500,7 +500,7 @@ bool DicomImage::isFlipped()
  */
 double DicomImage::getDistanceSource2Detector()
 {
-	return m_distanceSource2Detector;
+    return m_distanceSource2Detector;
 }
 
 
@@ -512,9 +512,9 @@ double DicomImage::getDistanceSource2Detector()
  */
 void DicomImage::resetWindowSettings()
 {
-	m_currentWindowLevel = m_recommendedWindowLevel;
-	m_currentWindowWidth = m_recommendedWindowWidth;
-	applyUserWindow();
+    m_currentWindowLevel = m_recommendedWindowLevel;
+    m_currentWindowWidth = m_recommendedWindowWidth;
+    applyUserWindow();
 }
 
 
@@ -527,24 +527,24 @@ void DicomImage::resetWindowSettings()
  */
 void DicomImage::applyUserWindow()
 {
-	if (m_bitsAllocated == 8)
-	{
-		for (int i = 0; i<m_iWidth*m_iHeight; i++) 
-		{
-			m_pUserImage[i] = getWindowedPixel(m_pRawImage[i], m_currentWindowLevel, m_currentWindowWidth);
-		}
-	}
-	else if (m_bitsAllocated == 16)
-	{
-		for (int i = 0; i<m_iWidth*m_iHeight; i++) 
-		{
-			m_pUserImage[i] = getWindowedPixel(((short*)(m_pRawImage))[i], m_currentWindowLevel, m_currentWindowWidth);
-		}
-	}
+    if (m_bitsAllocated == 8)
+    {
+        for (int i = 0; i<m_iWidth*m_iHeight; i++) 
+        {
+            m_pUserImage[i] = getWindowedPixel(m_pRawImage[i], m_currentWindowLevel, m_currentWindowWidth);
+        }
+    }
+    else if (m_bitsAllocated == 16)
+    {
+        for (int i = 0; i<m_iWidth*m_iHeight; i++) 
+        {
+            m_pUserImage[i] = getWindowedPixel(((short*)(m_pRawImage))[i], m_currentWindowLevel, m_currentWindowWidth);
+        }
+    }
 
-	// Flip image if necessary
-	if (m_imageFlipped)
-		flipUserImage();
+    // Flip image if necessary
+    if (m_imageFlipped)
+        flipUserImage();
 }
 
 
@@ -556,16 +556,16 @@ void DicomImage::applyUserWindow()
  */
 void DicomImage::flipUserImage()
 {
-	unsigned char swapPixel = 0;
-	for (int y = 0; y < m_iHeight; ++y)
-	{
-		for (int x = 0; x < m_iWidth/2; ++x)
-		{
-			swapPixel = m_pUserImage[y*m_iWidth + x];
-			m_pUserImage[y*m_iWidth + x] = m_pUserImage[(y+1)*m_iWidth - 1 - x];
-			m_pUserImage[(y+1)*m_iWidth - 1 - x] = swapPixel;
-		}
-	}
+    unsigned char swapPixel = 0;
+    for (int y = 0; y < m_iHeight; ++y)
+    {
+        for (int x = 0; x < m_iWidth/2; ++x)
+        {
+            swapPixel = m_pUserImage[y*m_iWidth + x];
+            m_pUserImage[y*m_iWidth + x] = m_pUserImage[(y+1)*m_iWidth - 1 - x];
+            m_pUserImage[(y+1)*m_iWidth - 1 - x] = swapPixel;
+        }
+    }
 }
 
 
@@ -576,7 +576,7 @@ void DicomImage::flipUserImage()
  */
 int DicomImage::getHeight() const
 {
-	return m_iHeight;
+    return m_iHeight;
 }
 
 
@@ -587,7 +587,7 @@ int DicomImage::getHeight() const
  */
 int DicomImage::getWidth() const
 {
-	return m_iWidth;
+    return m_iWidth;
 }
 
 
@@ -598,9 +598,9 @@ int DicomImage::getWidth() const
  */
 void DicomImage::setFlipped(bool enable)
 {
-	if (m_imageFlipped != enable)
-		flipUserImage();
-	m_imageFlipped = enable;
+    if (m_imageFlipped != enable)
+        flipUserImage();
+    m_imageFlipped = enable;
 }
 
 
@@ -611,7 +611,7 @@ void DicomImage::setFlipped(bool enable)
  */
 short DicomImage::getCurrentWindowLevel() const
 {
-	return m_currentWindowLevel;
+    return m_currentWindowLevel;
 }
 
 
@@ -622,7 +622,7 @@ short DicomImage::getCurrentWindowLevel() const
  */
 unsigned short DicomImage::getCurrentWindowWidth() const
 {
-	return m_currentWindowWidth;
+    return m_currentWindowWidth;
 }
 
 
@@ -635,11 +635,11 @@ unsigned short DicomImage::getCurrentWindowWidth() const
  */
 void DicomImage::setWindowLevel(short level)
 {
-	if (m_currentWindowLevel != level)
-	{
-		m_currentWindowLevel = level;
-		applyUserWindow();
-	}
+    if (m_currentWindowLevel != level)
+    {
+        m_currentWindowLevel = level;
+        applyUserWindow();
+    }
 }
 
 
@@ -652,11 +652,11 @@ void DicomImage::setWindowLevel(short level)
  */
 void DicomImage::setWindowWidth(unsigned short width)
 {
-	if (m_currentWindowWidth != width)
-	{
-		m_currentWindowWidth = width;
-		applyUserWindow();
-	}
+    if (m_currentWindowWidth != width)
+    {
+        m_currentWindowWidth = width;
+        applyUserWindow();
+    }
 }
 
 

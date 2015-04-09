@@ -1,7 +1,7 @@
-#include <gdcm/gdcmDataSet.h>
-#include <gdcm/gdcmFile.h>
-#include <gdcm/gdcmImageReader.h>
-#include <gdcm/gdcmImage.h>
+#include <gdcmDataSet.h>
+#include <gdcmFile.h>
+#include <gdcmImageReader.h>
+#include <gdcmImage.h>
 #include "dicom-interface/dicomSeries.h"
 #include "dicom-interface/dicomImage.h"
 #include <QDebug>

@@ -27,8 +27,6 @@ namespace Carna
 namespace dicom
 {
 
-class SeriesElement;
-
 
 
 // ----------------------------------------------------------------------------------
@@ -45,11 +43,6 @@ class CARNADICOM_LIB Series
 {
 
     NON_COPYABLE
-
-    /*
-    OrderedElements elements;
-    mutable double zSpacing;
-    */
     
     struct Details;
     const std::unique_ptr< Details > pimpl;
@@ -113,7 +106,7 @@ public:
     /** \brief
       * Makes the \a seriesElements become part of this series.
       */
-    void put( SeriesElement* seriesElement );
+    void putInto( SeriesElement* seriesElement );
 
     /** \brief
       * Tells the z-spacing between two neighbored \ref SeriesElement "series elements".

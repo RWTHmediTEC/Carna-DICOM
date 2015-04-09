@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef SERIESELEMENT_H_6014714286
-#define SERIESELEMENT_H_6014714286
+#ifndef SERIESELEMENT_H_3294808493
+#define SERIESELEMENT_H_3294808493
 
 /** \file   SeriesElement.h
   * \brief  Defines \ref Carna::dicom::SeriesElement.
@@ -21,16 +21,15 @@
 #include <Carna/base/noncopyable.h>
 #include <string>
 
+#if CARNAQT_ENABLED
 class QImage;
+#endif
 
 namespace Carna
 {
 
 namespace dicom
 {
-
-class Series;
-class DicomImage;
 
 
 
@@ -47,48 +46,44 @@ class CARNADICOM_LIB SeriesElement
 {
 
     NON_COPYABLE
-
-    /*
-    mutable std::unique_ptr< DicomImage > dicomImage;
-    const Series* series;
-     */
     
     struct Details;
     const std::unique_ptr< Details > pimpl;
 
 public:
 
-    /** \brief  Instantiates with given arguments.
+    /** \brief
+      * Instantiates.
       */
-    SeriesElement( const std::string&, double zPosition );
+    SeriesElement( const std::string& fileName, double zPosition );
 
-    /** \brief  Releases this \ref SeriesElement "series' elements".
+    /** \brief
+      * Deletes series' elements.
       */
     ~SeriesElement();
 
-
-    /** \brief  Holds the path of the represented DICOM image file.
+    /** \brief
+      * Holds the path of the represented DICOM image file.
       */
     const std::string fileName;
 
-    /** \brief  Holds the z-position of the represented DICOM image.
+    /** \brief
+      * Holds the z-position of the represented DICOM image.
       */
     const double zPosition;
 
-
-    /** \brief  References the represented DICOM image.
+    /** \brief
+      * References the represented DICOM image.
       */
     const DicomImage& dicomImage() const;
 
+#if CARNAQT_ENABLED
     /** \brief  Creates and returns new \c QImage object that contains the represented DICOM image.
       */
     QImage* createImage( unsigned int maxWidth, unsigned int maxHeight ) const;
+#endif
 
-    /** \cond 0
-    */
-    void setSeries( const Series& );
-    /** \endcond
-      */
+    void setSeries( Series& series );
 
 }; // SeriesElement
 
@@ -98,4 +93,4 @@ public:
 
 }  // namespace Carna
 
-#endif // SERIESELEMENT_H_6014714286
+#endif // SERIESELEMENT_H_3294808493

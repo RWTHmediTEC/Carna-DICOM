@@ -11,11 +11,15 @@
 
 #include <Carna/dicom/SeriesElement.h>
 #include <Carna/dicom/Series.h>
-#include <Carna/base/Math.h>
+#include <Carna/base/math.h>
 #include <Carna/base/CarnaException.h>
 #include <dicom-interface/dicomImage.h>
+#include <algorithm>
+
+#if CARNAQT_ENABLED
 #include <QImage>
 #include <QColor>
+#endif
 
 namespace Carna
 {
@@ -26,13 +30,31 @@ namespace dicom
 
 
 // ----------------------------------------------------------------------------------
+// SeriesElement :: Details
+// ----------------------------------------------------------------------------------
+
+struct SeriesElement :: Details
+{
+    Details();
+    std::unique_ptr< DicomImage > dicomImage;
+    const Series* series;
+};
+
+
+SeriesElement::Details::Details()
+    : series( nullptr )
+{
+}
+
+
+
+// ----------------------------------------------------------------------------------
 // SeriesElement
 // ----------------------------------------------------------------------------------
 
 SeriesElement::SeriesElement( const std::string& fileName, double zPosition )
     : fileName( fileName )
     , zPosition( zPosition )
-    , series( nullptr )
 {
 }
 
@@ -42,24 +64,24 @@ SeriesElement::~SeriesElement()
 }
 
 
-const DicomImage& SeriesElement::getDicomImage() const
+const DicomImage& SeriesElement::dicomImage() const
 {
-    CARNA_ASSERT( series != nullptr );
-
-    if( dicomImage.get() == nullptr )
+    CARNA_ASSERT( pimpl->series != nullptr );
+    if( pimpl->dicomImage.get() == nullptr )
     {
-        dicomImage.reset( new DicomImage( fileName ) );
-        dicomImage->setPositionZ( this->zPosition );
-        dicomImage->setSpacingZ( series->getSpacingZ() );
+        pimpl->dicomImage.reset( new DicomImage( fileName ) );
+        pimpl->dicomImage->setPositionZ( this->zPosition );
+        pimpl->dicomImage->setSpacingZ( pimpl->series->spacingZ() );
     }
 
-    return *dicomImage;
+    return *pimpl->dicomImage;
 }
 
 
+#if CARNAQT_ENABLED
 QImage* SeriesElement::createImage( unsigned int max_width, unsigned int max_height ) const
 {
-    const DicomImage& dicomImage = getDicomImage();
+    const DicomImage& dicomImage = this->dicomImage();
 
     const unsigned int width = std::min( static_cast< unsigned >( dicomImage.getWidth() ), max_width );
     const unsigned int height = std::min( static_cast< unsigned >( dicomImage.getHeight() ), max_height );
@@ -87,7 +109,7 @@ QImage* SeriesElement::createImage( unsigned int max_width, unsigned int max_hei
             const unsigned int src_y_int = std::min( static_cast< unsigned int >( src_y + 0.5 ), static_cast< unsigned int >( dicomImage.getHeight() - 1 ) );
 
             const int huv = const_cast< DicomImage& >( dicomImage ).getPixel( src_x_int, src_y_int );
-            const int i = base::Math::clamp( ( ( huv + 1024 ) * 256 ) / 4096, 0, 255 );
+            const int i = base::math::clamp< int >( ( ( huv + 1024 ) * 256 ) / 4096, 0, 255 );
             
             image->setPixel( dst_x, dst_y, i );
         }
@@ -95,11 +117,17 @@ QImage* SeriesElement::createImage( unsigned int max_width, unsigned int max_hei
 
     return image;
 }
+#endif
 
 
-void SeriesElement::setSeries(  const Series& series )
+void SeriesElement::setSeries( Series& series )
 {
-    this->series = &series;
+    if( &series != pimpl->series )
+    {
+        CARNA_ASSERT_EX( pimpl->series == nullptr, "This element already belongs to another series." );
+        pimpl->series = &series;
+        series.putInto( this );
+    }
 }
 
 

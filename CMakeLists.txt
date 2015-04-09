@@ -100,8 +100,21 @@ find_package( Carna 3.0.1 REQUIRED )
 include_directories( ${CARNA_INCLUDE_DIR} )
 
 # CarnaQt
-find_package( CarnaQt 1.0.0 REQUIRED )
+find_package( CarnaQt 1.0.0 )
 include_directories( ${CARNAQT_INCLUDE_DIR} )
+
+############################################
+# Enable/disable CarnaQt support
+############################################
+
+if( CARNAQT_FOUND )
+	add_definitions( -DCARNAQT_ENABLED )
+	set( CARNAQT_ENABLED 1 )
+else()
+	set( CARNAQT_ENABLED 0 )
+endif()
+configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/misc/CarnaDICOM.h.in
+                ${CMAKE_CURRENT_SOURCE_DIR}/include/Carna/dicom/CarnaDICOM.h @ONLY)
 
 ############################################
 # Project
@@ -116,6 +129,8 @@ set( PUBLIC_HEADERS
 		include/Carna/dicom/CarnaDICOM.h
 		include/Carna/dicom/Series.h
 		include/Carna/dicom/SeriesElement.h
+		include/Carna/dicom/Patient.h
+		include/Carna/dicom/Study.h
     )
 include_directories(${CMAKE_PROJECT_DIR}src/include)
 set( PRIVATE_QOBJECT_HEADERS
@@ -123,8 +138,6 @@ set( PRIVATE_QOBJECT_HEADERS
 )
 set( PRIVATE_HEADERS
         ${PRIVATE_QOBJECT_HEADERS}
-		src/include/Carna/dicom/Patient.h
-		src/include/Carna/dicom/Study.h
 		src/include/dicom-interface/dicomImage.h
 		src/include/dicom-interface/dicomSeries.h
     )
@@ -147,6 +160,10 @@ set( DOC_SRC
         src/doc/doc_extra.css
         src/doc/doc_main.dox
         src/doc/doc_version_log.dox
+    )
+set( MISC
+        misc/${PROJECT_NAME}.h.in
+        misc/Version.h.in
     )
 
 ############################################
@@ -186,6 +203,7 @@ set_source_files_properties(    ${SRC}
                                 ${FORMS_HEADERS}
                                 ${RESOURCES_RCC}
                                 ${DOC_SRC}
+								${MISC}
     PROPERTIES
     HEADER_FILE_ONLY TRUE )
 
@@ -220,6 +238,7 @@ add_library( ${TARGET_NAME} SHARED
             ${FORMS_HEADERS}
             ${RESOURCES_RCC}
             ${DOC_SRC}
+            ${MISC}
         )
 
 add_definitions( -D${PROJECT_NAME_CAPS}_EXPORT -DNOMINMAX )
