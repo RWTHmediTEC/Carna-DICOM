@@ -1,0 +1,40 @@
+namespace Carna
+{
+
+/** \mainpage
+  *
+  * %Carna provides classes for simple and fast visualization of CT data. It is named
+  * after the greek god of organs (yup, they really did have even one for organs). It
+  * is based on OpenGL 3.3 and Eigen 3.
+  *
+  * This package provides auxiliary classes for using %Carna ≥3.0.0 with Qt ≥4.8.
+  *
+  * \see \ref VersionLog
+  *
+  * \section QuickStart Quick Start
+  *
+  * The following examples are also available as demos that you can run:
+  *
+  *   - The \ref DRRControlExample "DRRControl" defines a widget that controls
+  *     `presets::DRR` parameters.
+  *   - The \ref DVRControlExample "DVRControl" controls lighting and colormap for
+  *     `presets::DVR` volume renderings.
+  *   - The \ref MIPControlExample "MIPControl" implements a widget that allows to
+  *     manage the `presets::MIPLayer` objects of an `presets::MIPStage` instance.
+  *   - There is a \ref MPRMinimalExample "minimal" and an
+  *     \ref MPRExtendedExample "extended" example on *multiplanar reformats*.
+  *   - The \ref WindowingControlExample "WindowingControl" defines a widget that
+  *     controls the HU windowing of diverse other components.
+  *
+  * Other classes that this package provides:
+  *
+  *   - The \ref qt::Display class is utilized by all the examples above.
+  *   - The \ref qt::ColorPicker and \ref qt::WideColorPicker widgets let the user
+  *     choose colors.
+  *   - The widget \ref qt::ExpandableGroupBox is a container that can hide its
+  *     contents in order to save UI space.
+  *   - The \ref qt::SpatialListModel can be used with `%QComboBox` for example to
+  *     let the user choose `base::Spatial` objects from a list.
+  */
+
+}
