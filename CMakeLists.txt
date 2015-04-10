@@ -131,6 +131,7 @@ set( PUBLIC_HEADERS
 		include/Carna/dicom/SeriesElement.h
 		include/Carna/dicom/Patient.h
 		include/Carna/dicom/Study.h
+		include/Carna/dicom/Directory.h
     )
 include_directories(${CMAKE_PROJECT_DIR}src/include)
 set( PRIVATE_QOBJECT_HEADERS
@@ -140,12 +141,14 @@ set( PRIVATE_HEADERS
         ${PRIVATE_QOBJECT_HEADERS}
 		src/include/dicom-interface/dicomImage.h
 		src/include/dicom-interface/dicomSeries.h
+		src/include/msvcpp/dirent.h
     )
 set( SRC
 		src/dicom/Patient.cpp
 		src/dicom/Series.cpp
 		src/dicom/SeriesElement.cpp
 		src/dicom/Study.cpp
+		src/dicom/Directory.cpp
 		src/dicom-interface/dicomImage.cpp
 		src/dicom-interface/dicomSeries.cpp
     )

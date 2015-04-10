@@ -76,13 +76,13 @@ const Series::OrderedElements& Series::elements() const
 }
 
 
-void Series::putInto( SeriesElement* element )
+void Series::take( SeriesElement* element )
 {
     const std::size_t previousSize = pimpl->elements.size();
     pimpl->elements.insert( element );
     if( previousSize != pimpl->elements.size() )
     {
-        element->setSeries( *this );
+        element->putInto( *this );
         pimpl->zSpacing = Details::SPACING_DIRTY;
     }
 }

@@ -106,7 +106,7 @@ public:
     /** \brief
       * Makes the \a seriesElements become part of this series.
       */
-    void putInto( SeriesElement* seriesElement );
+    void take( SeriesElement* seriesElement );
 
     /** \brief
       * Tells the z-spacing between two neighbored \ref SeriesElement "series elements".

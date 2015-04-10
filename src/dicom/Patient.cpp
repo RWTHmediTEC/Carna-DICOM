@@ -12,6 +12,7 @@
 #include <Carna/dicom/Patient.h>
 #include <Carna/dicom/Study.h>
 #include <algorithm>
+#include <map>
 
 namespace Carna
 {
@@ -28,6 +29,7 @@ namespace dicom
 struct Patient::Details
 {
     std::vector< Study* > studies;
+    std::map< std::string, Study* > studyByName;
 };
 
 
@@ -55,9 +57,20 @@ const std::vector< Study* >& Patient::studies() const
 }
 
 
-void Patient::put( Study* study )
+Study& Patient::study( const std::string& name )
 {
-    pimpl->studies.push_back( study );
+    const auto itr = pimpl->studyByName.find( name );
+    if( itr == pimpl->studyByName.end() )
+    {
+        Study* const study = new Study( name );
+        pimpl->studyByName[ name ] = study;
+        pimpl->studies.push_back( study );
+        return *study;
+    }
+    else
+    {
+        return *itr->second;
+    }
 }
 
 

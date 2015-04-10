@@ -83,7 +83,7 @@ public:
     QImage* createImage( unsigned int maxWidth, unsigned int maxHeight ) const;
 #endif
 
-    void setSeries( Series& series );
+    void putInto( Series& series );
 
 }; // SeriesElement
 

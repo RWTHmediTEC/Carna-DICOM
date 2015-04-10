@@ -12,6 +12,7 @@
 #include <Carna/dicom/Study.h>
 #include <Carna/dicom/Series.h>
 #include <algorithm>
+#include <map>
 
 namespace Carna
 {
@@ -28,6 +29,7 @@ namespace dicom
 struct Study::Details
 {
     std::vector< Series* > series;
+    std::map< std::string, Series* > seriesByName;
 };
 
 
@@ -55,9 +57,20 @@ const std::vector< Series* >& Study::series() const
 }
 
 
-void Study::put( Series* series )
+Series& Study::series( const std::string& name )
 {
-    pimpl->series.push_back( series );
+    const auto itr = pimpl->seriesByName.find( name );
+    if( itr == pimpl->seriesByName.end() )
+    {
+        Series* const series = new Series( name );
+        pimpl->seriesByName[ name ] = series;
+        pimpl->series.push_back( series );
+        return *series;
+    }
+    else
+    {
+        return *itr->second;
+    }
 }
 
 

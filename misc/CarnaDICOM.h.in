@@ -62,6 +62,7 @@ namespace Carna
         class VolumeGridFactoryBase;
         class Study;
         class Patient;
+        class Directory;
         
         template< typename SegmentHUVolumeType, typename SegmentNormalsVolumeType = void > class VolumeFactoryLoader;
     }

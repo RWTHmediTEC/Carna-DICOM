@@ -62,16 +62,9 @@ public:
 
     const std::vector< Series* >& series() const;
 
-    void put( Series* );
+    Series& series( const std::string& name );
 
 }; // Study
-
-
-inline Study& operator<<( Study& study, Series* series )
-{
-    study.put( series );
-    return study;
-}
 
 
 

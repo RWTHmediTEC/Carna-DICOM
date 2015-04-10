@@ -120,13 +120,13 @@ QImage* SeriesElement::createImage( unsigned int max_width, unsigned int max_hei
 #endif
 
 
-void SeriesElement::setSeries( Series& series )
+void SeriesElement::putInto( Series& series )
 {
     if( &series != pimpl->series )
     {
         CARNA_ASSERT_EX( pimpl->series == nullptr, "This element already belongs to another series." );
         pimpl->series = &series;
-        series.putInto( this );
+        series.take( this );
     }
 }
 
