@@ -11,6 +11,7 @@
 
 #include <Carna/dicom/Study.h>
 #include <Carna/dicom/Series.h>
+#include <algorithm>
 
 namespace Carna
 {
@@ -21,30 +22,42 @@ namespace dicom
 
 
 // ----------------------------------------------------------------------------------
+// Study :: Details
+// ----------------------------------------------------------------------------------
+
+struct Study::Details
+{
+    std::vector< Series* > series;
+};
+
+
+
+// ----------------------------------------------------------------------------------
 // Study
 // ----------------------------------------------------------------------------------
 
 Study::Study( const std::string& name )
-    : name( name )
+    : pimpl( new Details() )
+    , name( name )
 {
 }
 
 
 Study::~Study()
 {
-    std::for_each( series.begin(), series.end(), std::default_delete< Series >() );
+    std::for_each( pimpl->series.begin(), pimpl->series.end(), std::default_delete< Series >() );
 }
 
 
-const std::deque< Series* >& Study::getSeries() const
+const std::vector< Series* >& Study::series() const
 {
-    return series;
+    return pimpl->series;
 }
 
 
 void Study::put( Series* series )
 {
-    this->series.push_back( series );
+    pimpl->series.push_back( series );
 }
 
 

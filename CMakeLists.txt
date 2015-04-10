@@ -241,7 +241,7 @@ add_library( ${TARGET_NAME} SHARED
             ${MISC}
         )
 
-add_definitions( -D${PROJECT_NAME_CAPS}_EXPORT -DNOMINMAX )
+add_definitions( -D${PROJECT_NAME_CAPS}_EXPORT -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS )
 
 ############################################
 # Add dependencies to the linker
@@ -250,10 +250,10 @@ add_definitions( -D${PROJECT_NAME_CAPS}_EXPORT -DNOMINMAX )
 include( "misc/compiler_specific.cmake" )
 
 target_link_libraries( ${TARGET_NAME}
-            ${OPENGL_LIBRARIES}
             ${CARNA_LIBRARIES}
             ${CARNAQT_LIBRARIES}
             ${QT_LIBRARIES}
+			${GDCM_LIBRARIES}
         )
 
 ############################################

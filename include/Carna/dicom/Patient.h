@@ -9,16 +9,16 @@
  *
  */
 
-#ifndef PATIENT_H_6014714286
-#define PATIENT_H_6014714286
+#ifndef PATIENT_H_3294808493
+#define PATIENT_H_3294808493
 
 /** \file   Patient.h
   * \brief  Defines \ref Carna::dicom::Patient.
   */
 
-#include <Carna/Carna.h>
+#include <Carna/dicom/CarnaDICOM.h>
 #include <Carna/base/noncopyable.h>
-#include <deque>
+#include <vector>
 
 namespace Carna
 {
@@ -26,46 +26,43 @@ namespace Carna
 namespace dicom
 {
 
-class Study;
-
 
 
 // ----------------------------------------------------------------------------------
 // Patient
 // ----------------------------------------------------------------------------------
 
-/** \brief  Represents an unordered set of studies.
+/** \brief
+  * Represents an unordered set of \ref Study "studies".
   *
   * \author Leonid Kostrykin
-  * \date   1.10.12
+  * \date   1.10.12 - 10.4.15
   */
 class Patient
 {
 
     NON_COPYABLE
 
+    struct Details;
+    const std::unique_ptr< Details > pimpl;
+
 public:
 
-    /** \brief  Instantiates.
+    /** \brief
+      * Instantiates.
       */
     explicit Patient( const std::string& name );
 
-    /** \brief  Releases acquired resources.
+    /** \brief
+      * Deletes studies.
       */
     ~Patient();
 
-
     const std::string name;
 
-
-    const std::deque< Study* >& getStudies() const;
+    const std::vector< Study* >& studies() const;
 
     void put( Study* );
-
-
-private:
-
-    std::deque< Study* > studies;
 
 }; // Patient
 
@@ -82,4 +79,4 @@ inline Patient& operator<<( Patient& patient, Study* study )
 
 }  // namespace Carna
 
-#endif // PATIENT_H_6014714286
+#endif // PATIENT_H_3294808493

@@ -9,16 +9,16 @@
  *
  */
 
-#ifndef STUDY_H_6014714286
-#define STUDY_H_6014714286
+#ifndef STUDY_H_3294808493
+#define STUDY_H_3294808493
 
 /** \file   Study.h
   * \brief  Defines \ref Carna::dicom::Study.
   */
 
-#include <Carna/Carna.h>
+#include <Carna/dicom/CarnaDICOM.h>
 #include <Carna/base/noncopyable.h>
-#include <deque>
+#include <vector>
 
 namespace Carna
 {
@@ -26,46 +26,43 @@ namespace Carna
 namespace dicom
 {
 
-class Series;
-
 
 
 // ----------------------------------------------------------------------------------
 // Study
 // ----------------------------------------------------------------------------------
 
-/** \brief  Represents an unordered set of series.
+/** \brief
+  * Represents an unordered set of \ref Series "series".
   *
   * \author Leonid Kostrykin
-  * \date   1.10.12
+  * \date   1.10.12 - 10.4.15
   */
 class Study
 {
 
     NON_COPYABLE
 
+    struct Details;
+    const std::unique_ptr< Details > pimpl;
+
 public:
 
-    /** \brief  Instantiates.
+    /** \brief
+      * Instantiates.
       */
     explicit Study( const std::string& name );
 
-    /** \brief  Releases acquired resources.
+    /** \brief
+      * Deletes series.
       */
     ~Study();
 
-
     const std::string name;
 
-
-    const std::deque< Series* >& getSeries() const;
+    const std::vector< Series* >& series() const;
 
     void put( Series* );
-
-
-private:
-
-    std::deque< Series* > series;
 
 }; // Study
 
@@ -82,4 +79,4 @@ inline Study& operator<<( Study& study, Series* series )
 
 }  // namespace Carna
 
-#endif // STUDY_H_6014714286
+#endif // STUDY_H_3294808493

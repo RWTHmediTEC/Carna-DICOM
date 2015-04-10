@@ -11,6 +11,7 @@
 
 #include <Carna/dicom/Patient.h>
 #include <Carna/dicom/Study.h>
+#include <algorithm>
 
 namespace Carna
 {
@@ -21,30 +22,42 @@ namespace dicom
 
 
 // ----------------------------------------------------------------------------------
+// Patient :: Details
+// ----------------------------------------------------------------------------------
+
+struct Patient::Details
+{
+    std::vector< Study* > studies;
+};
+
+
+
+// ----------------------------------------------------------------------------------
 // Patient
 // ----------------------------------------------------------------------------------
 
 Patient::Patient( const std::string& name )
-    : name( name )
+    : pimpl( new Details() )
+    , name( name )
 {
 }
 
 
 Patient::~Patient()
 {
-    std::for_each( studies.begin(), studies.end(), std::default_delete< Study >() );
+    std::for_each( pimpl->studies.begin(), pimpl->studies.end(), std::default_delete< Study >() );
 }
 
 
-const std::deque< Study* >& Patient::getStudies() const
+const std::vector< Study* >& Patient::studies() const
 {
-    return studies;
+    return pimpl->studies;
 }
 
 
 void Patient::put( Study* study )
 {
-    studies.push_back( study );
+    pimpl->studies.push_back( study );
 }
 
 

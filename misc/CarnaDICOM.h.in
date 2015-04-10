@@ -40,6 +40,10 @@
 // Enabled Features
 // ----------------------------------------------------------------------------------
 
+/** \brief
+  * Defines whether this build of CarnaDICOM supports CarnaQt. The value of this
+  * macro is set by CMake.
+  */
 #define CARNAQT_ENABLED @CARNAQT_ENABLED@
 
 
@@ -56,6 +60,8 @@ namespace Carna
         class Series;
         class SeriesElement;
         class VolumeGridFactoryBase;
+        class Study;
+        class Patient;
         
         template< typename SegmentHUVolumeType, typename SegmentNormalsVolumeType = void > class VolumeFactoryLoader;
     }

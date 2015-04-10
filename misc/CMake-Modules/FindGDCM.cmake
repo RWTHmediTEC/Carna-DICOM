@@ -203,8 +203,8 @@ find_package_handle_standard_args( GDCM
 # use RELEASE builds for both 'optmized' and 'debug' if the DEBUG builds have not
 # been found, e.g. as it is usual on Linux systems
 macro( set_if_not_set_yet var value )
-    if( NOT DEFINED var )
-        set(${var} ${value})
+    if( NOT DEFINED var AND DEFINED value )
+        set(var ${value})
     endif()
 endmacro()
 
@@ -222,6 +222,13 @@ set_if_not_set_yet( GDCM_LIBRARY_GETOPT_DEBUG   GDCM_LIBRARY_GETOPT_RELEASE )
 set_if_not_set_yet( GDCM_LIBRARY_JPEG16_DEBUG   GDCM_LIBRARY_JPEG16_RELEASE )
 set_if_not_set_yet( GDCM_LIBRARY_OPENJPEG_DEBUG GDCM_LIBRARY_OPENJPEG_RELEASE )
 
+# set-up additional dependencies on Windows systems
+if( WIN32 )
+	set( GDCM_EXTRA_DEPENDENCY_LIBRARIES Ws2_32 rpcrt4 )
+else()
+	set( GDCM_EXTRA_DEPENDENCY_LIBRARIES "" )
+endif()
+
 # set paths to library files
 if( GDCM_FOUND )
 	set( GDCM_LIBRARIES
@@ -237,5 +244,6 @@ if( GDCM_FOUND )
 			optimized	${GDCM_LIBRARY_CHARLS_RELEASE}		debug	${GDCM_LIBRARY_CHARLS_DEBUG}
 			optimized	${GDCM_LIBRARY_GETOPT_RELEASE}		debug	${GDCM_LIBRARY_GETOPT_DEBUG}
 			optimized	${GDCM_LIBRARY_JPEG16_RELEASE}		debug	${GDCM_LIBRARY_JPEG16_DEBUG}
-			optimized	${GDCM_LIBRARY_OPENJPEG_RELEASE}	debug	${GDCM_LIBRARY_OPENJPEG_DEBUG} )
+			optimized	${GDCM_LIBRARY_OPENJPEG_RELEASE}	debug	${GDCM_LIBRARY_OPENJPEG_DEBUG}
+			${GDCM_EXTRA_DEPENDENCY_LIBRARIES} )
 endif()
