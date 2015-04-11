@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2010 - 2014 Leonid Kostrykin
+ *  Copyright (C) 2010 - 2015 Leonid Kostrykin
  *
  *  Chair of Medical Engineering (mediTEC)
  *  RWTH Aachen University
@@ -9,8 +9,9 @@
  *
  */
 
-#ifndef TOGGLESERIESPREVIEW_H_6014714286
-#define TOGGLESERIESPREVIEW_H_6014714286
+#ifndef TOGGLESERIESPREVIEW_H_3294808493
+#define TOGGLESERIESPREVIEW_H_3294808493
+#if !CARNAQT_DISABLED
 
 /** \file   ToggleSeriesPreview.h
   * \brief  Defines \ref Carna::dicom::ToggleSeriesPreview.
@@ -37,24 +38,23 @@ class ToggleSeriesPreview : public SeriesPreview
 
 public:
 
-    /** \brief  Instantiates.
+    /** \brief
+      * Instantiates.
       */
     explicit ToggleSeriesPreview( QWidget* parent = nullptr );
 
-    /** \brief  Releases acquired resources.
+    /** \brief
+      * Deletes.
       */
     virtual ~ToggleSeriesPreview();
 
-    
     bool isToggled() const;
-
 
 public slots:
 
     void setToggled( bool );
 
     void toggle();
-
 
 signals:
 
@@ -68,13 +68,11 @@ signals:
 
     void doubleClicked( Carna::dicom::ToggleSeriesPreview& );
 
-
 protected:
 
     virtual void mousePressEvent( QMouseEvent* ) override;
 
     virtual void mouseDoubleClickEvent( QMouseEvent* ) override;
-
 
 private:
 
@@ -88,4 +86,5 @@ private:
 
 }  // namespace Carna
 
-#endif // TOGGLESERIESPREVIEW_H_6014714286
+#endif // CARNAQT_DISABLED
+#endif // TOGGLESERIESPREVIEW_H_3294808493

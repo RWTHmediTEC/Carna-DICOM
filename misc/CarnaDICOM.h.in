@@ -47,6 +47,17 @@
 #define CARNAQT_ENABLED @CARNAQT_ENABLED@
 
 
+/** \cond 0
+  */
+#if CARNAQT_ENABLED
+#   define CARNAQT_DISABLED 0
+#else
+#   define CARNAQT_DISABLED 1
+#endif
+/** \endcond
+  */
+
+
 
 // ----------------------------------------------------------------------------------
 // Forward Declarations
@@ -63,6 +74,12 @@ namespace Carna
         class Study;
         class Patient;
         class Directory;
+
+#if CARNAQT_ENABLED
+        class SeriesView;
+        class SeriesPreview;
+        class ToggleSeriesPreview;
+#endif
         
         template< typename SegmentHUVolumeType, typename SegmentNormalsVolumeType = void > class VolumeFactoryLoader;
     }

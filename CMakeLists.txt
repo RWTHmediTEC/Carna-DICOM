@@ -83,7 +83,7 @@ configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/misc/Find${PROJECT_NAME}.cmake.in
 ############################################
 
 # Qt
-find_package( Qt4 4.8.0 COMPONENTS QtCore QtGui QtOpenGL QtXml REQUIRED )
+find_package( Qt4 4.8.0 COMPONENTS QtCore QtGui )
 include( ${QT_USE_FILE} )
 add_definitions( ${QT_DEFINITIONS} )
 
@@ -100,15 +100,14 @@ find_package( Carna 3.0.1 REQUIRED )
 include_directories( ${CARNA_INCLUDE_DIR} )
 
 # CarnaQt
-find_package( CarnaQt 1.0.0 )
+find_package( CarnaQt 1.0.1 )
 include_directories( ${CARNAQT_INCLUDE_DIR} )
 
 ############################################
 # Enable/disable CarnaQt support
 ############################################
 
-if( CARNAQT_FOUND )
-	add_definitions( -DCARNAQT_ENABLED )
+if( QT_FOUND AND CARNAQT_FOUND )
 	set( CARNAQT_ENABLED 1 )
 else()
 	set( CARNAQT_ENABLED 0 )
@@ -135,7 +134,9 @@ set( PUBLIC_HEADERS
     )
 include_directories(${CMAKE_PROJECT_DIR}src/include)
 set( PRIVATE_QOBJECT_HEADERS
-        ""
+        src/include/Carna/dicom/SeriesView.h
+        src/include/Carna/dicom/SeriesPreview.h
+        src/include/Carna/dicom/ToggleSeriesPreview.h
 )
 set( PRIVATE_HEADERS
         ${PRIVATE_QOBJECT_HEADERS}
@@ -149,6 +150,9 @@ set( SRC
 		src/dicom/SeriesElement.cpp
 		src/dicom/Study.cpp
 		src/dicom/Directory.cpp
+		src/dicom/SeriesView.cpp
+		src/dicom/SeriesPreview.cpp
+		src/dicom/ToggleSeriesPreview.cpp
 		src/dicom-interface/dicomImage.cpp
 		src/dicom-interface/dicomSeries.cpp
     )
@@ -171,10 +175,23 @@ set( MISC
 
 ############################################
 
-QT4_WRAP_CPP( PUBLIC_HEADERS_MOC ${PUBLIC_QOBJECT_HEADERS} )
-QT4_WRAP_CPP( PRIVATE_HEADERS_MOC ${PRIVATE_QOBJECT_HEADERS} )
-QT4_WRAP_UI( FORMS_HEADERS ${FORMS} )
-QT4_ADD_RESOURCES( RESOURCES_RCC ${RESOURCES} )
+if( QT_FOUND )
+	QT4_WRAP_CPP( PUBLIC_HEADERS_MOC ${PUBLIC_QOBJECT_HEADERS} )
+	QT4_WRAP_CPP( PRIVATE_HEADERS_MOC ${PRIVATE_QOBJECT_HEADERS} )
+	QT4_WRAP_UI( FORMS_HEADERS ${FORMS} )
+	QT4_ADD_RESOURCES( RESOURCES_RCC ${RESOURCES} )
+	
+	include_directories(${CMAKE_PROJECT_DIR}src/include/Carna/dicom)
+	list( APPEND PRIVATE_HEADERS src/include/Carna/dicom/FlowLayout.h )
+	list( APPEND SRC src/dicom/FlowLayout.cpp )
+else()
+	set( PUBLIC_HEADERS_MOC "" )
+	set( PRIVATE_HEADERS_MOC "" )
+	set( FORMS_HEADERS "" )
+	set( RESOURCES_RCC "" )
+	set( CARNAQT_LIBRARIES "" )
+	set( QT_LIBRARIES "" )
+endif()
 
 ############################################
 # Setup Visual Studio filters
@@ -223,9 +240,11 @@ foreach( SOURCE_FILE ${SRC} )
     file( APPEND    ${UNITY_BUILD_FILE} "#include \"${CMAKE_CURRENT_SOURCE_DIR}/${SOURCE_FILE}\"\n" )
 endforeach( SOURCE_FILE )
 
-foreach( QT_GENERATED_SOURCE_FILE ${PUBLIC_HEADERS_MOC} ${PRIVATE_HEADERS_MOC} ${FORMS_HEADERS} ${RESOURCES_RCC} )
-	file( APPEND	${UNITY_BUILD_FILE}	"#include \"${QT_GENERATED_SOURCE_FILE}\"\n" )
-endforeach( QT_GENERATED_SOURCE_FILE )
+if( QT_FOUND )
+	foreach( QT_GENERATED_SOURCE_FILE ${PUBLIC_HEADERS_MOC} ${PRIVATE_HEADERS_MOC} ${FORMS_HEADERS} ${RESOURCES_RCC} )
+		file( APPEND	${UNITY_BUILD_FILE}	"#include \"${QT_GENERATED_SOURCE_FILE}\"\n" )
+	endforeach( QT_GENERATED_SOURCE_FILE )
+endif()
 
 ############################################
 include_directories( ${CMAKE_CURRENT_BINARY_DIR} )
