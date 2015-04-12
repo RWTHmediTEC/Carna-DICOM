@@ -33,7 +33,7 @@ struct VolumeGridFactoryBase::Details
 };
 
 
-Details::Details()
+VolumeGridFactoryBase::Details::Details()
     : maximumSegmentBytesize( helpers::VolumeGridHelperBase::DEFAULT_MAX_SEGMENT_BYTESIZE )
     , spacing( new base::math::Vector3f() )
 {
@@ -51,6 +51,11 @@ VolumeGridFactoryBase::VolumeGridFactoryBase()
 }
 
 
+VolumeGridFactoryBase::~VolumeGridFactoryBase()
+{
+}
+
+
 void VolumeGridFactoryBase::setMaximumSegmentBytesize( std::size_t maximumSegmentBytesize )
 {
     pimpl->maximumSegmentBytesize = maximumSegmentBytesize;
@@ -63,7 +68,7 @@ std::size_t VolumeGridFactoryBase::maximumSegmentBytesize() const
 }
 
     
-helpers::VolumeGridHelperBase* VolumeGridFactoryBase::loadSeries( const Series& series ) const
+helpers::VolumeGridHelperBase* VolumeGridFactoryBase::loadSeries( const Series& series )
 {
     pimpl->spacing->z() = series.spacingZ();
     helpers::VolumeGridHelperBase* result = nullptr;
@@ -87,25 +92,27 @@ helpers::VolumeGridHelperBase* VolumeGridFactoryBase::loadSeries( const Series& 
         }
         else
         {
+            const float spacingXY = static_cast< float >( slice.getSpacingXY() );
             CARNA_ASSERT( width == result->nativeResolution.x() && height == result->nativeResolution.y() );
-            CARNA_ASSERT( base::isEqual( pimpl->spacing->x(), slice.getSpacingXY() ) );
-            CARNA_ASSERT( base::isEqual( pimpl->spacing->y(), slice.getSpacingXY() ) );
+            CARNA_ASSERT( base::math::isEqual( pimpl->spacing->x(), spacingXY ) );
+            CARNA_ASSERT( base::math::isEqual( pimpl->spacing->y(), spacingXY ) );
         }
         
         /* Copy HU pixel to voxel data.
          */
-        for( unsigned int x = 0; x <  width; ++x )
-        for( unsigned int y = 0; y < height; ++y )
+        base::math::Vector3ui location( 0, 0, z );
+        for( location.y() = 0; location.y() < height; ++location.y() )
+        for( location.x() = 0; location.x() <  width; ++location.x() )
         {
-            const base::HUV huv = slice.getPixel( width - 1 - x, height - 1 - y );
-            this->setHUVoxel( x, y, z, huv );
+            const base::HUV huv = const_cast< DicomImage& >( slice ).getPixel( width - 1 - location.x(), height - 1 - location.y() );
+            this->setHUVoxel( location, huv );
         }
     }
     return result;
 }
 
 
-base::Vector3f VolumeGridFactoryBase::spacing() const
+base::math::Vector3f VolumeGridFactoryBase::spacing() const
 {
     return *pimpl->spacing;
 }

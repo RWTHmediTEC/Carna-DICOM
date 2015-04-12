@@ -63,7 +63,7 @@ public:
       */
     helpers::VolumeGridHelperBase* loadSeries( const Series& series );
     
-    base::Vector3f spacing() const;
+    base::math::Vector3f spacing() const;
 
 protected:
 
@@ -115,7 +115,7 @@ helpers::VolumeGridHelper< SegmentHUVolumeType, SegmentNormalsVolumeType >* Volu
 
 template< typename SegmentHUVolumeType, typename SegmentNormalsVolumeType >
 helpers::VolumeGridHelperBase* VolumeGridFactory< SegmentHUVolumeType, SegmentNormalsVolumeType >
-    ::create( const base::math::Vector3ui& nativeResolution ) const
+    ::create( const base::math::Vector3ui& nativeResolution )
 {
     helper = new helpers::VolumeGridHelper< SegmentHUVolumeType, SegmentNormalsVolumeType >( nativeResolution, maximumSegmentBytesize() );
     return helper;
@@ -124,7 +124,7 @@ helpers::VolumeGridHelperBase* VolumeGridFactory< SegmentHUVolumeType, SegmentNo
 
 template< typename SegmentHUVolumeType, typename SegmentNormalsVolumeType >
 void VolumeGridFactory< SegmentHUVolumeType, SegmentNormalsVolumeType >
-    ::setHUVoxel( const base::math::Vector3ui& location, base::HUV huv ) const
+    ::setHUVoxel( const base::math::Vector3ui& location, base::HUV huv )
 {
     helper->grid().setVoxel< base::VolumeGrid< SegmentHUVolumeType, SegmentNormalsVolumeType >::HUVSelector >( location, huv );
 }

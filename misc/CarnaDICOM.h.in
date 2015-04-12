@@ -74,11 +74,14 @@ namespace Carna
         class Study;
         class Patient;
         class Directory;
+        class DICOMController;
+        class DICOMExtractionSettings;
 
 #if CARNAQT_ENABLED
         class SeriesView;
         class SeriesPreview;
         class ToggleSeriesPreview;
+        class AsyncDirectory;
 #endif
         
         template< typename SegmentHUVolumeType, typename SegmentNormalsVolumeType = void > class VolumeFactoryLoader;

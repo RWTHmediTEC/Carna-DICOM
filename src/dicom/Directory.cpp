@@ -187,6 +187,7 @@ bool Directory::Details::failedReadFile( const std::string& file, const std::vec
 
 Directory::Opener::Opener( Directory& dir )
     : dir( dir )
+    , cancelled( false )
 {
 }
 
@@ -199,6 +200,20 @@ Directory::Opener::~Opener()
 void Directory::Opener::cancel()
 {
     dir.pimpl->abort();
+    cancelled = true;
+}
+
+
+bool Directory::Opener::isCancelled() const
+{
+    return cancelled;
+}
+
+
+void Directory::Opener::open( const std::string& path )
+{
+    cancelled = false;
+    dir.open( path, *this );
 }
 
 

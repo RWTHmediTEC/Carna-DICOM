@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2010 - 2013 Leonid Kostrykin
+ *  Copyright (C) 2010 - 2015 Leonid Kostrykin
  *
  *  Chair of Medical Engineering (mediTEC)
  *  RWTH Aachen University
@@ -9,11 +9,11 @@
  *
  */
 
-#ifndef DICOMEXTRACTIONSETTINGS_H_6014714286
-#define DICOMEXTRACTIONSETTINGS_H_6014714286
+#ifndef DICOMEXTRACTIONSETTINGS_H_3294808493
+#define DICOMEXTRACTIONSETTINGS_H_3294808493
 
-/** \file   DicomExtractionSettings.h
-  * \brief  Defines \ref Carna::dicom::DicomExtractionSettings
+/** \file   DICOMExtractionSettings.h
+  * \brief  Defines \ref Carna::dicom::DICOMExtractionSettings
   */
 
 namespace Carna
@@ -25,31 +25,28 @@ namespace dicom
 
 
 // ----------------------------------------------------------------------------------
-// DicomExtractionSettings
+// DICOMExtractionSettings
 // ----------------------------------------------------------------------------------
 
-class DicomExtractionSettings
+class DICOMExtractionSettings
 {
 
 public:
 
-    DicomExtractionSettings()
+    DICOMExtractionSettings()
     {
     }
 
-    DicomExtractionSettings( const QString& destination
-                           , const std::set< const Series* >& series )
+    DICOMExtractionSettings( const QString& destination, const std::set< const Series* >& series )
         : destination( destination )
         , series( series )
     {
     }
 
-
     QString destination;
-
     std::set< const Series* > series;
 
-}; // DicomExtractionSettings
+}; // DICOMExtractionSettings
 
 
 
@@ -57,4 +54,4 @@ public:
 
 }  // namespace Carna
 
-#endif // DICOMEXTRACTIONSETTINGS_H_6014714286
+#endif // DICOMEXTRACTIONSETTINGS_H_3294808493

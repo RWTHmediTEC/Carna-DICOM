@@ -51,6 +51,7 @@ public:
     class Opener
     {
         Directory& dir;
+        bool cancelled;
 
     public:
 
@@ -59,6 +60,8 @@ public:
         virtual void onProgress( unsigned int processedFilesCount, unsigned int totalFilesCount ) = 0;
         virtual void onFailure( const std::string& ) = 0;
         void cancel();
+        bool isCancelled() const;
+        void open( const std::string& path );
     };
 
     /** \brief
@@ -74,13 +77,15 @@ public:
 
     void open( const std::string& path );
 
-    void open( const std::string& path, Opener& opener );
-
     void close();
 
     bool isOpen() const;
 
     const std::vector< Patient* >& patients() const;
+
+private:
+
+    void open( const std::string& path, Opener& opener );
 
 }; // Directory
 
