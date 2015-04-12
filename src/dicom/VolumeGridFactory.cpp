@@ -42,6 +42,38 @@ VolumeGridFactoryBase::Details::Details()
 
 
 // ----------------------------------------------------------------------------------
+// VolumeGridFactoryBase :: Progress
+// ----------------------------------------------------------------------------------
+
+VolumeGridFactoryBase::Progress::~Progress()
+{
+}
+
+
+
+// ----------------------------------------------------------------------------------
+// VolumeGridFactoryBase :: NullProgress
+// ----------------------------------------------------------------------------------
+
+struct NullProgress : public VolumeGridFactoryBase::Progress
+{
+    virtual void setTotalSlicesCount( unsigned int ) override;
+    virtual void setProcessedSlicesCount( unsigned int ) override;
+};
+
+
+void NullProgress::setTotalSlicesCount( unsigned int )
+{
+}
+
+
+void NullProgress::setProcessedSlicesCount( unsigned int )
+{
+}
+
+
+
+// ----------------------------------------------------------------------------------
 // VolumeGridFactoryBase
 // ----------------------------------------------------------------------------------
 
@@ -67,12 +99,21 @@ std::size_t VolumeGridFactoryBase::maximumSegmentBytesize() const
     return pimpl->maximumSegmentBytesize;
 }
 
-    
+
 helpers::VolumeGridHelperBase* VolumeGridFactoryBase::loadSeries( const Series& series )
+{
+    NullProgress progress;
+    return loadSeries( series, progress );
+}
+
+
+helpers::VolumeGridHelperBase* VolumeGridFactoryBase::loadSeries( const Series& series, Progress& progress )
 {
     pimpl->spacing->z() = series.spacingZ();
     helpers::VolumeGridHelperBase* result = nullptr;
     unsigned int zLast = static_cast< unsigned int >( -1 );
+    progress.setTotalSlicesCount( series.elements().size() - 1 );
+    progress.setProcessedSlicesCount( 0 );
     for( auto seriesItr = series.elements().begin(); seriesItr != series.elements().end(); ++seriesItr )
     {
         const SeriesElement& element = **seriesItr;
@@ -107,12 +148,16 @@ helpers::VolumeGridHelperBase* VolumeGridFactoryBase::loadSeries( const Series& 
             const base::HUV huv = const_cast< DicomImage& >( slice ).getPixel( width - 1 - location.x(), height - 1 - location.y() );
             this->setHUVoxel( location, huv );
         }
+
+        /* Denote progress.
+         */
+        progress.setProcessedSlicesCount( z );
     }
     return result;
 }
 
 
-base::math::Vector3f VolumeGridFactoryBase::spacing() const
+const base::math::Vector3f& VolumeGridFactoryBase::spacing() const
 {
     return *pimpl->spacing;
 }

@@ -27,6 +27,7 @@
 #include <QLabel>
 #include <QThread>
 #include <QMessageBox>
+#include <QCheckBox>
 #include <climits>
 #include <sstream>
 
@@ -49,18 +50,23 @@ DICOMController::Details::Details( DICOMController& self )
     , sbSpacingZ( new QDoubleSpinBox() )
     , buSaveIndex( new QPushButton( "Save Index..." ) )
     , buExtract( new QPushButton( "Extract Series..." ) )
+    , cbNormals( new QCheckBox( "Compute Normals" ) )
     , buLoad( new QPushButton( "Load Series" ) )
     , workThread( new QThread() )
     , dir( new AsyncDirectory() )
+    , vgf( new AsyncVolumeGridFactory() )
     , patients( nullptr )
 {
     connect( workThread, SIGNAL( finished() ), workThread, SLOT( deleteLater() ) );
     connect( workThread, SIGNAL( finished() ),        dir, SLOT( deleteLater() ) );
+    connect( workThread, SIGNAL( finished() ),        vgf, SLOT( deleteLater() ) );
 
     dir->moveToThread( workThread );
+    vgf->moveToThread( workThread );
     workThread->start();
 
     connect( this, SIGNAL( openDirectory( const QString& ) ), dir, SLOT( open( const QString& ) ) );
+    connect( this, SIGNAL( loadVolumeGrid() ), vgf, SLOT( load() ) );
 }
 
 
@@ -79,6 +85,22 @@ void DICOMController::Details::setPatients( const std::vector< Patient* >& patie
         seriesView->addPatient( **patientItr );
     }
     buSaveIndex->setEnabled( true );
+}
+
+
+void DICOMController::Details::loadSeries( const Series& series )
+{
+    QProgressDialog progress( "Loading data...", "", 0, 0, &self );
+    progress.setCancelButton( nullptr );
+    progress.setAutoReset( false );
+    connect( vgf, SIGNAL( workAmountChanged( int ) ), &progress, SLOT( setMaximum( int ) ) );
+    connect( vgf, SIGNAL( workAmountDone( int ) ), &progress, SLOT( setValue( int ) ) );
+    connect( vgf, SIGNAL( workHintChanged( const QString& ) ), &progress, SLOT( setLabelText( const QString& ) ) );
+    connect( vgf, SIGNAL( finished() ), &progress, SLOT( reset() ) );
+    vgf->setSeries( series );
+    vgf->setNormals( cbNormals->isChecked() );
+    emit loadVolumeGrid();
+    progress.exec();
 }
 
 
@@ -113,7 +135,8 @@ DICOMController::DICOMController()
     controls->addWidget( buOpenDirectory );
     controls->addWidget( buOpenIndex );
     controls->addWidget( pimpl->buSaveIndex );
-    controls->addWidget( pimpl->buExtract );
+  //controls->addWidget( pimpl->buExtract );
+    controls->addWidget( pimpl->cbNormals );
     controls->addWidget( pimpl->laSpacingZ );
     controls->addWidget( pimpl->sbSpacingZ );
     controls->addWidget( pimpl->buLoad );
@@ -310,15 +333,20 @@ void DICOMController::loadSeries()
     const auto& selectedSeries = pimpl->seriesView->getSelectedSeries();
     if( selectedSeries.size() == 1 )
     {
+        pimpl->loadSeries( **selectedSeries.begin() );
         const double zSpacing = pimpl->sbSpacingZ->value();
-        //emit seriesLoadingRequested( SeriesLoadingRequest( **selectedSeries.begin(), zSpacing ) );
+        base::math::Vector3f& spacing = *pimpl->spacing;
+        spacing = pimpl->vgf->spacing();
+        spacing.z() = zSpacing;
+        emit volumeGridLoaded();
     }
 }
 
 
 void DICOMController::loadSeries( const Series& series )
 {
-    //emit seriesLoadingRequested( SeriesLoadingRequest( series, series.getSpacingZ() ) );
+    pimpl->loadSeries( series );
+    emit volumeGridLoaded();
 }
 
 

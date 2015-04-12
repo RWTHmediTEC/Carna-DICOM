@@ -19,6 +19,7 @@
 
 #include <Carna/dicom/CarnaDICOM.h>
 #include <Carna/dicom/DICOMController.h>
+#include <Carna/dicom/AsyncVolumeGridFactory.h>
 #include <Carna/dicom/AsyncDirectory.h>
 #include <Carna/dicom/IndexFileReader.h>
 #include <Carna/dicom/IndexFileWriter.h>
@@ -26,6 +27,7 @@
 
 class QDoubleSpinBox;
 class QPushButton;
+class QCheckBox;
 class QThread;
 class QLabel;
 
@@ -62,8 +64,12 @@ public:
     QPushButton* const buExtract;
     QPushButton* const buLoad;
 
+    QCheckBox* const cbNormals;
+
     QThread* const workThread;
     AsyncDirectory* const dir;
+    AsyncVolumeGridFactory* const vgf;
+    const std::unique_ptr< base::math::Vector3f > spacing;
 
     IndexFileReader ifr;
     IndexFileWriter ifw;
@@ -71,11 +77,14 @@ public:
     const std::vector< Patient* >* patients;
     void setPatients( const std::vector< Patient* >& patients );
 
+    void loadSeries( const Series& series );
+
 signals:
 
     friend class DICOMController;
 
     void openDirectory( const QString& path );
+    void loadVolumeGrid();
     //void extractSeries( const Carna::dicom::DicomExtractionSettings& );
 
 }; // DICOMController :: Details

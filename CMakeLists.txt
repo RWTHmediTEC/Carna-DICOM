@@ -136,6 +136,7 @@ set( PUBLIC_HEADERS
 include_directories(${CMAKE_PROJECT_DIR}src/include)
 set( PRIVATE_QOBJECT_HEADERS
         src/include/Carna/dicom/AsyncDirectory.h
+        src/include/Carna/dicom/AsyncVolumeGridFactory.h
         src/include/Carna/dicom/SeriesView.h
         src/include/Carna/dicom/SeriesPreview.h
         src/include/Carna/dicom/ToggleSeriesPreview.h
@@ -153,6 +154,7 @@ set( PRIVATE_HEADERS
     )
 set( SRC
 		src/dicom/AsyncDirectory.cpp
+		src/dicom/AsyncVolumeGridFactory.cpp
 		src/dicom/Patient.cpp
 		src/dicom/Series.cpp
 		src/dicom/SeriesElement.cpp

@@ -14,6 +14,7 @@
 
 #include <Carna/dicom/CarnaDICOM.h>
 #include <Carna/helpers/VolumeGridHelper.h>
+#include <Carna/base/BufferedHUVolume.h>
 
 /** \file   VolumeGridFactory.h
   * \brief  Defines \ref Carna::dicom::VolumeGridFactoryBase
@@ -49,6 +50,13 @@ public:
     VolumeGridFactoryBase();
 
     virtual ~VolumeGridFactoryBase();
+
+    struct CARNADICOM_LIB Progress
+    {
+        virtual ~Progress();
+        virtual void setTotalSlicesCount( unsigned int ) = 0;
+        virtual void setProcessedSlicesCount( unsigned int ) = 0;
+    };
     
     void setMaximumSegmentBytesize( std::size_t maximumSegmentBytesize );
     
@@ -61,9 +69,13 @@ public:
       *     an `helpers::VolumeGridHelperBase` object with data loaded from \a series
       *     or `nullptr` if \a series was empty.
       */
+    helpers::VolumeGridHelperBase* loadSeries( const Series& series, Progress& progress );
+
+    /** \overload
+      */
     helpers::VolumeGridHelperBase* loadSeries( const Series& series );
     
-    base::math::Vector3f spacing() const;
+    const base::math::Vector3f& spacing() const;
 
 protected:
 
@@ -95,6 +107,8 @@ public:
     
     helpers::VolumeGridHelper< SegmentHUVolumeType, SegmentNormalsVolumeType >* loadSeries( const Series& series );
 
+    helpers::VolumeGridHelper< SegmentHUVolumeType, SegmentNormalsVolumeType >* loadSeries( const Series& series, Progress& progress );
+
 protected:
 
     virtual helpers::VolumeGridHelperBase* create( const base::math::Vector3ui& nativeResolution ) override;
@@ -109,6 +123,15 @@ helpers::VolumeGridHelper< SegmentHUVolumeType, SegmentNormalsVolumeType >* Volu
     ::loadSeries( const Series& series )
 {
     VolumeGridFactoryBase::loadSeries( series );
+    return helper;
+}
+
+
+template< typename SegmentHUVolumeType, typename SegmentNormalsVolumeType >
+helpers::VolumeGridHelper< SegmentHUVolumeType, SegmentNormalsVolumeType >* VolumeGridFactory< SegmentHUVolumeType, SegmentNormalsVolumeType >
+    ::loadSeries( const Series& series, VolumeGridFactoryBase::Progress& progress )
+{
+    VolumeGridFactoryBase::loadSeries( series, progress );
     return helper;
 }
 
