@@ -144,7 +144,9 @@ set( PRIVATE_QOBJECT_HEADERS
 set( PRIVATE_HEADERS
         ${PRIVATE_QOBJECT_HEADERS}
         src/include/Carna/dicom/DICOMExtractionSettings.h
+        src/include/Carna/dicom/IndexFile.h
         src/include/Carna/dicom/IndexFileReader.h
+        src/include/Carna/dicom/IndexFileWriter.h
 		src/include/dicom-interface/dicomImage.h
 		src/include/dicom-interface/dicomSeries.h
 		src/include/msvcpp/dirent.h
@@ -161,7 +163,9 @@ set( SRC
 		src/dicom/ToggleSeriesPreview.cpp
 		src/dicom/DICOMController.cpp
 		src/dicom/VolumeGridFactory.cpp
+		src/dicom/IndexFile.cpp
 		src/dicom/IndexFileReader.cpp
+		src/dicom/IndexFileWriter.cpp
 		src/dicom-interface/dicomImage.cpp
 		src/dicom-interface/dicomSeries.cpp
     )

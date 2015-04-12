@@ -13,6 +13,7 @@
 #if !CARNAQT_DISABLED
 
 #include <Carna/dicom/IndexFileReader.h>
+#include <Carna/dicom/IndexFile.h>
 #include <Carna/base/CarnaException.h>
 #include <QXmlSimpleReader>
 
@@ -21,23 +22,6 @@ namespace Carna
 
 namespace dicom
 {
-
-
-
-// ----------------------------------------------------------------------------------
-// XML Node Definitions
-// ----------------------------------------------------------------------------------
-
-const static QString XML_DICOM_INDEX = "DicomIndex";
-const static QString XML_PATIENT = "Patient";
-const static QString XML_PATIENT_NAME = "name";
-const static QString XML_SERIES = "Series";
-const static QString XML_SERIES_NAME = "name";
-const static QString XML_STUDY = "Study";
-const static QString XML_STUDY_NAME = "name";
-const static QString XML_DICOM_IMAGE = "DicomImage";
-const static QString XML_DICOM_IMAGE_FILE = "file";
-const static QString XML_DICOM_IMAGE_ZPOSITION = "zPosition";
 
 
 
@@ -71,7 +55,7 @@ struct IndexFileReader::Details
 
             case INDICES:
                 {
-                    if( localName == XML_DICOM_INDEX )
+                    if( localName == IndexFile::XML_DICOM_INDEX )
                     {
                         currentScope = PATIENTS;
                         break;
@@ -84,9 +68,9 @@ struct IndexFileReader::Details
 
             case PATIENTS:
                 {
-                    if( localName == XML_PATIENT )
+                    if( localName == IndexFile::XML_PATIENT )
                     {
-                        currentPatient = new Patient( attributes.value( XML_PATIENT_NAME ).toStdString() );
+                        currentPatient = new Patient( attributes.value( IndexFile::XML_PATIENT_NAME ).toStdString() );
                         patients[ currentPatient->name ] = currentPatient;
 
                         currentScope = STUDIES;
@@ -100,11 +84,11 @@ struct IndexFileReader::Details
 
             case STUDIES:
                 {
-                    if( localName == XML_STUDY )
+                    if( localName == IndexFile::XML_STUDY )
                     {
                         CARNA_ASSERT( currentPatient != nullptr );
 
-                        currentStudy = new Study( attributes.value( XML_STUDY_NAME ).toStdString() );
+                        currentStudy = new Study( attributes.value( IndexFile::XML_STUDY_NAME ).toStdString() );
                         currentPatient->take( currentStudy );
 
                         currentScope = SERIES;
@@ -118,12 +102,12 @@ struct IndexFileReader::Details
 
             case SERIES:
                 {
-                    if( localName == XML_SERIES )
+                    if( localName == IndexFile::XML_SERIES )
                     {
                         CARNA_ASSERT( currentPatient != nullptr );
                         CARNA_ASSERT( currentStudy != nullptr );
 
-                        currentSeries = new Series( attributes.value( XML_SERIES_NAME ).toStdString() );
+                        currentSeries = new Series( attributes.value( IndexFile::XML_SERIES_NAME ).toStdString() );
                         currentStudy->take( currentSeries );
 
                         currentScope = ELEMENTS;
@@ -137,15 +121,15 @@ struct IndexFileReader::Details
 
             case ELEMENTS:
                 {
-                    if( localName == XML_DICOM_IMAGE )
+                    if( localName == IndexFile::XML_DICOM_IMAGE )
                     {
                         CARNA_ASSERT( currentPatient != nullptr );
                         CARNA_ASSERT( currentStudy != nullptr );
                         CARNA_ASSERT( currentSeries != nullptr );
 
                         bool ok = false;
-                        const std::string fileName = attributes.value( XML_DICOM_IMAGE_FILE ).toStdString();
-                        const double zPosition = attributes.value( XML_DICOM_IMAGE_ZPOSITION ).toDouble( &ok );
+                        const std::string fileName = attributes.value( IndexFile::XML_DICOM_IMAGE_FILE ).toStdString();
+                        const double zPosition = attributes.value( IndexFile::XML_DICOM_IMAGE_ZPOSITION ).toDouble( &ok );
 
                         if( !ok )
                         {
@@ -175,7 +159,7 @@ struct IndexFileReader::Details
 
             case PATIENTS:
                 {
-                    if( localName == XML_DICOM_INDEX )
+                    if( localName == IndexFile::XML_DICOM_INDEX )
                     {
                         currentScope = INDICES;
                         break;
@@ -188,7 +172,7 @@ struct IndexFileReader::Details
 
             case STUDIES:
                 {
-                    if( localName == XML_PATIENT )
+                    if( localName == IndexFile::XML_PATIENT )
                     {
                         currentScope = PATIENTS;
                         break;
@@ -201,7 +185,7 @@ struct IndexFileReader::Details
 
             case SERIES:
                 {
-                    if( localName == XML_STUDY )
+                    if( localName == IndexFile::XML_STUDY )
                     {
                         currentScope = STUDIES;
                         break;
@@ -214,7 +198,7 @@ struct IndexFileReader::Details
 
             case ELEMENTS:
                 {
-                    if( localName == XML_SERIES )
+                    if( localName == IndexFile::XML_SERIES )
                     {
                         currentScope = SERIES;
                         break;
@@ -227,7 +211,7 @@ struct IndexFileReader::Details
 
             case ELEMENT:
                 {
-                    if( localName == XML_DICOM_IMAGE )
+                    if( localName == IndexFile::XML_DICOM_IMAGE )
                     {
                         currentScope = ELEMENTS;
                         break;

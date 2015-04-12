@@ -82,6 +82,7 @@ namespace Carna
         class SeriesPreview;
         class ToggleSeriesPreview;
         class AsyncDirectory;
+        class IndexFile;
         class IndexFileReader;
         class IndexFileWriter;
 #endif

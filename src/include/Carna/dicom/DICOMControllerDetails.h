@@ -21,6 +21,7 @@
 #include <Carna/dicom/DICOMController.h>
 #include <Carna/dicom/AsyncDirectory.h>
 #include <Carna/dicom/IndexFileReader.h>
+#include <Carna/dicom/IndexFileWriter.h>
 #include <QObject>
 
 class QDoubleSpinBox;
@@ -65,8 +66,10 @@ public:
     AsyncDirectory* const dir;
 
     IndexFileReader ifr;
+    IndexFileWriter ifw;
 
-    void onPatientsLoaded( const std::vector< Patient* >& patients );
+    const std::vector< Patient* >* patients;
+    void setPatients( const std::vector< Patient* >& patients );
 
 signals:
 

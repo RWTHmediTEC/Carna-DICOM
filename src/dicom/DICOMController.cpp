@@ -52,6 +52,7 @@ DICOMController::Details::Details( DICOMController& self )
     , buLoad( new QPushButton( "Load Series" ) )
     , workThread( new QThread() )
     , dir( new AsyncDirectory() )
+    , patients( nullptr )
 {
     connect( workThread, SIGNAL( finished() ), workThread, SLOT( deleteLater() ) );
     connect( workThread, SIGNAL( finished() ),        dir, SLOT( deleteLater() ) );
@@ -69,8 +70,9 @@ DICOMController::Details::~Details()
 }
 
 
-void DICOMController::Details::onPatientsLoaded( const std::vector< Patient* >& patients )
+void DICOMController::Details::setPatients( const std::vector< Patient* >& patients )
 {
+    this->patients = &patients;
     seriesView->clear();
     for( auto patientItr = patients.begin(); patientItr != patients.end(); ++patientItr )
     {
@@ -194,7 +196,7 @@ void DICOMController::openDirectory()
 
         /* Update UI.
          */
-        pimpl->onPatientsLoaded( pimpl->dir->patients() );
+        pimpl->setPatients( pimpl->dir->patients() );
     }
 }
 
@@ -213,13 +215,14 @@ void DICOMController::openIndex()
     if( !fileName.isEmpty() )
     {
         pimpl->ifr.open( fileName );
-        pimpl->onPatientsLoaded( pimpl->ifr.patients() );
+        pimpl->setPatients( pimpl->ifr.patients() );
     }
 }
 
 
 void DICOMController::saveIndex()
 {
+    CARNA_ASSERT( pimpl->patients != nullptr );
     const QString fileName = QFileDialog::getSaveFileName
         ( this
         , "Save Index", "", "Index Files (*.idx);;XML Files (*.xml);;All files (*.*)"
@@ -227,12 +230,14 @@ void DICOMController::saveIndex()
 
     if( !fileName.isEmpty() )
     {
+        pimpl->ifw.write( fileName, *pimpl->patients );
     }
 }
 
 
 void DICOMController::close()
 {
+    pimpl->patients = nullptr;
     pimpl->seriesView->clear();
     pimpl->buSaveIndex->setEnabled( false );
 }
