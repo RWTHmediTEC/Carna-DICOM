@@ -18,7 +18,6 @@
 #include <Carna/dicom/DicomManager.h>
 #include <Carna/dicom/DicomExtractionSettings.h>
 #include <Carna/dicom/Series.h>
-#include <Carna/dicom/AsyncDirectory.h>
 #include <QProgressDialog>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -67,6 +66,17 @@ DICOMController::Details::Details( DICOMController& self )
 DICOMController::Details::~Details()
 {
     workThread->quit();
+}
+
+
+void DICOMController::Details::onPatientsLoaded( const std::vector< Patient* >& patients )
+{
+    seriesView->clear();
+    for( auto patientItr = patients.begin(); patientItr != patients.end(); ++patientItr )
+    {
+        seriesView->addPatient( **patientItr );
+    }
+    buSaveIndex->setEnabled( true );
 }
 
 
@@ -182,14 +192,9 @@ void DICOMController::openDirectory()
             msgBox.exec();
         }
 
-        /* Update UI if loading was not cancelled.
+        /* Update UI.
          */
-        pimpl->seriesView->clear();
-        for( auto patientItr = pimpl->dir->patients().begin(); patientItr != pimpl->dir->patients().end(); ++patientItr )
-        {
-            pimpl->seriesView->addPatient( **patientItr );
-        }
-        pimpl->buSaveIndex->setEnabled( true );
+        pimpl->onPatientsLoaded( pimpl->dir->patients() );
     }
 }
 
@@ -207,6 +212,8 @@ void DICOMController::openIndex()
 
     if( !fileName.isEmpty() )
     {
+        pimpl->ifr.open( fileName );
+        pimpl->onPatientsLoaded( pimpl->ifr.patients() );
     }
 }
 

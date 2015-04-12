@@ -9,15 +9,17 @@
  *
  */
 
-#ifndef STUDY_H_3294808493
-#define STUDY_H_3294808493
+#ifndef INDEXFILEREADER_H_3294808493
+#define INDEXFILEREADER_H_3294808493
+#if !CARNAQT_DISABLED
 
-/** \file   Study.h
-  * \brief  Defines \ref Carna::dicom::Study.
+/** \file   IndexFileReader.h
+  * \brief  Defines \ref Carna::dicom::IndexFileReader.
   */
 
 #include <Carna/dicom/CarnaDICOM.h>
 #include <Carna/base/noncopyable.h>
+#include <memory>
 #include <vector>
 
 namespace Carna
@@ -29,16 +31,10 @@ namespace dicom
 
 
 // ----------------------------------------------------------------------------------
-// Study
+// IndexFileReader
 // ----------------------------------------------------------------------------------
 
-/** \brief
-  * Represents an unordered set of \ref Series "series".
-  *
-  * \author Leonid Kostrykin
-  * \date   1.10.12 - 10.4.15
-  */
-class Study
+class IndexFileReader
 {
 
     NON_COPYABLE
@@ -48,25 +44,15 @@ class Study
 
 public:
 
-    /** \brief
-      * Instantiates.
-      */
-    explicit Study( const std::string& name );
+    IndexFileReader();
+    virtual ~IndexFileReader();
 
-    /** \brief
-      * Deletes series.
-      */
-    ~Study();
+    const std::vector< Patient* >& patients() const;
 
-    const std::string name;
+    void open( const QString& path );
+    void close();
 
-    void take( Series* );
-
-    const std::vector< Series* >& series() const;
-
-    Series& series( const std::string& name );
-
-}; // Study
+}; // IndexFileReader
 
 
 
@@ -74,4 +60,5 @@ public:
 
 }  // namespace Carna
 
-#endif // STUDY_H_3294808493
+#endif // CARNAQT_DISABLED
+#endif // INDEXFILEREADER_H_3294808493

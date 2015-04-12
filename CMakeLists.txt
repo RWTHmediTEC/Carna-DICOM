@@ -83,7 +83,7 @@ configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/misc/Find${PROJECT_NAME}.cmake.in
 ############################################
 
 # Qt
-find_package( Qt4 4.8.0 COMPONENTS QtCore QtGui )
+find_package( Qt4 4.8.0 COMPONENTS QtCore QtGui QtXml )
 include( ${QT_USE_FILE} )
 add_definitions( ${QT_DEFINITIONS} )
 
@@ -144,6 +144,7 @@ set( PRIVATE_QOBJECT_HEADERS
 set( PRIVATE_HEADERS
         ${PRIVATE_QOBJECT_HEADERS}
         src/include/Carna/dicom/DICOMExtractionSettings.h
+        src/include/Carna/dicom/IndexFileReader.h
 		src/include/dicom-interface/dicomImage.h
 		src/include/dicom-interface/dicomSeries.h
 		src/include/msvcpp/dirent.h
@@ -160,6 +161,7 @@ set( SRC
 		src/dicom/ToggleSeriesPreview.cpp
 		src/dicom/DICOMController.cpp
 		src/dicom/VolumeGridFactory.cpp
+		src/dicom/IndexFileReader.cpp
 		src/dicom-interface/dicomImage.cpp
 		src/dicom-interface/dicomSeries.cpp
     )

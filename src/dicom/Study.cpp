@@ -57,6 +57,14 @@ const std::vector< Series* >& Study::series() const
 }
 
 
+void Study::take( Series* series )
+{
+    CARNA_ASSERT( pimpl->seriesByName.find( series->name ) == pimpl->seriesByName.end() );
+    pimpl->series.push_back( series );
+    pimpl->seriesByName[ name ] = series;
+}
+
+
 Series& Study::series( const std::string& name )
 {
     const auto itr = pimpl->seriesByName.find( name );

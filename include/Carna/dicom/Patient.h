@@ -62,6 +62,8 @@ public:
 
     const std::vector< Study* >& studies() const;
 
+    void take( Study* study );
+
     Study& study( const std::string& name );
 
 }; // Patient

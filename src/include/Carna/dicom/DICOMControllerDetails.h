@@ -20,6 +20,7 @@
 #include <Carna/dicom/CarnaDICOM.h>
 #include <Carna/dicom/DICOMController.h>
 #include <Carna/dicom/AsyncDirectory.h>
+#include <Carna/dicom/IndexFileReader.h>
 #include <QObject>
 
 class QDoubleSpinBox;
@@ -63,14 +64,16 @@ public:
     QThread* const workThread;
     AsyncDirectory* const dir;
 
+    IndexFileReader ifr;
+
+    void onPatientsLoaded( const std::vector< Patient* >& patients );
+
 signals:
 
     friend class DICOMController;
 
     void openDirectory( const QString& path );
-    //void openIndex( const QString& );
-    //void saveIndex( const QString& );
-    //void extractSeries( const Carna::dicom::DicomExtractionSettings& )
+    //void extractSeries( const Carna::dicom::DicomExtractionSettings& );
 
 }; // DICOMController :: Details
 

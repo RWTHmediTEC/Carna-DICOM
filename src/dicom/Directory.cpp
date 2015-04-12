@@ -207,7 +207,6 @@ struct Directory::Details : public DicomSeriesOpeningController
     std::map< std::string, Patient* > patientByName;
     Patient& patient( const std::string& name );
 
-    void openIndexFile( const std::string& path );
     void openDirectory( const DirectoryInfo& dirInfo );
 
     virtual void processNewImage
@@ -246,12 +245,6 @@ Patient& Directory::Details::patient( const std::string& name )
     {
         return *itr->second;
     }
-}
-
-
-void Directory::Details::openIndexFile( const std::string& path )
-{
-    base::Log::instance().record( base::Log::error, "Directory::Details::openIndexFile not implemented yet." );
 }
 
 
@@ -415,17 +408,11 @@ void Directory::open( const std::string& path, Directory::Opener& opener )
     this->close();
     pimpl->opener = &opener;
 
-    /* Decide whether 'path' refers to an index file or to a directory.
+    /* Open if 'path' refers to a directory.
      */
     DirectoryInfo dirInfo( path );
-    if( !dirInfo.isDirectory() )
-    {
-        pimpl->openIndexFile( path );
-    }
-    else
-    {
-        pimpl->openDirectory( dirInfo );
-    }
+    CARNA_ASSERT( dirInfo.isDirectory() );
+    pimpl->openDirectory( dirInfo );
 
     /* Denote that directory has been opened.
      */

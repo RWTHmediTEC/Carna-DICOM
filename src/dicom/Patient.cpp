@@ -57,6 +57,14 @@ const std::vector< Study* >& Patient::studies() const
 }
 
 
+void Patient::take( Study* study )
+{
+    CARNA_ASSERT( pimpl->studyByName.find( study->name ) == pimpl->studyByName.end() );
+    pimpl->studies.push_back( study );
+    pimpl->studyByName[ name ] = study;
+}
+
+
 Study& Patient::study( const std::string& name )
 {
     const auto itr = pimpl->studyByName.find( name );

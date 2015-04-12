@@ -82,6 +82,8 @@ namespace Carna
         class SeriesPreview;
         class ToggleSeriesPreview;
         class AsyncDirectory;
+        class IndexFileReader;
+        class IndexFileWriter;
 #endif
         
         template< typename SegmentHUVolumeType, typename SegmentNormalsVolumeType = void > class VolumeFactoryLoader;
