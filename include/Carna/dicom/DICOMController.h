@@ -19,6 +19,7 @@
 #include <Carna/dicom/CarnaDICOM.h>
 #include <Carna/Carna.h>
 #include <Carna/base/noncopyable.h>
+#include <Carna/helpers/VolumeGridHelper.h>
 #include <QWidget>
 
 namespace Carna
@@ -63,6 +64,7 @@ public:
     ~DICOMController();
 
     Carna::helpers::VolumeGridHelperBase* takeLoadedVolumeGrid();
+    Carna::helpers::VolumeGridHelperBase::Spacing loadedVolumeGridSpacing() const;
 
 public slots:
 

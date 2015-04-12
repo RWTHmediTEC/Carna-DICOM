@@ -55,6 +55,7 @@ DICOMController::Details::Details( DICOMController& self )
     , workThread( new QThread() )
     , dir( new AsyncDirectory() )
     , vgf( new AsyncVolumeGridFactory() )
+    , spacing( new base::math::Vector3f() )
     , patients( nullptr )
 {
     connect( workThread, SIGNAL( finished() ), workThread, SLOT( deleteLater() ) );
@@ -346,7 +347,21 @@ void DICOMController::loadSeries()
 void DICOMController::loadSeries( const Series& series )
 {
     pimpl->loadSeries( series );
+    base::math::Vector3f& spacing = *pimpl->spacing;
+    spacing = pimpl->vgf->spacing();
     emit volumeGridLoaded();
+}
+
+
+Carna::helpers::VolumeGridHelperBase* DICOMController::takeLoadedVolumeGrid()
+{
+    return pimpl->vgf->takeLoadedVolumeGrid();
+}
+
+
+Carna::helpers::VolumeGridHelperBase::Spacing DICOMController::loadedVolumeGridSpacing() const
+{
+    return Carna::helpers::VolumeGridHelperBase::Spacing( *pimpl->spacing );
 }
 
 

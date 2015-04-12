@@ -28,7 +28,7 @@ set( TARGET_NAME	${PROJECT_NAME}-${FULL_VERSION} )
 ############################################
 
 # Qt
-find_package( Qt4 4.8.0 COMPONENTS QtCore QtGui )
+find_package( Qt4 4.8.0 COMPONENTS QtCore QtGui QtOpenGL )
 include( ${QT_USE_FILE} )
 add_definitions( ${QT_DEFINITIONS} )
 
@@ -58,7 +58,7 @@ set( HEADERS
 		""
 	)
 set( QOBJECT_HEADERS
-		""
+		src/Demo.h
 	)
 set( SRC
 		src/main.cpp
