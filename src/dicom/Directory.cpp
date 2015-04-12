@@ -18,6 +18,7 @@
 #include <dicom-interface/dicomSeries.h>
 #include <algorithm>
 #include <regex>
+#include <stack>
 
 #ifdef _MSC_VER
 #include <msvcpp/dirent.h>
@@ -34,46 +35,161 @@ namespace dicom
 
 
 // ----------------------------------------------------------------------------------
-// DIRENTFileIterator
+// DirectoryInfo
 // ----------------------------------------------------------------------------------
 
-class DIRENTFileIterator : public DicomSeriesFileIterator
+class DirectoryInfo
 {
 
-    DIR* const dir;
-    const dirent* ent;
+    NON_COPYABLE
 
 public:
 
-    explicit DIRENTFileIterator( DIR* dir );
+    static const char SEPARATOR = '/';
+    static std::string normalizePath( const std::string& path );
+
+    DirectoryInfo( const std::string& path );
+    ~DirectoryInfo();
+
+    DIR* const dir;
+    const std::string path;
+
+    bool isDirectory() const;
+    std::string concat( const std::string& child ) const;
+
+}; // DirectoryInfo
+
+
+std::string DirectoryInfo::normalizePath( const std::string& path )
+{
+    /* Transform to unix-style path.
+     */
+    std::string unixoidPath = path;
+    std::replace( unixoidPath.begin(), unixoidPath.end(), '\\', '/' );
+
+    /* Remove tailing separators.
+     */
+    if( unixoidPath.empty() || unixoidPath == "/" || unixoidPath[ unixoidPath.length() - 1 ] != SEPARATOR )
+    {
+        return unixoidPath;
+    }
+    else
+    {
+        return unixoidPath.substr( 0, unixoidPath.length() - 1 );
+    }
+}
+
+
+DirectoryInfo::DirectoryInfo( const std::string& pathArg )
+    : dir( opendir( pathArg.c_str() ) )
+    , path( normalizePath( pathArg ) )
+{
+}
+
+
+DirectoryInfo::~DirectoryInfo()
+{
+    if( dir != NULL )
+    {
+        closedir( dir );
+    }
+}
+
+
+bool DirectoryInfo::isDirectory() const
+{
+    return dir != NULL;
+}
+
+
+std::string DirectoryInfo::concat( const std::string& child ) const
+{
+    return path + SEPARATOR + child;
+}
+
+
+
+// ----------------------------------------------------------------------------------
+// RecursiveFileIterator
+// ----------------------------------------------------------------------------------
+
+class RecursiveFileIterator : public DicomSeriesFileIterator
+{
+
+    std::stack< const DirectoryInfo* > dirs;
+    const dirent* nextEntity;
+    void fetchNextFile();
+
+public:
+
+    RecursiveFileIterator( const DirectoryInfo& dirInfo );
     virtual std::string getNextFile() override;
     virtual bool hasNextFile() override;
 
-}; // DIRENTFileIterator
+}; // RecursiveFileIterator
 
 
-DIRENTFileIterator::DIRENTFileIterator( DIR* dir )
-    : dir( dir )
+RecursiveFileIterator::RecursiveFileIterator( const DirectoryInfo& dirInfo )
+    : nextEntity( NULL )
+{
+    dirs.push( &dirInfo );
+    fetchNextFile();
+}
+
+
+void RecursiveFileIterator::fetchNextFile()
 {
     /* The 'readdir' call from the DIRENT API gives a pointer to a memory block that
      * itself frees when it is called the next time or the directory is closed.
      */
-    ent = readdir( dir );
+    const DirectoryInfo& dirInfo = *dirs.top();
+    std::string entityName;
+    do
+    {
+        nextEntity = readdir( dirInfo.dir );
+        if( nextEntity != NULL )
+        {
+            entityName = nextEntity->d_name;
+        }
+    }
+    while( nextEntity != NULL && ( entityName == "." || entityName == ".." ) );
+    
+    /* Do not accept fetched entity if it refers to a directory.
+     */
+    if( nextEntity != NULL )
+    {
+        DirectoryInfo* const subdir = new DirectoryInfo( dirInfo.concat( entityName ) );
+        if( subdir->isDirectory() )
+        {
+            dirs.push( subdir );
+            nextEntity = NULL;
+        }
+    }
+
+    /* Continue until either a file is found or all sub-directories were processed.
+     */
+    if( nextEntity == NULL && dirs.size() > 1 )
+    {
+        delete dirs.top();
+        dirs.pop();
+        fetchNextFile();
+    }
 }
 
 
-std::string DIRENTFileIterator::getNextFile()
+std::string RecursiveFileIterator::getNextFile()
 {
     CARNA_ASSERT( hasNextFile() );
-    const std::string nextFile = ent->d_name;
-    ent = readdir( dir );
+    const DirectoryInfo& dirInfo = *dirs.top();
+    const std::string nextFile = dirInfo.concat( nextEntity->d_name );
+    fetchNextFile();
     return nextFile;
 }
 
 
-bool DIRENTFileIterator::hasNextFile()
+bool RecursiveFileIterator::hasNextFile()
 {
-    return ent != NULL;
+    return nextEntity != NULL;
 }
 
 
@@ -92,7 +208,7 @@ struct Directory::Details : public DicomSeriesOpeningController
     Patient& patient( const std::string& name );
 
     void openIndexFile( const std::string& path );
-    void openDirectory( const std::string& path, DIR* dir );
+    void openDirectory( const DirectoryInfo& dirInfo );
 
     virtual void processNewImage
         ( const std::string& patientID
@@ -139,10 +255,10 @@ void Directory::Details::openIndexFile( const std::string& path )
 }
 
 
-void Directory::Details::openDirectory( const std::string& path, DIR* dir )
+void Directory::Details::openDirectory( const DirectoryInfo& dirInfo )
 {
     DicomSeries ds;
-    DIRENTFileIterator fileItr( dir );
+    RecursiveFileIterator fileItr( dirInfo );
     ds.openDicomDir( fileItr, *this );
 }
 
@@ -301,15 +417,14 @@ void Directory::open( const std::string& path, Directory::Opener& opener )
 
     /* Decide whether 'path' refers to an index file or to a directory.
      */
-    DIR* const dir = opendir( path.c_str() );
-    if( dir == NULL )
+    DirectoryInfo dirInfo( path );
+    if( !dirInfo.isDirectory() )
     {
         pimpl->openIndexFile( path );
     }
     else
     {
-        pimpl->openDirectory( path, dir );
-        closedir( dir );
+        pimpl->openDirectory( dirInfo );
     }
 
     /* Denote that directory has been opened.

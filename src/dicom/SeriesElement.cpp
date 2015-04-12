@@ -53,7 +53,8 @@ SeriesElement::Details::Details()
 // ----------------------------------------------------------------------------------
 
 SeriesElement::SeriesElement( const std::string& fileName, double zPosition )
-    : fileName( fileName )
+    : pimpl( new Details() )
+    , fileName( fileName )
     , zPosition( zPosition )
 {
 }

@@ -59,6 +59,8 @@ DICOMController::Details::Details( DICOMController& self )
 
     dir->moveToThread( workThread );
     workThread->start();
+
+    connect( this, SIGNAL( openDirectory( const QString& ) ), dir, SLOT( open( const QString& ) ) );
 }
 
 
