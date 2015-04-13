@@ -48,6 +48,9 @@ class Directory
 
 public:
 
+    /** \brief
+      * Defines interface for \ref Directory opening processes with callbacks.
+      */
     class Opener
     {
         Directory& dir;
@@ -55,12 +58,39 @@ public:
 
     public:
 
+        /** \brief
+          * Instantiates.
+          */
         Opener( Directory& );
+
+        /** \brief
+          * Deletes.
+          */
         virtual ~Opener();
+
+        /** \brief
+          * Notifies about directory scanning progress.
+          */
         virtual void onProgress( unsigned int processedFilesCount, unsigned int totalFilesCount ) = 0;
-        virtual void onFailure( const std::string& ) = 0;
+
+        /** \brief
+          * Notifies that \a file could not be read like a DICOM image.
+          */
+        virtual void onFailure( const std::string& file ) = 0;
+
+        /** \brief
+          * Cancels the process.
+          */
         void cancel();
+
+        /** \brief
+          * Tells whether this has been cancelled.
+          */
         bool isCancelled() const;
+
+        /** \brief
+          * Scans \a path for DICOM series.
+          */
         void open( const std::string& path );
     };
 
@@ -71,16 +101,34 @@ public:
     Directory();
 
     /** \brief
-      * Deletes patients.
+      * Deletes patients and \ref close "closes".
       */
     ~Directory();
 
+    /** \brief
+      * Scans \a path for DICOM series.
+      * \post `isOpen() == true`
+      *
+      * The \ref Opener class provides an interface for opening processes with
+      * callbacks.
+      */
     void open( const std::string& path );
 
+    /** \brief
+      * Closes any previously opened directories.
+      * \post `isOpen() == false`
+      */
     void close();
 
+    /** \brief
+      * Tells whether a directory is open currently.
+      */
     bool isOpen() const;
 
+    /** \brief
+      * References the patients from the currently open directory.
+      * \pre `isOpen() == true`
+      */
     const std::vector< Patient* >& patients() const;
 
 private:

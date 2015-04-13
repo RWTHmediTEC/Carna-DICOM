@@ -47,7 +47,7 @@
 #define CARNAQT_ENABLED @CARNAQT_ENABLED@
 
 
-/** \cond 0
+/** \cond false
   */
 #if CARNAQT_ENABLED
 #   define CARNAQT_DISABLED 0
@@ -74,7 +74,7 @@ namespace Carna
         class Study;
         class Patient;
         class Directory;
-        class DICOMController;
+        class DICOMBrowser;
         class DICOMExtractionSettings;
 
 #if CARNAQT_ENABLED

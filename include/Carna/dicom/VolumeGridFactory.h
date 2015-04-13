@@ -47,23 +47,53 @@ class CARNADICOM_LIB VolumeGridFactoryBase
 
 public:
 
+    /** \brief
+      * Instantiates.
+      */
     VolumeGridFactoryBase();
 
+    /** \brief
+      * Deletes.
+      */
     virtual ~VolumeGridFactoryBase();
 
+    /** \brief
+      * Defines interface that is notified about the \ref loadSeries progress.
+      */
     struct CARNADICOM_LIB Progress
     {
+        /** \brief
+          * Deletes.
+          */
         virtual ~Progress();
+
+        /** \brief
+          * Notifies that the total number of DICOM images to be processed has been
+          * determined.
+          */
         virtual void setTotalSlicesCount( unsigned int ) = 0;
+
+        /** \brief
+          * Notifies that the number of DICOM images processed so far has changed.
+          */
         virtual void setProcessedSlicesCount( unsigned int ) = 0;
     };
     
+    /** \brief
+      * Uses this setting on the created `helpers::VolumeGridHelper` when
+      * \ref loadSeries is called.
+      */
     void setMaximumSegmentBytesize( std::size_t maximumSegmentBytesize );
     
+    /** \brief
+      * Tells the value that will be used for the created `helpers::VolumeGridHelper`
+      * when \ref loadSeries is called.
+      */
     std::size_t maximumSegmentBytesize() const;
     
     /** \brief
-      * \todo Write.
+      * Craetes and returns new ``helpers::VolumeGridHelper` object whose resolution
+      * and data adapts \a series.
       *
       * \returns
       *     an `helpers::VolumeGridHelperBase` object with data loaded from \a series
@@ -75,12 +105,23 @@ public:
       */
     helpers::VolumeGridHelperBase* loadSeries( const Series& series );
     
+    /** \brief
+      * Tells the spacing of the \ref loadSeries "series loaded" last. The return
+      * value of this method is undefined if \ref loadSeries was not called yet.
+      */
     const base::math::Vector3f& spacing() const;
 
 protected:
 
+    /** \brief
+      * Instantiates new `helpers::VolumeGridHelper` object from \a nativeResolution.
+      */
     virtual helpers::VolumeGridHelperBase* create( const base::math::Vector3ui& nativeResolution ) = 0;
     
+    /** \brief
+      * Updates the HUV at \a location to \a huv on the `helpers::VolumeGridHelper`
+      * object \ref create "created last".
+      */
     virtual void setHUVoxel( const base::math::Vector3ui& location, base::HUV huv ) = 0;
 
 }; // VolumeGridFactoryBase
@@ -105,8 +146,12 @@ class VolumeGridFactory : public VolumeGridFactoryBase
 
 public:
     
+    /** \copydoc VolumeGridFactoryBase::loadSeries(const Series&)
+      */
     helpers::VolumeGridHelper< SegmentHUVolumeType, SegmentNormalsVolumeType >* loadSeries( const Series& series );
-
+    
+    /** \copydoc VolumeGridFactoryBase::loadSeries(const Series&, Progress&)
+      */
     helpers::VolumeGridHelper< SegmentHUVolumeType, SegmentNormalsVolumeType >* loadSeries( const Series& series, Progress& progress );
 
 protected:

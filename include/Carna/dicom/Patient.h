@@ -58,12 +58,25 @@ public:
       */
     ~Patient();
 
+    /** \brief
+      * Tells the name of this patient.
+      */
     const std::string name;
 
+    /** \brief
+      * Tells the studies associated with this patient.
+      */
     const std::vector< Study* >& studies() const;
 
+    /** \brief
+      * Enlists \a study in \ref studies and takes its possession.
+      */
     void take( Study* study );
 
+    /** \brief
+      * References the study named \a name associated with this patient. Creates a
+      * new empty study when no such study is associated with this patient yet.
+      */
     Study& study( const std::string& name );
 
 }; // Patient

@@ -121,7 +121,7 @@ configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/misc/CarnaDICOM.h.in
 
 include_directories(${CMAKE_PROJECT_DIR}include)
 set( PUBLIC_QOBJECT_HEADERS
-        include/Carna/dicom/DICOMController.h
+        include/Carna/dicom/DICOMBrowser.h
 )
 set( PUBLIC_HEADERS
         ${PUBLIC_QOBJECT_HEADERS}
@@ -140,7 +140,7 @@ set( PRIVATE_QOBJECT_HEADERS
         src/include/Carna/dicom/SeriesView.h
         src/include/Carna/dicom/SeriesPreview.h
         src/include/Carna/dicom/ToggleSeriesPreview.h
-        src/include/Carna/dicom/DICOMControllerDetails.h
+        src/include/Carna/dicom/DICOMBrowserDetails.h
 )
 set( PRIVATE_HEADERS
         ${PRIVATE_QOBJECT_HEADERS}
@@ -163,7 +163,7 @@ set( SRC
 		src/dicom/SeriesView.cpp
 		src/dicom/SeriesPreview.cpp
 		src/dicom/ToggleSeriesPreview.cpp
-		src/dicom/DICOMController.cpp
+		src/dicom/DICOMBrowser.cpp
 		src/dicom/VolumeGridFactory.cpp
 		src/dicom/IndexFile.cpp
 		src/dicom/IndexFileReader.cpp

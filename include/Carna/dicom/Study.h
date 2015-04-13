@@ -58,12 +58,25 @@ public:
       */
     ~Study();
 
+    /** \brief
+      * Holds the name of this study.
+      */
     const std::string name;
-
-    void take( Series* );
-
+    
+    /** \brief
+      * Enlists \a series in \ref series and takes its possession.
+      */
+    void take( Series* series );
+    
+    /** \brief
+      * Tells the DICOM series associated with this study.
+      */
     const std::vector< Series* >& series() const;
-
+    
+    /** \brief
+      * References the DICOM series named \a name associated with this study. Creates
+      * a new empty series when no such series is associated with this study yet.
+      */
     Series& series( const std::string& name );
 
 }; // Study

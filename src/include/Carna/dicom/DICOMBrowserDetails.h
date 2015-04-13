@@ -9,16 +9,16 @@
  *
  */
 
-#ifndef DICOMCONTROLLERDETAILS_H_3294808493
-#define DICOMCONTROLLERDETAILS_H_3294808493
+#ifndef DICOMBROWSERDETAILS_H_3294808493
+#define DICOMBROWSERDETAILS_H_3294808493
 #if !CARNAQT_DISABLED
 
-/** \file   DICOMControllerDetails.h
-  * \brief  Defines \ref Carna::dicom::DICOMController implementation details.
+/** \file   DICOMBrowserDetails.h
+  * \brief  Defines \ref Carna::dicom::DICOMBrowser implementation details.
   */
 
 #include <Carna/dicom/CarnaDICOM.h>
-#include <Carna/dicom/DICOMController.h>
+#include <Carna/dicom/DICOMBrowser.h>
 #include <Carna/dicom/AsyncVolumeGridFactory.h>
 #include <Carna/dicom/AsyncDirectory.h>
 #include <Carna/dicom/IndexFileReader.h>
@@ -40,10 +40,10 @@ namespace dicom
 
 
 // ----------------------------------------------------------------------------------
-// DICOMController :: Details
+// DICOMBrowser :: Details
 // ----------------------------------------------------------------------------------
 
-class DICOMController::Details : public QObject
+class DICOMBrowser::Details : public QObject
 {
 
     NON_COPYABLE
@@ -51,8 +51,8 @@ class DICOMController::Details : public QObject
 
 public:
 
-    DICOMController& self;
-    Details( DICOMController& self );
+    DICOMBrowser& self;
+    Details( DICOMBrowser& self );
     virtual ~Details();
 
     SeriesView* const seriesView;
@@ -81,13 +81,13 @@ public:
 
 signals:
 
-    friend class DICOMController;
+    friend class DICOMBrowser;
 
     void openDirectory( const QString& path );
     void loadVolumeGrid();
     //void extractSeries( const Carna::dicom::DicomExtractionSettings& );
 
-}; // DICOMController :: Details
+}; // DICOMBrowser :: Details
 
 
 
@@ -96,4 +96,4 @@ signals:
 }  // namespace Carna
 
 #endif // CARNAQT_DISABLED
-#endif // DICOMCONTROLLERDETAILS_H_3294808493
+#endif // DICOMBROWSERDETAILS_H_3294808493

@@ -83,6 +83,9 @@ public:
     QImage* createImage( unsigned int maxWidth, unsigned int maxHeight ) const;
 #endif
 
+    /** \brief
+      * Enlists this into \a series. This is equivalent to \ref Series::take.
+      */
     void putInto( Series& series );
 
 }; // SeriesElement

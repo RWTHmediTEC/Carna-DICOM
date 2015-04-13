@@ -12,8 +12,8 @@
 #include <Carna/dicom/CarnaDICOM.h>
 #if !CARNAQT_DISABLED
 
-#include <Carna/dicom/DicomController.h>
-#include <Carna/dicom/DicomControllerDetails.h>
+#include <Carna/dicom/DICOMBrowser.h>
+#include <Carna/dicom/DICOMBrowserDetails.h>
 #include <Carna/dicom/SeriesView.h>
 #include <Carna/dicom/DicomManager.h>
 #include <Carna/dicom/DicomExtractionSettings.h>
@@ -40,10 +40,10 @@ namespace dicom
 
 
 // ----------------------------------------------------------------------------------
-// DICOMController :: Details
+// DICOMBrowser :: Details
 // ----------------------------------------------------------------------------------
 
-DICOMController::Details::Details( DICOMController& self )
+DICOMBrowser::Details::Details( DICOMBrowser& self )
     : self( self )
     , seriesView( new SeriesView() )
     , laSpacingZ( new QLabel( "Z-Spacing:" ) )
@@ -71,13 +71,13 @@ DICOMController::Details::Details( DICOMController& self )
 }
 
 
-DICOMController::Details::~Details()
+DICOMBrowser::Details::~Details()
 {
     workThread->quit();
 }
 
 
-void DICOMController::Details::setPatients( const std::vector< Patient* >& patients )
+void DICOMBrowser::Details::setPatients( const std::vector< Patient* >& patients )
 {
     this->patients = &patients;
     seriesView->clear();
@@ -89,7 +89,7 @@ void DICOMController::Details::setPatients( const std::vector< Patient* >& patie
 }
 
 
-void DICOMController::Details::loadSeries( const Series& series )
+void DICOMBrowser::Details::loadSeries( const Series& series )
 {
     QProgressDialog progress( "Loading data...", "", 0, 0, &self );
     progress.setCancelButton( nullptr );
@@ -107,10 +107,10 @@ void DICOMController::Details::loadSeries( const Series& series )
 
 
 // ----------------------------------------------------------------------------------
-// DICOMController
+// DICOMBrowser
 // ----------------------------------------------------------------------------------
 
-DICOMController::DICOMController()
+DICOMBrowser::DICOMBrowser()
     : pimpl( new Details( *this ) )
 {
     //qRegisterMetaType< Carna::dicom::DicomExtractionSettings >( "Carna::dicom::DicomExtractionSettings" );
@@ -170,12 +170,12 @@ DICOMController::DICOMController()
 }
 
 
-DICOMController::~DICOMController()
+DICOMBrowser::~DICOMBrowser()
 {
 }
 
 
-void DICOMController::openDirectory()
+void DICOMBrowser::openDirectory()
 {
     closePatients();
 
@@ -225,7 +225,7 @@ void DICOMController::openDirectory()
 }
 
 
-void DICOMController::openIndex()
+void DICOMBrowser::openIndex()
 {
     closePatients();
 
@@ -244,7 +244,7 @@ void DICOMController::openIndex()
 }
 
 
-void DICOMController::saveIndex()
+void DICOMBrowser::saveIndex()
 {
     CARNA_ASSERT( pimpl->patients != nullptr );
     const QString fileName = QFileDialog::getSaveFileName
@@ -259,7 +259,7 @@ void DICOMController::saveIndex()
 }
 
 
-void DICOMController::closePatients()
+void DICOMBrowser::closePatients()
 {
     pimpl->patients = nullptr;
     pimpl->seriesView->clear();
@@ -267,7 +267,7 @@ void DICOMController::closePatients()
 }
 
 
-void DICOMController::updateSelectionState()
+void DICOMBrowser::updateSelectionState()
 {
     const unsigned int selected_series_count = pimpl->seriesView->getSelectedSeries().size();
     pimpl->laSpacingZ->setEnabled( selected_series_count == 1 );
@@ -277,13 +277,13 @@ void DICOMController::updateSelectionState()
 }
 
 
-void DICOMController::setSelectedSeries( const Series& series )
+void DICOMBrowser::setSelectedSeries( const Series& series )
 {
     pimpl->sbSpacingZ->setValue( series.spacingZ() );
 }
 
 
-void DICOMController::extractSeries()
+void DICOMBrowser::extractSeries()
 {
     /*
     const auto& selected_series = seriesView->getSelectedSeries();
@@ -329,7 +329,7 @@ void DICOMController::extractSeries()
 }
 
 
-void DICOMController::loadSeries()
+void DICOMBrowser::loadSeries()
 {
     const auto& selectedSeries = pimpl->seriesView->getSelectedSeries();
     if( selectedSeries.size() == 1 )
@@ -344,7 +344,7 @@ void DICOMController::loadSeries()
 }
 
 
-void DICOMController::loadSeries( const Series& series )
+void DICOMBrowser::loadSeries( const Series& series )
 {
     pimpl->loadSeries( series );
     base::math::Vector3f& spacing = *pimpl->spacing;
@@ -353,13 +353,13 @@ void DICOMController::loadSeries( const Series& series )
 }
 
 
-Carna::helpers::VolumeGridHelperBase* DICOMController::takeLoadedVolumeGrid()
+Carna::helpers::VolumeGridHelperBase* DICOMBrowser::takeLoadedVolumeGrid()
 {
     return pimpl->vgf->takeLoadedVolumeGrid();
 }
 
 
-Carna::helpers::VolumeGridHelperBase::Spacing DICOMController::loadedVolumeGridSpacing() const
+Carna::helpers::VolumeGridHelperBase::Spacing DICOMBrowser::loadedVolumeGridSpacing() const
 {
     return Carna::helpers::VolumeGridHelperBase::Spacing( *pimpl->spacing );
 }

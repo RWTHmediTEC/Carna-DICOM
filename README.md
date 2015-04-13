@@ -4,9 +4,10 @@ CarnaDICOM
 [Carna](https://github.com/RWTHmediTEC/Carna)
 provides classes for simple and fast visualization of CT data.
 
-This package provides additional classes that make loading DICOM data easy.
+This package provides auxiliary classes for loading DICOM datasets using Carna ≥3.0.1 and GDCM ≥ 2.0.16.
+It also provides optional Qt widgets for CarnaQt ≥1.0.0 and Qt ≥4.8.
 
-<img src="https://rwthmeditec.github.io/CarnaDICOM/DicomController01.png">
+<img src="https://rwthmeditec.github.io/CarnaDICOM/DICOMBrowser.png">
 
 Go to: [Library Documentation](https://rwthmeditec.github.io/CarnaDICOM/)
 
@@ -27,11 +28,14 @@ Go to: [Library Documentation](https://rwthmeditec.github.io/CarnaDICOM/)
 ---
 ## 1. Dependencies
 
-* Qt ≥ 4.8
 * GDCM ≥ 2.0.16
-* [Carna](https://github.com/RWTHmediTEC/Carna) = 2.5
-* [TRTK](https://github.com/Haenisch/TRTK) ≥ 0.13.1
+* [Carna](https://github.com/RWTHmediTEC/Carna) ≥ 3.0.1
 * [Eigen](http://eigen.tuxfamily.org/) ≥ 3.0.5
+
+Optional:
+
+* Qt ≥ 4.8
+* [CarnaQt](https://github.com/RWTHmediTEC/CarnaQt) ≥ 1.0.0
 
 ---
 ## 2. Build instructions

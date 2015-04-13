@@ -1,4 +1,4 @@
-#include <Carna/dicom/DICOMController.h>
+#include <Carna/dicom/DICOMBrowser.h>
 #include <Carna/qt/Application.h>
 #include <Carna/qt/Display.h>
 #include <Carna/qt/FrameRendererFactory.h>
@@ -10,17 +10,14 @@
 #include <Carna/base/Camera.h>
 #include "Demo.h"
 
-
-
 // ----------------------------------------------------------------------------------
 // Demo
 // ----------------------------------------------------------------------------------
 
-Demo::Demo( Carna::dicom::DICOMController& dicomLoader )
+Demo::Demo( Carna::dicom::DICOMBrowser& dicomLoader )
     : dicomLoader( dicomLoader )
 {
 }
-
 
 void Demo::load()
 {
@@ -39,8 +36,8 @@ void Demo::load()
     /* Define DRR renderer and control widget.
      */
     qt::FrameRendererFactory* const frFactory = new qt::FrameRendererFactory();
-	presets::DRRStage* const drr = new presets::DRRStage( GEOMETRY_TYPE_VOLUMETRIC );
-	drr->setSampleRate( 200 );
+    presets::DRRStage* const drr = new presets::DRRStage( GEOMETRY_TYPE_VOLUMETRIC );
+    drr->setSampleRate( 200 );
     frFactory->appendStage( drr );
     control.reset( new qt::DRRControl( *drr ) );
     display.reset( new qt::Display( frFactory ) );
@@ -51,11 +48,9 @@ void Demo::load()
     /* Start rendering.
      */
     display->show();
-	control->show();
+    control->show();
     dicomLoader.close();
 }
-
-
 
 // ----------------------------------------------------------------------------------
 // main
@@ -65,7 +60,7 @@ int main( int argc, char** argv )
 {
     Carna::qt::Application app( argc, argv );
 
-    Carna::dicom::DICOMController dicomLoader;
+    Carna::dicom::DICOMBrowser dicomLoader;
     dicomLoader.show();
 
     Demo demo( dicomLoader );

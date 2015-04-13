@@ -7,34 +7,21 @@ namespace Carna
   * after the greek god of organs (yup, they really did have even one for organs). It
   * is based on OpenGL 3.3 and Eigen 3.
   *
-  * This package provides auxiliary classes for using %Carna ≥3.0.0 with Qt ≥4.8.
+  * This package provides auxiliary classes for loading DICOM datasets using %Carna
+  * ≥3.0.1 and GDCM ≥2.0.16. It also provides optional Qt widgets for %CarnaQt ≥1.0.0
+  * and Qt ≥4.8.
   *
   * \see \ref VersionLog
   *
-  * \section QuickStart Quick Start
+  * Below is an examplary header file for when Qt is enabled:
   *
-  * The following examples are also available as demos that you can run:
+  * \include Demo/src/Demo.h
   *
-  *   - The \ref DRRControlExample "DRRControl" defines a widget that controls
-  *     `presets::DRR` parameters.
-  *   - The \ref DVRControlExample "DVRControl" controls lighting and colormap for
-  *     `presets::DVR` volume renderings.
-  *   - The \ref MIPControlExample "MIPControl" implements a widget that allows to
-  *     manage the `presets::MIPLayer` objects of an `presets::MIPStage` instance.
-  *   - There is a \ref MPRMinimalExample "minimal" and an
-  *     \ref MPRExtendedExample "extended" example on *multiplanar reformats*.
-  *   - The \ref WindowingControlExample "WindowingControl" defines a widget that
-  *     controls the HU windowing of diverse other components.
+  * And here is the implementation:
   *
-  * Other classes that this package provides:
+  * \include Demo/src/main.cpp
   *
-  *   - The \ref qt::Display class is utilized by all the examples above.
-  *   - The \ref qt::ColorPicker and \ref qt::WideColorPicker widgets let the user
-  *     choose colors.
-  *   - The widget \ref qt::ExpandableGroupBox is a container that can hide its
-  *     contents in order to save UI space.
-  *   - The \ref qt::SpatialListModel can be used with `%QComboBox` for example to
-  *     let the user choose `base::Spatial` objects from a list.
+  * This is the source code of the demo included in this project.
   */
 
 }
