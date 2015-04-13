@@ -37,6 +37,11 @@ Optional:
 * Qt ≥ 4.8
 * [CarnaQt](https://github.com/RWTHmediTEC/CarnaQt) ≥ 1.0.0
 
+Compilation process has been tested with following tool chains:
+
+* **GCC 4.9:** is known to be fully supported.
+* **Visual Studio 2010** is known to be fully supported.
+
 ---
 ## 2. Build instructions
 
