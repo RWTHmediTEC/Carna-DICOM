@@ -1,0 +1,97 @@
+/*
+ *  Copyright (C) 2010 - 2015 Leonid Kostrykin
+ *
+ *  Chair of Medical Engineering (mediTEC)
+ *  RWTH Aachen University
+ *  Pauwelsstr. 20
+ *  52074 Aachen
+ *  Germany
+ *
+ */
+
+#ifndef CARNADICOM_H_3294808493
+#define CARNADICOM_H_3294808493
+
+#include <Carna/Carna.h>
+
+#if defined( CARNADICOM_EXPORT )
+#   if defined( _MSC_VER )
+#       define CARNADICOM_LIB __declspec( dllexport )
+#       pragma warning( disable : 4251 )
+#   elif defined( _GCC )
+#       define CARNADICOM_LIB __attribute__( ( visibility( "default" ) ) )
+#   else
+#       define CARNADICOM_LIB
+#   endif
+#else
+#   if defined( _MSC_VER )
+#       define CARNADICOM_LIB __declspec( dllimport )
+#   else
+#       define CARNADICOM_LIB
+#   endif
+#endif
+#if defined( NO_OVERRIDE_KEYWORD )
+#   define override
+#endif
+
+
+
+// ----------------------------------------------------------------------------------
+// Enabled Features
+// ----------------------------------------------------------------------------------
+
+/** \brief
+  * Defines whether this build of CarnaDICOM supports CarnaQt. The value of this
+  * macro is set by CMake.
+  */
+#define CARNAQT_ENABLED @CARNAQT_ENABLED@
+
+
+/** \cond false
+  */
+#if CARNAQT_ENABLED
+#   define CARNAQT_DISABLED 0
+#else
+#   define CARNAQT_DISABLED 1
+#endif
+/** \endcond
+  */
+
+
+
+// ----------------------------------------------------------------------------------
+// Forward Declarations
+// ----------------------------------------------------------------------------------
+
+namespace Carna
+{
+    namespace dicom
+    {
+        class DicomImage;
+        class Series;
+        class SeriesElement;
+        class VolumeGridFactoryBase;
+        class Study;
+        class Patient;
+        class Directory;
+        class DICOMBrowser;
+        class DICOMExtractionSettings;
+
+#if CARNAQT_ENABLED
+        class SeriesView;
+        class SeriesPreview;
+        class ToggleSeriesPreview;
+        class AsyncDirectory;
+        class AsyncVolumeGridFactory;
+        class IndexFile;
+        class IndexFileReader;
+        class IndexFileWriter;
+#endif
+        
+        template< typename SegmentHUVolumeType, typename SegmentNormalsVolumeType = void > class VolumeFactoryLoader;
+    }
+}
+
+
+
+#endif // CARNADICOM_H_3294808493

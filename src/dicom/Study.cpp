@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2010 - 2014 Leonid Kostrykin
+ *  Copyright (C) 2010 - 2015 Leonid Kostrykin
  *
  *  Chair of Medical Engineering (mediTEC)
  *  RWTH Aachen University
@@ -11,6 +11,8 @@
 
 #include <Carna/dicom/Study.h>
 #include <Carna/dicom/Series.h>
+#include <algorithm>
+#include <map>
 
 namespace Carna
 {
@@ -21,30 +23,62 @@ namespace dicom
 
 
 // ----------------------------------------------------------------------------------
+// Study :: Details
+// ----------------------------------------------------------------------------------
+
+struct Study::Details
+{
+    std::vector< Series* > series;
+    std::map< std::string, Series* > seriesByName;
+};
+
+
+
+// ----------------------------------------------------------------------------------
 // Study
 // ----------------------------------------------------------------------------------
 
 Study::Study( const std::string& name )
-    : name( name )
+    : pimpl( new Details() )
+    , name( name )
 {
 }
 
 
 Study::~Study()
 {
-    std::for_each( series.begin(), series.end(), std::default_delete< Series >() );
+    std::for_each( pimpl->series.begin(), pimpl->series.end(), std::default_delete< Series >() );
 }
 
 
-const std::deque< Series* >& Study::getSeries() const
+const std::vector< Series* >& Study::series() const
 {
-    return series;
+    return pimpl->series;
 }
 
 
-void Study::put( Series* series )
+void Study::take( Series* series )
 {
-    this->series.push_back( series );
+    CARNA_ASSERT( pimpl->seriesByName.find( series->name ) == pimpl->seriesByName.end() );
+    pimpl->series.push_back( series );
+    pimpl->seriesByName[ name ] = series;
+}
+
+
+Series& Study::series( const std::string& name )
+{
+    const auto itr = pimpl->seriesByName.find( name );
+    if( itr == pimpl->seriesByName.end() )
+    {
+        Series* const series = new Series( name );
+        pimpl->seriesByName[ name ] = series;
+        pimpl->series.push_back( series );
+        return *series;
+    }
+    else
+    {
+        return *itr->second;
+    }
 }
 
 

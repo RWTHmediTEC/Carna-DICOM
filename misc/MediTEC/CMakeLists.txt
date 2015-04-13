@@ -4,7 +4,7 @@
 # The script does nothing unless the
 # environmental variable MEDITEC_LIBS is set
 #-------------------------------------------
-# Leonid Kostrykin, 15.12.2014
+# Leonid Kostrykin, 8.4.2015
 ############################################
 
 if( DEFINED ENV{MEDITEC_LIBS} )
@@ -15,7 +15,8 @@ if( DEFINED ENV{MEDITEC_LIBS} )
 	
 	# adjust CMAKE_MODULE_PATH so that proper dependency versions are found
 	set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" PARENT_SCOPE)
-	list(APPEND CMAKE_MODULE_PATH "${MEDITEC_LIBS}/Carna/2.5")
+	list(APPEND CMAKE_MODULE_PATH "${MEDITEC_LIBS}/Carna/3.0")
+	list(APPEND CMAKE_MODULE_PATH "${MEDITEC_LIBS}/CarnaQt/1.0")
 
 	# print warning if CMAKE_INSTALL_PREFIX isn't set to %MEDITEC_LIBS%
 	if( NOT CMAKE_INSTALL_PREFIX STREQUAL ${MEDITEC_LIBS} )

@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2010 - 2014 Leonid Kostrykin
+ *  Copyright (C) 2010 - 2015 Leonid Kostrykin
  *
  *  Chair of Medical Engineering (mediTEC)
  *  RWTH Aachen University
@@ -9,13 +9,17 @@
  *
  */
 
+#include <Carna/dicom/CarnaDICOM.h>
+#if !CARNAQT_DISABLED
+
 #include <Carna/dicom/Patient.h>
 #include <Carna/dicom/Study.h>
 #include <Carna/dicom/Series.h>
 #include <Carna/dicom/SeriesView.h>
 #include <Carna/dicom/ToggleSeriesPreview.h>
-#include <Carna/base/qt/FlowLayout.h>
-#include <Carna/base/qt/ExpandableGroupBox.h>
+#include <Carna/dicom/FlowLayout.h>
+#include <Carna/qt/ExpandableGroupBox.h>
+#include <Carna/base/Log.h>
 #include <QTimer>
 #include <QLabel>
 #include <QVBoxLayout>
@@ -27,7 +31,7 @@ namespace Carna
 namespace dicom
 {
 
-using Carna::base::qt::ExpandableGroupBox;
+using Carna::qt::ExpandableGroupBox;
 
 
 
@@ -136,7 +140,7 @@ void SeriesView::rebuild()
 
      // process studies
 
-        for( auto study_itr = patient.getStudies().begin(); study_itr != patient.getStudies().end(); ++study_itr )
+        for( auto study_itr = patient.studies().begin(); study_itr != patient.studies().end(); ++study_itr )
         {
             const Study& study = **study_itr;
 
@@ -150,27 +154,33 @@ void SeriesView::rebuild()
 
          // process series
 
-            for( auto series_itr = study.getSeries().begin(); series_itr != study.getSeries().end(); ++series_itr )
+            for( auto series_itr = study.series().begin(); series_itr != study.series().end(); ++series_itr )
             {
-                const Series& current_series = **series_itr;
+                const Series& currentSeries = **series_itr;
 
-                if( current_series.getElements().size() < Series::MIN_ELEMENTS_COUNT )
+                if( currentSeries.elements().size() < Series::MINIMUM_ELEMENTS_COUNT )
                 {
+                    base::Log::instance().record
+                        ( base::Log::warning, "Skipping series \"" + currentSeries.name + "\" because it has too few images!" );
                     continue;
                 }
 
                 ToggleSeriesPreview* const preview = new ToggleSeriesPreview();
-                preview->setSeries( current_series );
+                preview->setSeries( currentSeries );
                 series->addWidget( preview );
 
-                connect( preview, SIGNAL( toggled( Carna::dicom::ToggleSeriesPreview& ) ), this, SLOT( seriesToggled( Carna::dicom::ToggleSeriesPreview& ) ) );
-                connect( preview, SIGNAL( doubleClicked( Carna::dicom::ToggleSeriesPreview& ) ), this, SLOT( seriesDoubleClicked( Carna::dicom::ToggleSeriesPreview& ) ) );
+                connect
+                    ( preview, SIGNAL(       toggled( Carna::dicom::ToggleSeriesPreview& ) )
+                    ,    this,   SLOT( seriesToggled( Carna::dicom::ToggleSeriesPreview& ) ) );
+
+                connect
+                    ( preview, SIGNAL(       doubleClicked( Carna::dicom::ToggleSeriesPreview& ) )
+                    ,    this,   SLOT( seriesDoubleClicked( Carna::dicom::ToggleSeriesPreview& ) ) );
             }
         }
     }
 
     container->addStretch( 1 );
-
     containerWidget->setLayout( this->container );
 
  // ----------------------------------------------------------------------------------
@@ -186,7 +196,7 @@ void SeriesView::seriesToggled( ToggleSeriesPreview& seriesPreview )
         return;
     }
 
-    const Series& series = seriesPreview.getSeries();
+    const Series& series = seriesPreview.series();
     if( seriesPreview.isToggled() )
     {
         selectedSeries.insert( &series );
@@ -213,7 +223,6 @@ const std::set< const Series* >& SeriesView::getSelectedSeries() const
 void SeriesView::seriesDoubleClicked( ToggleSeriesPreview& seriesPreview )
 {
     const auto selectedSeriesPreviews = this->selectedSeriesPreviews;
-
     for( auto preview_itr = selectedSeriesPreviews.begin(); preview_itr != selectedSeriesPreviews.end(); ++preview_itr )
     {
         ToggleSeriesPreview* const preview = *preview_itr;
@@ -222,10 +231,8 @@ void SeriesView::seriesDoubleClicked( ToggleSeriesPreview& seriesPreview )
             preview->setToggled( false );
         }
     }
-
     seriesPreview.setToggled( true );
-
-    emit seriesDoubleClicked( seriesPreview.getSeries() );
+    emit seriesDoubleClicked( seriesPreview.series() );
 }
 
 
@@ -233,3 +240,5 @@ void SeriesView::seriesDoubleClicked( ToggleSeriesPreview& seriesPreview )
 }  // namespace Carna :: dicom
 
 }  // namespace Carna
+
+#endif // CARNAQT_DISABLED

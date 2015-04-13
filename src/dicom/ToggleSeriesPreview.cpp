@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2010 - 2014 Leonid Kostrykin
+ *  Copyright (C) 2010 - 2015 Leonid Kostrykin
  *
  *  Chair of Medical Engineering (mediTEC)
  *  RWTH Aachen University
@@ -8,6 +8,9 @@
  *  Germany
  *
  */
+
+#include <Carna/dicom/CarnaDICOM.h>
+#if !CARNAQT_DISABLED
 
 #include <Carna/dicom/ToggleSeriesPreview.h>
 
@@ -89,3 +92,5 @@ void ToggleSeriesPreview::mouseDoubleClickEvent( QMouseEvent* ev )
 }  // namespace Carna :: dicom
 
 }  // namespace Carna
+
+#endif // CARNAQT_DISABLED

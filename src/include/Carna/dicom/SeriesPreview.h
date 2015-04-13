@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2010 - 2014 Leonid Kostrykin
+ *  Copyright (C) 2010 - 2015 Leonid Kostrykin
  *
  *  Chair of Medical Engineering (mediTEC)
  *  RWTH Aachen University
@@ -9,8 +9,9 @@
  *
  */
 
-#ifndef SERIESPREVIEW_H_6014714286
-#define SERIESPREVIEW_H_6014714286
+#ifndef SERIESPREVIEW_H_3294808493
+#define SERIESPREVIEW_H_3294808493
+#if !CARNAQT_DISABLED
 
 /** \file   SeriesPreview.h
   * \brief  Defines \ref Carna::dicom::SeriesPreview.
@@ -41,33 +42,28 @@ class SeriesPreview : public QFrame
 {
 
     NON_COPYABLE
-
     Q_OBJECT
+
+    struct Details;
+    const std::unique_ptr< Details > pimpl;
 
 public:
 
-    /** \brief  Instantiates.
+    /** \brief
+      * Instantiates.
       */
     explicit SeriesPreview( QWidget* parent = nullptr );
 
-    /** \brief  Releases acquired resources.
+    /** \brief
+      * Releases acquired resources.
       */
     virtual ~SeriesPreview();
 
-
     void setSeries( const Series& );
 
-    const Series& getSeries() const;
+    const Series& series() const;
 
     bool hasSeries() const;
-
-
-private:
-
-    const Series* series;
-
-    QLabel* const image;
-    QLabel* const caption;
 
 }; // SeriesPreview
 
@@ -77,4 +73,5 @@ private:
 
 }  // namespace Carna
 
-#endif // SERIESPREVIEW_H_6014714286
+#endif // CARNAQT_DISABLED
+#endif // SERIESPREVIEW_H_3294808493

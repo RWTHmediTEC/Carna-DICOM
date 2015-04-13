@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2010 - 2014 Leonid Kostrykin
+ *  Copyright (C) 2010 - 2015 Leonid Kostrykin
  *
  *  Chair of Medical Engineering (mediTEC)
  *  RWTH Aachen University
@@ -8,6 +8,9 @@
  *  Germany
  *
  */
+
+#include <Carna/dicom/CarnaDICOM.h>
+#if !CARNAQT_DISABLED
 
 #include <Carna/dicom/SeriesPreview.h>
 #include <Carna/dicom/Series.h>
@@ -36,23 +39,44 @@ const static unsigned int PREVIEW_SIZE = 128;
 
 
 // ----------------------------------------------------------------------------------
+// SeriesPreview :: Details
+// ----------------------------------------------------------------------------------
+
+struct SeriesPreview::Details
+{
+    Details();
+    const Series* series;
+    QLabel* const image;
+    QLabel* const caption;
+};
+
+
+SeriesPreview::Details::Details()
+    : series( nullptr )
+    , image( new QLabel() )
+    , caption( new QLabel() )
+{
+}
+
+
+
+// ----------------------------------------------------------------------------------
 // SeriesPreview
 // ----------------------------------------------------------------------------------
 
 SeriesPreview::SeriesPreview( QWidget* parent )
     : QFrame( parent )
-    , image( new QLabel() )
-    , caption( new QLabel() )
+    , pimpl( new Details() )
 {
     this->setLayout( new QVBoxLayout() );
-    this->layout()->addWidget( image );
-    this->layout()->addWidget( caption );
+    this->layout()->addWidget( pimpl->image );
+    this->layout()->addWidget( pimpl->caption );
     this->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
     this->setStyleSheet( "Carna--SeriesPreview{ border: 1px solid #FFFFFF; background-color: black; }" );
 
-    image->setAlignment( Qt::AlignHCenter );
-    caption->setAlignment( Qt::AlignHCenter );
-    caption->setStyleSheet( "color: #FFFFFF; background: none;" );
+    pimpl->image->setAlignment( Qt::AlignHCenter );
+    pimpl->caption->setAlignment( Qt::AlignHCenter );
+    pimpl->caption->setStyleSheet( "color: #FFFFFF; background: none;" );
 }
 
 
@@ -63,37 +87,39 @@ SeriesPreview::~SeriesPreview()
 
 void SeriesPreview::setSeries( const Series& series )
 {
-    this->series = &series;
+    pimpl->series = &series;
 
-    const DicomImage& dicomImage = series.getCentralElement().getDicomImage();
+    const DicomImage& dicomImage = series.centralElement().dicomImage();
     const unsigned int dicomImageSize = std::max( dicomImage.getWidth(), dicomImage.getHeight() );
     const unsigned int previewWidth = ( dicomImage.getWidth() * PREVIEW_SIZE ) / dicomImageSize;
     const unsigned int previewHeight = ( dicomImage.getHeight() * PREVIEW_SIZE ) / dicomImageSize;
 
-    std::unique_ptr< QImage > image( series.getCentralElement().createImage( previewWidth, previewHeight ) );
+    std::unique_ptr< QImage > image( series.centralElement().createImage( previewWidth, previewHeight ) );
 
     QPixmap pixmap;
     pixmap.convertFromImage( *image );
 
     const static unsigned int max_caption_text_length = 20;
-    const QString caption_text = series.name.length() < max_caption_text_length ? QString::fromStdString( series.name ) : QString::fromStdString( series.name.substr( 0, max_caption_text_length - 3 ) ) + "...";
+    const QString caption_text = series.name.length() < max_caption_text_length
+        ? QString::fromStdString( series.name )
+        : QString::fromStdString( series.name.substr( 0, max_caption_text_length - 3 ) ) + "...";
 
-    this->image->setPixmap( pixmap );
-    this->caption->setText( QString::number( series.getElements().size() ) + " images\n" + caption_text );
+    pimpl->image->setPixmap( pixmap );
+    pimpl->caption->setText( QString::number( series.elements().size() ) + " images\n" + caption_text );
     this->setToolTip( QString::fromStdString( series.name ) );
 }
 
 
-const Series& SeriesPreview::getSeries() const
+const Series& SeriesPreview::series() const
 {
-    CARNA_ASSERT( series != nullptr );
-    return *series;
+    CARNA_ASSERT( pimpl->series != nullptr );
+    return *pimpl->series;
 }
 
 
 bool SeriesPreview::hasSeries() const
 {
-    return series != nullptr;
+    return pimpl->series != nullptr;
 }
 
 
@@ -101,3 +127,5 @@ bool SeriesPreview::hasSeries() const
 }  // namespace Carna :: dicom
 
 }  // namespace Carna
+
+#endif // CARNAQT_DISABLED

@@ -1,0 +1,27 @@
+namespace Carna
+{
+
+/** \mainpage
+  *
+  * %Carna provides classes for simple and fast visualization of CT data. It is named
+  * after the greek god of organs (yup, they really did have even one for organs). It
+  * is based on OpenGL 3.3 and Eigen 3.
+  *
+  * This package provides auxiliary classes for loading DICOM datasets using %Carna
+  * ≥3.0.1 and GDCM ≥2.0.16. It also provides optional Qt widgets for %CarnaQt ≥1.0.0
+  * and Qt ≥4.8.
+  *
+  * \see \ref VersionLog
+  *
+  * Below is an examplary header file for when Qt is enabled:
+  *
+  * \include Demo/src/Demo.h
+  *
+  * And here is the implementation:
+  *
+  * \include Demo/src/main.cpp
+  *
+  * This is the source code of the demo included in this project.
+  */
+
+}

@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2010 - 2014 Leonid Kostrykin
+ *  Copyright (C) 2010 - 2015 Leonid Kostrykin
  *
  *  Chair of Medical Engineering (mediTEC)
  *  RWTH Aachen University
@@ -13,6 +13,7 @@
 #include <Carna/dicom/SeriesElement.h>
 #include <Carna/base/CarnaException.h>
 #include <climits>
+#include <algorithm>
 
 namespace Carna
 {
@@ -23,10 +24,26 @@ namespace dicom
 
 
 // ----------------------------------------------------------------------------------
-// Types & Globals
+// Series :: Details
 // ----------------------------------------------------------------------------------
 
-const static double SPACING_OUT_OF_DATE = -std::numeric_limits< double >::infinity();
+struct Series::Details
+{
+    Details();
+    const static double SPACING_DIRTY;
+
+    OrderedElements elements;
+    double zSpacing;
+};
+
+
+const double Series::Details::SPACING_DIRTY = -std::numeric_limits< double >::infinity();
+
+
+Series::Details::Details()
+    : zSpacing( SPACING_DIRTY )
+{
+}
 
 
 
@@ -35,15 +52,15 @@ const static double SPACING_OUT_OF_DATE = -std::numeric_limits< double >::infini
 // ----------------------------------------------------------------------------------
 
 Series::Series( const std::string& name )
-    : name( name )
-    , zSpacing( SPACING_OUT_OF_DATE )
+    : pimpl( new Details() )
+    , name( name )
 {
 }
 
 
 Series::~Series()
 {
-    std::for_each( elements.begin(), elements.end(), std::default_delete< SeriesElement >() );
+    std::for_each( pimpl->elements.begin(), pimpl->elements.end(), std::default_delete< SeriesElement >() );
 }
 
 
@@ -53,43 +70,44 @@ bool Series::IsCloser::operator()( SeriesElement* e1, SeriesElement* e2 ) const
 }
 
 
-const Series::OrderedElements& Series::getElements() const
+const Series::OrderedElements& Series::elements() const
 {
-    return elements;
+    return pimpl->elements;
 }
 
 
-void Series::put( SeriesElement* element )
+void Series::take( SeriesElement* element )
 {
-    elements.insert( element );
-    element->setSeries( *this );
-
-    zSpacing = SPACING_OUT_OF_DATE;
-}
-
-
-double Series::getSpacingZ() const
-{
-    CARNA_ASSERT( elements.size() >= MIN_ELEMENTS_COUNT );
-
-    if( zSpacing == SPACING_OUT_OF_DATE )
+    const std::size_t previousSize = pimpl->elements.size();
+    pimpl->elements.insert( element );
+    if( previousSize != pimpl->elements.size() )
     {
-        auto it = elements.begin();
-        zSpacing  = ( **it ).zPosition;
-        zSpacing -= ( **( ++it ) ).zPosition;
-        zSpacing *= -1;
+        element->putInto( *this );
+        pimpl->zSpacing = Details::SPACING_DIRTY;
     }
-
-    return zSpacing;
 }
 
 
-const SeriesElement& Series::getCentralElement() const
+double Series::spacingZ() const
 {
-    CARNA_ASSERT( elements.size() >= MIN_ELEMENTS_COUNT );
+    CARNA_ASSERT( pimpl->elements.size() >= MINIMUM_ELEMENTS_COUNT );
+    if( pimpl->zSpacing == Details::SPACING_DIRTY )
+    {
+        auto itr = pimpl->elements.begin();
+        pimpl->zSpacing  = ( **itr ).zPosition;
+        pimpl->zSpacing -= ( **( ++itr ) ).zPosition;
+        pimpl->zSpacing *= -1;
+    }
+    return pimpl->zSpacing;
+}
 
-    const auto& last = **( --elements.end() );
-    const auto& first = **( elements.begin() );
+
+const SeriesElement& Series::centralElement() const
+{
+    CARNA_ASSERT( pimpl->elements.size() >= MINIMUM_ELEMENTS_COUNT );
+
+    const auto& last = **( --pimpl->elements.end() );
+    const auto& first = **( pimpl->elements.begin() );
 
     const double z_max = last.zPosition;
     const double z_min = first.zPosition;
@@ -100,7 +118,7 @@ const SeriesElement& Series::getCentralElement() const
 
     double min_z_mid_distance = std::numeric_limits< double >::max();
     SeriesElement* mid_closest_element = nullptr;
-    for( auto current_itr = elements.begin(); current_itr != elements.end(); ++current_itr )
+    for( auto current_itr = pimpl->elements.begin(); current_itr != pimpl->elements.end(); ++current_itr )
     {
         const double z_mid_distance = std::abs( ( **current_itr ).zPosition - z_mid );
         if( z_mid_distance > min_z_mid_distance )
@@ -120,9 +138,9 @@ const SeriesElement& Series::getCentralElement() const
 
 bool Series::contains( const std::string& fileName ) const
 {
-    for( auto current_itr = elements.begin(); current_itr != elements.end(); ++current_itr )
+    for( auto itr = pimpl->elements.begin(); itr != pimpl->elements.end(); ++itr )
     {
-        if( ( **current_itr ).fileName == fileName )
+        if( ( **itr ).fileName == fileName )
         {
             return true;
         }

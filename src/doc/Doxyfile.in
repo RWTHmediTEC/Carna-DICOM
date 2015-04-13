@@ -9,7 +9,8 @@
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = "@PROJECT_NAME@"
 PROJECT_NUMBER         = "Version @FULL_VERSION@"
-PROJECT_LOGO           = src/doc/logo.png
+#PROJECT_LOGO          = src/doc/logo.png
+HTML_EXTRA_STYLESHEET  = src/doc/doc_extra.css
 OUTPUT_DIRECTORY       = doc/
 TAB_SIZE               = 4
 BUILTIN_STL_SUPPORT    = YES
@@ -51,7 +52,8 @@ EXCLUDE                =
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       =
 EXCLUDE_SYMBOLS        =
-IMAGE_PATH             = .
+IMAGE_PATH             = src/doc test/res
+EXAMPLE_PATH           = test
 
 #---------------------------------------------------------------------------
 # Configuration options related to source browsing
@@ -78,10 +80,10 @@ PREDEFINED             +=
 
 HTML_HEADER            =
 HTML_FOOTER            = src/doc/footer.html
-HTML_STYLESHEET        = src/doc/doc_00style.css
 HTML_DYNAMIC_SECTIONS  = YES
 HTML_COLORSTYLE_HUE    = 170
 USE_MATHJAX            = YES
+MATHJAX_RELPATH        = https://cdn.mathjax.org/mathjax/latest
 
 #---------------------------------------------------------------------------
 # Configuration options related to the LaTeX output

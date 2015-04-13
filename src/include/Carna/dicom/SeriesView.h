@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2010 - 2014 Leonid Kostrykin
+ *  Copyright (C) 2010 - 2015 Leonid Kostrykin
  *
  *  Chair of Medical Engineering (mediTEC)
  *  RWTH Aachen University
@@ -9,14 +9,15 @@
  *
  */
 
-#ifndef SERIESVIEW_H_6014714286
-#define SERIESVIEW_H_6014714286
+#ifndef SERIESVIEW_H_3294808493
+#define SERIESVIEW_H_3294808493
+#if !CARNAQT_DISABLED
 
 /** \file   SeriesView.h
   * \brief  Defines \ref Carna::dicom::SeriesView.
   */
 
-#include <Carna/Carna.h>
+#include <Carna/dicom/CarnaDICOM.h>
 #include <Carna/base/noncopyable.h>
 #include <QFrame>
 #include <deque>
@@ -30,10 +31,6 @@ namespace Carna
 namespace dicom
 {
 
-class Patient;
-class Series;
-class ToggleSeriesPreview;
-
 
 
 // ----------------------------------------------------------------------------------
@@ -44,29 +41,27 @@ class SeriesView : public QFrame
 {
 
     NON_COPYABLE
-
     Q_OBJECT
 
 public:
 
-    /** \brief  Instantiates.
+    /** \brief
+      * Instantiates.
       */
     explicit SeriesView( QWidget* parent = nullptr );
 
-    /** \brief  Releases acquired resources.
+    /** \brief
+      * Deletes.
       */
     virtual ~SeriesView();
 
-
     const std::set< const Series* >& getSelectedSeries() const;
-
 
 public slots:
 
     void addPatient( const Carna::dicom::Patient& );
 
     void clear();
-
 
 signals:
 
@@ -77,7 +72,6 @@ signals:
     void seriesUnselected( const Carna::dicom::Series& );
 
     void seriesDoubleClicked( const Carna::dicom::Series& );
-
 
 private:
 
@@ -92,7 +86,6 @@ private:
     std::set< const Series* > selectedSeries;
 
     std::set< ToggleSeriesPreview* > selectedSeriesPreviews;
-
 
 private slots:
 
@@ -112,4 +105,5 @@ private slots:
 
 }  // namespace Carna
 
-#endif // SERIESVIEW_H_6014714286
+#endif // CARNAQT_DISABLED
+#endif // SERIESVIEW_H_3294808493
