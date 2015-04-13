@@ -14,7 +14,7 @@
 #	GDCM_LIBRARIES		points to lib files
 #	GDCM_FOUND			indicates success
 #-------------------------------------------
-# Leonid Kostrykin, 13.12.2014
+# Leonid Kostrykin, 13.4.2015
 ############################################
 
 find_path(	GDCM_INCLUDE_DIR
@@ -45,12 +45,6 @@ find_library(	GDCM_LIBRARY_MSFF_RELEASE
 				PATH_SUFFIXES "gdcm/${GDCM_FIND_VERSION}/bin"
 				DOC "GDCM-msff library (release)")
 
-find_library(	GDCM_LIBRARY_EXPAT_RELEASE
-				NAMES "gdcmexpat-${GDCM_FIND_VERSION}" gdcmexpat
-				PATHS ENV MEDITEC_LIBS
-				PATH_SUFFIXES "gdcm/${GDCM_FIND_VERSION}/bin"
-				DOC "GDCM-expat library (release)")
-
 find_library(	GDCM_LIBRARY_JPEG12_RELEASE
 				NAMES "gdcmjpeg12-${GDCM_FIND_VERSION}" gdcmjpeg12
 				PATHS ENV MEDITEC_LIBS
@@ -62,12 +56,6 @@ find_library(	GDCM_LIBRARY_JPEG8_RELEASE
 				PATHS ENV MEDITEC_LIBS
 				PATH_SUFFIXES "gdcm/${GDCM_FIND_VERSION}/bin"
 				DOC "GDCM-jpeg8 library (release)")
-
-find_library(	GDCM_LIBRARY_ZLIB_RELEASE
-				NAMES "gdcmzlib-${GDCM_FIND_VERSION}" gdcmzlib
-				PATHS ENV MEDITEC_LIBS
-				PATH_SUFFIXES "gdcm/${GDCM_FIND_VERSION}/bin"
-				DOC "GDCM-zlib library (release)")
 
 find_library(	GDCM_LIBRARY_DICT_RELEASE
 				NAMES "gdcmDICT-${GDCM_FIND_VERSION}" gdcmDICT
@@ -81,29 +69,11 @@ find_library(	GDCM_LIBRARY_IOD_RELEASE
 				PATH_SUFFIXES "gdcm/${GDCM_FIND_VERSION}/bin"
 				DOC "GDCM-iod library (release)")
 
-find_library(	GDCM_LIBRARY_CHARLS_RELEASE
-				NAMES "gdcmcharls-${GDCM_FIND_VERSION}" gdcmcharls
-				PATHS ENV MEDITEC_LIBS
-				PATH_SUFFIXES "gdcm/${GDCM_FIND_VERSION}/bin"
-				DOC "GDCM-charls library (release)")
-
-find_library(	GDCM_LIBRARY_GETOPT_RELEASE
-				NAMES "gdcmgetopt-${GDCM_FIND_VERSION}" gdcmgetopt
-				PATHS ENV MEDITEC_LIBS
-				PATH_SUFFIXES "gdcm/${GDCM_FIND_VERSION}/bin"
-				DOC "GDCM-getopt library (release)")
-
 find_library(	GDCM_LIBRARY_JPEG16_RELEASE
 				NAMES "gdcmjpeg16-${GDCM_FIND_VERSION}" gdcmjpeg16
 				PATHS ENV MEDITEC_LIBS
 				PATH_SUFFIXES "gdcm/${GDCM_FIND_VERSION}/bin"
 				DOC "GDCM-jpeg16 library (release)")
-
-find_library(	GDCM_LIBRARY_OPENJPEG_RELEASE
-				NAMES "gdcmopenjpeg-${GDCM_FIND_VERSION}" gdcmopenjpeg
-				PATHS ENV MEDITEC_LIBS
-				PATH_SUFFIXES "gdcm/${GDCM_FIND_VERSION}/bin"
-				DOC "GDCM-openjpeg library (release)")
 			
 ############################################
 # Find DEBUG libraries
@@ -127,12 +97,6 @@ find_library(	GDCM_LIBRARY_MSFF_DEBUG
 				PATH_SUFFIXES "gdcm/${GDCM_FIND_VERSION}/bin"
 				DOC "GDCM-msff library (debug)")
 
-find_library(	GDCM_LIBRARY_EXPAT_DEBUG
-				NAMES "gdcmexpat-${GDCM_FIND_VERSION}d" gdcmexpatd
-				PATHS ENV MEDITEC_LIBS
-				PATH_SUFFIXES "gdcm/${GDCM_FIND_VERSION}/bin"
-				DOC "GDCM-expat library (debug)")
-
 find_library(	GDCM_LIBRARY_JPEG12_DEBUG
 				NAMES "gdcmjpeg12-${GDCM_FIND_VERSION}d" gdcmjpeg12d
 				PATHS ENV MEDITEC_LIBS
@@ -144,12 +108,6 @@ find_library(	GDCM_LIBRARY_JPEG8_DEBUG
 				PATHS ENV MEDITEC_LIBS
 				PATH_SUFFIXES "gdcm/${GDCM_FIND_VERSION}/bin"
 				DOC "GDCM-jpeg8 library (debug)")
-
-find_library(	GDCM_LIBRARY_ZLIB_DEBUG
-				NAMES "gdcmzlib-${GDCM_FIND_VERSION}d" gdcmzlibd
-				PATHS ENV MEDITEC_LIBS
-				PATH_SUFFIXES "gdcm/${GDCM_FIND_VERSION}/bin"
-				DOC "GDCM-zlib library (debug)")
 
 find_library(	GDCM_LIBRARY_DICT_DEBUG
 				NAMES "gdcmDICT-${GDCM_FIND_VERSION}d" gdcmDICTd
@@ -163,29 +121,11 @@ find_library(	GDCM_LIBRARY_IOD_DEBUG
 				PATH_SUFFIXES "gdcm/${GDCM_FIND_VERSION}/bin"
 				DOC "GDCM-iod library (debug)")
 
-find_library(	GDCM_LIBRARY_CHARLS_DEBUG
-				NAMES "gdcmcharls-${GDCM_FIND_VERSION}d" gdcmcharlsd
-				PATHS ENV MEDITEC_LIBS
-				PATH_SUFFIXES "gdcm/${GDCM_FIND_VERSION}/bin"
-				DOC "GDCM-charls library (debug)")
-
-find_library(	GDCM_LIBRARY_GETOPT_DEBUG
-				NAMES "gdcmgetopt-${GDCM_FIND_VERSION}d" gdcmgetoptd
-				PATHS ENV MEDITEC_LIBS
-				PATH_SUFFIXES "gdcm/${GDCM_FIND_VERSION}/bin"
-				DOC "GDCM-getopt library (debug)")
-
 find_library(	GDCM_LIBRARY_JPEG16_DEBUG
 				NAMES "gdcmjpeg16-${GDCM_FIND_VERSION}d" gdcmjpeg16d
 				PATHS ENV MEDITEC_LIBS
 				PATH_SUFFIXES "gdcm/${GDCM_FIND_VERSION}/bin"
 				DOC "GDCM-jpeg16 library (debug)")
-
-find_library(	GDCM_LIBRARY_OPENJPEG_DEBUG
-				NAMES "gdcmopenjpeg-${GDCM_FIND_VERSION}d" gdcmopenjpegd
-				PATHS ENV MEDITEC_LIBS
-				PATH_SUFFIXES "gdcm/${GDCM_FIND_VERSION}/bin"
-				DOC "GDCM-openjpeg library (debug)")
 
 # handles REQUIRED, QUIET and version-related
 # arguments and also sets the _FOUND variable
@@ -203,24 +143,19 @@ find_package_handle_standard_args( GDCM
 # use RELEASE builds for both 'optmized' and 'debug' if the DEBUG builds have not
 # been found, e.g. as it is usual on Linux systems
 macro( set_if_not_set_yet var value )
-    if( NOT DEFINED var AND DEFINED value )
-        set(var ${value})
+    if( NOT ${var} )
+        set(${var} ${value})
     endif()
 endmacro()
 
-set_if_not_set_yet( GDCM_LIBRARY_COMMON_DEBUG   GDCM_LIBRARY_COMMON_RELEASE )
-set_if_not_set_yet( GDCM_LIBRARY_DSED_DEBUG     GDCM_LIBRARY_DSED_RELEASE )
-set_if_not_set_yet( GDCM_LIBRARY_MSFF_DEBUG     GDCM_LIBRARY_MSFF_RELEASE )
-set_if_not_set_yet( GDCM_LIBRARY_EXPAT_DEBUG    GDCM_LIBRARY_EXPAT_RELEASE )
-set_if_not_set_yet( GDCM_LIBRARY_JPEG12_DEBUG   GDCM_LIBRARY_JPEG12_RELEASE )
-set_if_not_set_yet( GDCM_LIBRARY_JPEG8_DEBUG    GDCM_LIBRARY_JPEG8_RELEASE )
-set_if_not_set_yet( GDCM_LIBRARY_ZLIB_DEBUG     GDCM_LIBRARY_ZLIB_RELEASE )
-set_if_not_set_yet( GDCM_LIBRARY_DICT_DEBUG     GDCM_LIBRARY_DICT_RELEASE )
-set_if_not_set_yet( GDCM_LIBRARY_IOD_DEBUG      GDCM_LIBRARY_IOD_RELEASE )
-set_if_not_set_yet( GDCM_LIBRARY_CHARLS_DEBUG   GDCM_LIBRARY_CHARLS_RELEASE )
-set_if_not_set_yet( GDCM_LIBRARY_GETOPT_DEBUG   GDCM_LIBRARY_GETOPT_RELEASE )
-set_if_not_set_yet( GDCM_LIBRARY_JPEG16_DEBUG   GDCM_LIBRARY_JPEG16_RELEASE )
-set_if_not_set_yet( GDCM_LIBRARY_OPENJPEG_DEBUG GDCM_LIBRARY_OPENJPEG_RELEASE )
+set_if_not_set_yet( GDCM_LIBRARY_COMMON_DEBUG   ${GDCM_LIBRARY_COMMON_RELEASE} )
+set_if_not_set_yet( GDCM_LIBRARY_DSED_DEBUG     ${GDCM_LIBRARY_DSED_RELEASE} )
+set_if_not_set_yet( GDCM_LIBRARY_MSFF_DEBUG     ${GDCM_LIBRARY_MSFF_RELEASE} )
+set_if_not_set_yet( GDCM_LIBRARY_JPEG12_DEBUG   ${GDCM_LIBRARY_JPEG12_RELEASE} )
+set_if_not_set_yet( GDCM_LIBRARY_JPEG8_DEBUG    ${GDCM_LIBRARY_JPEG8_RELEASE} )
+set_if_not_set_yet( GDCM_LIBRARY_DICT_DEBUG     ${GDCM_LIBRARY_DICT_RELEASE} )
+set_if_not_set_yet( GDCM_LIBRARY_IOD_DEBUG      ${GDCM_LIBRARY_IOD_RELEASE} )
+set_if_not_set_yet( GDCM_LIBRARY_JPEG16_DEBUG   ${GDCM_LIBRARY_JPEG16_RELEASE} )
 
 # set-up additional dependencies on Windows systems
 if( WIN32 )
@@ -235,15 +170,10 @@ if( GDCM_FOUND )
 			optimized	${GDCM_LIBRARY_COMMON_RELEASE}		debug	${GDCM_LIBRARY_COMMON_DEBUG}
 			optimized	${GDCM_LIBRARY_DSED_RELEASE}		debug	${GDCM_LIBRARY_DSED_DEBUG}
 			optimized	${GDCM_LIBRARY_MSFF_RELEASE}		debug	${GDCM_LIBRARY_MSFF_DEBUG}
-			optimized	${GDCM_LIBRARY_EXPAT_RELEASE}		debug	${GDCM_LIBRARY_EXPAT_DEBUG}
 			optimized	${GDCM_LIBRARY_JPEG12_RELEASE}		debug	${GDCM_LIBRARY_JPEG12_DEBUG}
 			optimized	${GDCM_LIBRARY_JPEG8_RELEASE}		debug	${GDCM_LIBRARY_JPEG8_DEBUG}
-			optimized	${GDCM_LIBRARY_ZLIB_RELEASE}		debug	${GDCM_LIBRARY_ZLIB_DEBUG}
 			optimized	${GDCM_LIBRARY_DICT_RELEASE}		debug	${GDCM_LIBRARY_DICT_DEBUG}
 			optimized	${GDCM_LIBRARY_IOD_RELEASE}			debug	${GDCM_LIBRARY_IOD_DEBUG}
-			optimized	${GDCM_LIBRARY_CHARLS_RELEASE}		debug	${GDCM_LIBRARY_CHARLS_DEBUG}
-			optimized	${GDCM_LIBRARY_GETOPT_RELEASE}		debug	${GDCM_LIBRARY_GETOPT_DEBUG}
 			optimized	${GDCM_LIBRARY_JPEG16_RELEASE}		debug	${GDCM_LIBRARY_JPEG16_DEBUG}
-			optimized	${GDCM_LIBRARY_OPENJPEG_RELEASE}	debug	${GDCM_LIBRARY_OPENJPEG_DEBUG}
 			${GDCM_EXTRA_DEPENDENCY_LIBRARIES} )
 endif()

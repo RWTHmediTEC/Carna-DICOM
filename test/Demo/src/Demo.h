@@ -1,5 +1,9 @@
 #include <Carna/dicom/CarnaDICOM.h>
 #include <Carna/qt/CarnaQt.h>
+#include <Carna/qt/Display.h>
+#include <Carna/qt/DRRControl.h>
+#include <Carna/helpers/VolumeGridHelper.h>
+#include <Carna/base/Node.h>
 #include <QObject>
 #include <memory>
 

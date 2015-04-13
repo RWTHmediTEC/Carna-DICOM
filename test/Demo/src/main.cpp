@@ -1,12 +1,9 @@
 #include <Carna/dicom/DICOMBrowser.h>
 #include <Carna/qt/Application.h>
-#include <Carna/qt/Display.h>
 #include <Carna/qt/FrameRendererFactory.h>
-#include <Carna/qt/DRRControl.h>
 #include <Carna/presets/DRRStage.h>
 #include <Carna/presets/CameraShowcaseControl.h>
 #include <Carna/presets/PerspectiveControl.h>
-#include <Carna/base/Node.h>
 #include <Carna/base/Camera.h>
 #include "Demo.h"
 
