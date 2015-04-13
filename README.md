@@ -52,6 +52,7 @@ This section explains three ways of building CarnaDICOM:
 1. Creating Visual Studio project files and building it from the IDE
 2. Building CarnaDICOM directly through CMake from command line
 3. If you are a colleague from MediTEC, you can use the batch script.
+4. On Linux you can run the `linux_build.sh` script.
 
 Regardless which build method you pick,
 first thing you need to do is to fetch the latest stable version.
@@ -165,6 +166,7 @@ by passing particular parameters to `cmake`:
 * `INSTALL_CMAKE_DIR` specifies where the `FindCarnaDICOM.cmake` file goes to.
 * `INSTALL_LIBRARY_DIR` specifies where the built binary files go to.
 * `INSTALL_HEADERS_DIR` specifies where the headers are going to installed to.
+* `INSTALL_DOC_DIR` specifies where the HTML documentation is going to be installed.
 
 If you use relative paths for these parameters,
 they will be resolved relatively to `CMAKE_INSTALL_PREFIX`.
@@ -194,20 +196,20 @@ find_package( CarnaDICOM REQUIRED )
 include_directories( ${CARNADICOM_INCLUDE_DIR} )
 ```
 
-If you need to put a constraint on the version, use `find_package(CarnaDICOM 0.1.0 REQUIRED)`
-to pick a package with a version *compatible* to 0.1.0,
-or use `find_package(CarnaDICOM 0.1.0 EXACT REQUIRED)` to pick a package by the exact version.
+If you need to put a constraint on the version, use `find_package(CarnaDICOM 1.0.0 REQUIRED)`
+to pick a package with a version *compatible* to 1.0.0,
+or use `find_package(CarnaDICOM 1.0.0 EXACT REQUIRED)` to pick a package by the exact version.
 
-You also need to add the headers (usually *only* the headers) from TRTK and Eigen:
+You also need to add the headers from Eigen and Carna:
 
 ```CMake
 # Eigen
 find_package( Eigen3 3.0.5 REQUIRED )
 include_directories( ${EIGEN3_INCLUDE_DIR} )
 
-# TRTK
-find_package( TRTK 0.13.1 REQUIRED )
-include_directories( ${TRTK_INCLUDE_DIR} )
+# Carna
+find_package( Carna 3.0.1 REQUIRED )
+include_directories( ${CARNA_INCLUDE_DIR} )
 ```
 
 Finally add CarnaDICOM to the linking stage:
@@ -216,7 +218,7 @@ Finally add CarnaDICOM to the linking stage:
 target_link_libraries( ${TARGET_NAME} ${SOME_OTHER_LIBRARIES} ${CARNADICOM_LIBRARIES} )
 ```
 
-This method relies on CMake being able to locate the proper `FindCarnaDICOM.cmake` file.
+This method relies on CMake being able to locate the proper `FindCarna.cmake` and `FindCarnaDICOM.cmake` file.
 If you've built CarnaDICOM from source,
 than you have determined it's location either through `CMAKE_INSTALL_PREFIX`
 or `INSTALL_CMAKE_DIR` as described in ["installation notes"](#23-installation-notes).
@@ -233,19 +235,22 @@ If you are a colleague from MediTEC, you must also add the following line of cod
 *before* `find_package`, otherwise CMake will not find CarnaDICOM:
 
 ```CMake
-list(APPEND CMAKE_MODULE_PATH "${MEDITEC_LIBS}/CarnaDICOM/0.1")
+list(APPEND CMAKE_MODULE_PATH "${MEDITEC_LIBS}/Carna/3.0")
+list(APPEND CMAKE_MODULE_PATH "${MEDITEC_LIBS}/CarnaDICOM/1.0")
 ```
 
 ### 3.3. Manually
 
-Find where your header files are located. You might look for `CarnaDICOM.h`,
-that is contained by a directory named `Carna`.
+Find where your header files are located. You might look for `dicom/CarnaDICOM.h` or `dicom/Version.h`.
+Both of these files are contained by a directory named `Carna`.
 Add the *parent* directory of the `Carna` directory,
-that contains `CarnaDICOM.h` in turn,
+that contains `dicom/CarnaDICOM.h` and `dicom/Version.h` in turn,
 to your project's include directories.
 
 Then find the appropriate library file.
 It's name depends on your platform and CarnaDICOM version,
-e.g. `CarnaDICOM-0.1.0.lib` for the release and `CarnaDICOM-0.1.0d.lib`
-for the debug version respectively of Carna 0.1.0 on Windows.
-Add both of these files to your project's linker stage.
+e.g. `CarnaDICOM-1.0.0.lib` for the release and `CarnaDICOM-1.0.0d.lib`
+for the debug version respectively of CarnaDICOM 1.0.0 on Windows.
+Add both of these files to your project's linking stage.
+
+Note that you must also add the header and library files from Carna.

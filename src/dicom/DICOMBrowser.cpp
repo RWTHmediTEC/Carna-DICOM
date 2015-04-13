@@ -16,7 +16,6 @@
 #include <Carna/dicom/DICOMBrowserDetails.h>
 #include <Carna/dicom/SeriesView.h>
 #include <Carna/dicom/DicomManager.h>
-#include <Carna/dicom/DicomExtractionSettings.h>
 #include <Carna/dicom/Series.h>
 #include <QProgressDialog>
 #include <QVBoxLayout>

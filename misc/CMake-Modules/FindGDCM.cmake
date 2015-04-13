@@ -14,7 +14,7 @@
 #	GDCM_LIBRARIES		points to lib files
 #	GDCM_FOUND			indicates success
 #-------------------------------------------
-# Leonid Kostrykin, 13.12.2014
+# Leonid Kostrykin, 13.4.2015
 ############################################
 
 find_path(	GDCM_INCLUDE_DIR
@@ -200,50 +200,43 @@ find_package_handle_standard_args( GDCM
 	GDCM_LIBRARY_IOD_RELEASE
 	GDCM_LIBRARY_JPEG16_RELEASE )
 
-# use RELEASE builds for both 'optmized' and 'debug' if the DEBUG builds have not
-# been found, e.g. as it is usual on Linux systems
-macro( set_if_not_set_yet var value )
-    if( NOT DEFINED var AND DEFINED value )
-        set(var ${value})
-    endif()
-endmacro()
-
-set_if_not_set_yet( GDCM_LIBRARY_COMMON_DEBUG   GDCM_LIBRARY_COMMON_RELEASE )
-set_if_not_set_yet( GDCM_LIBRARY_DSED_DEBUG     GDCM_LIBRARY_DSED_RELEASE )
-set_if_not_set_yet( GDCM_LIBRARY_MSFF_DEBUG     GDCM_LIBRARY_MSFF_RELEASE )
-set_if_not_set_yet( GDCM_LIBRARY_EXPAT_DEBUG    GDCM_LIBRARY_EXPAT_RELEASE )
-set_if_not_set_yet( GDCM_LIBRARY_JPEG12_DEBUG   GDCM_LIBRARY_JPEG12_RELEASE )
-set_if_not_set_yet( GDCM_LIBRARY_JPEG8_DEBUG    GDCM_LIBRARY_JPEG8_RELEASE )
-set_if_not_set_yet( GDCM_LIBRARY_ZLIB_DEBUG     GDCM_LIBRARY_ZLIB_RELEASE )
-set_if_not_set_yet( GDCM_LIBRARY_DICT_DEBUG     GDCM_LIBRARY_DICT_RELEASE )
-set_if_not_set_yet( GDCM_LIBRARY_IOD_DEBUG      GDCM_LIBRARY_IOD_RELEASE )
-set_if_not_set_yet( GDCM_LIBRARY_CHARLS_DEBUG   GDCM_LIBRARY_CHARLS_RELEASE )
-set_if_not_set_yet( GDCM_LIBRARY_GETOPT_DEBUG   GDCM_LIBRARY_GETOPT_RELEASE )
-set_if_not_set_yet( GDCM_LIBRARY_JPEG16_DEBUG   GDCM_LIBRARY_JPEG16_RELEASE )
-set_if_not_set_yet( GDCM_LIBRARY_OPENJPEG_DEBUG GDCM_LIBRARY_OPENJPEG_RELEASE )
-
-# set-up additional dependencies on Windows systems
-if( WIN32 )
-	set( GDCM_EXTRA_DEPENDENCY_LIBRARIES Ws2_32 rpcrt4 )
-else()
-	set( GDCM_EXTRA_DEPENDENCY_LIBRARIES "" )
-endif()
-
 # set paths to library files
 if( GDCM_FOUND )
-	set( GDCM_LIBRARIES
-			optimized	${GDCM_LIBRARY_COMMON_RELEASE}		debug	${GDCM_LIBRARY_COMMON_DEBUG}
-			optimized	${GDCM_LIBRARY_DSED_RELEASE}		debug	${GDCM_LIBRARY_DSED_DEBUG}
-			optimized	${GDCM_LIBRARY_MSFF_RELEASE}		debug	${GDCM_LIBRARY_MSFF_DEBUG}
-			optimized	${GDCM_LIBRARY_EXPAT_RELEASE}		debug	${GDCM_LIBRARY_EXPAT_DEBUG}
-			optimized	${GDCM_LIBRARY_JPEG12_RELEASE}		debug	${GDCM_LIBRARY_JPEG12_DEBUG}
-			optimized	${GDCM_LIBRARY_JPEG8_RELEASE}		debug	${GDCM_LIBRARY_JPEG8_DEBUG}
-			optimized	${GDCM_LIBRARY_ZLIB_RELEASE}		debug	${GDCM_LIBRARY_ZLIB_DEBUG}
-			optimized	${GDCM_LIBRARY_DICT_RELEASE}		debug	${GDCM_LIBRARY_DICT_DEBUG}
-			optimized	${GDCM_LIBRARY_IOD_RELEASE}			debug	${GDCM_LIBRARY_IOD_DEBUG}
-			optimized	${GDCM_LIBRARY_CHARLS_RELEASE}		debug	${GDCM_LIBRARY_CHARLS_DEBUG}
-			optimized	${GDCM_LIBRARY_GETOPT_RELEASE}		debug	${GDCM_LIBRARY_GETOPT_DEBUG}
-			optimized	${GDCM_LIBRARY_JPEG16_RELEASE}		debug	${GDCM_LIBRARY_JPEG16_DEBUG}
-			optimized	${GDCM_LIBRARY_OPENJPEG_RELEASE}	debug	${GDCM_LIBRARY_OPENJPEG_DEBUG}
-			${GDCM_EXTRA_DEPENDENCY_LIBRARIES} )
+
+	set( GDCM_LIBRARIES "" )
+
+    # set-up additional dependencies on Windows systems
+    if( WIN32 )
+        list( APPEND GDCM_LIBRARIES Ws2_32 rpcrt4 )
+    endif()
+			
+	macro( add_gdcm_library lib )
+	    if( ${lib}_DEBUG )
+    	    list( APPEND GDCM_LIBRARIES optimized ${${lib}_RELEASE} debug ${${lib}_DEBUG} )
+	    else()
+	        list( APPEND GDCM_LIBRARIES ${${lib}_RELEASE} )
+	    endif()
+	endmacro()
+	
+	add_gdcm_library( GDCM_LIBRARY_COMMON )
+	add_gdcm_library( GDCM_LIBRARY_DSED )
+	add_gdcm_library( GDCM_LIBRARY_MSFF )
+	add_gdcm_library( GDCM_LIBRARY_JPEG12 )
+	add_gdcm_library( GDCM_LIBRARY_JPEG8 )
+	add_gdcm_library( GDCM_LIBRARY_DICT )
+	add_gdcm_library( GDCM_LIBRARY_IOD )
+	add_gdcm_library( GDCM_LIBRARY_JPEG16 )
+	
+	macro( add_gdcm_library_optional lib )
+	    if( ${lib}_RELEASE )
+	        add_gdcm_library( ${lib} )
+	    endif()
+	endmacro()
+	
+	add_gdcm_library_optional( GDCM_LIBRARY_EXPAT )
+	add_gdcm_library_optional( GDCM_LIBRARY_ZLIB )
+	add_gdcm_library_optional( GDCM_LIBRARY_CHARLS )
+	add_gdcm_library_optional( GDCM_LIBRARY_GETOPT )
+	add_gdcm_library_optional( GDCM_LIBRARY_OPENJPEG )
+	
 endif()

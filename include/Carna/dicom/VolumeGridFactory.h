@@ -194,7 +194,8 @@ template< typename SegmentHUVolumeType, typename SegmentNormalsVolumeType >
 void VolumeGridFactory< SegmentHUVolumeType, SegmentNormalsVolumeType >
     ::setHUVoxel( const base::math::Vector3ui& location, base::HUV huv )
 {
-    helper->grid().setVoxel< base::VolumeGrid< SegmentHUVolumeType, SegmentNormalsVolumeType >::HUVSelector >( location, huv );
+    helper->grid().template setVoxel
+        < typename base::VolumeGrid< SegmentHUVolumeType, SegmentNormalsVolumeType >::HUVSelector >( location, huv );
 }
 
 
