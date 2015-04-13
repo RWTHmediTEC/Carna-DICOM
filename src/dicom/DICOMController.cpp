@@ -177,7 +177,7 @@ DICOMController::~DICOMController()
 
 void DICOMController::openDirectory()
 {
-    close();
+    closePatients();
 
  // ---------------------------------------------------------------------------------
 
@@ -227,7 +227,7 @@ void DICOMController::openDirectory()
 
 void DICOMController::openIndex()
 {
-    close();
+    closePatients();
 
  // ----------------------------------------------------------------------------------
 
@@ -259,7 +259,7 @@ void DICOMController::saveIndex()
 }
 
 
-void DICOMController::close()
+void DICOMController::closePatients()
 {
     pimpl->patients = nullptr;
     pimpl->seriesView->clear();

@@ -70,7 +70,7 @@ public slots:
 
     void openDirectory();
     void openIndex();
-    void close();
+    void closePatients();
     void saveIndex();
     void extractSeries();
     void loadSeries( const Carna::dicom::Series& );

@@ -2,6 +2,7 @@
 #include <Carna/qt/Application.h>
 #include <Carna/qt/Display.h>
 #include <Carna/qt/FrameRendererFactory.h>
+#include <Carna/qt/DRRControl.h>
 #include <Carna/presets/DRRStage.h>
 #include <Carna/presets/CameraShowcaseControl.h>
 #include <Carna/presets/PerspectiveControl.h>
@@ -35,10 +36,13 @@ void Demo::load()
     root->attachChild( cam );
     root->attachChild( gridHelper->createNode( GEOMETRY_TYPE_VOLUMETRIC, dicomLoader.loadedVolumeGridSpacing() ) );
 
-    /* Define DRR renderer.
+    /* Define DRR renderer and control widget.
      */
     qt::FrameRendererFactory* const frFactory = new qt::FrameRendererFactory();
-    frFactory->appendStage( new presets::DRRStage( GEOMETRY_TYPE_VOLUMETRIC ) );
+	presets::DRRStage* const drr = new presets::DRRStage( GEOMETRY_TYPE_VOLUMETRIC );
+	drr->setSampleRate( 200 );
+    frFactory->appendStage( drr );
+    control.reset( new qt::DRRControl( *drr ) );
     display.reset( new qt::Display( frFactory ) );
     display->setCamera( *cam );
     display->setCameraControl( new base::Composition< base::CameraControl >( new presets::CameraShowcaseControl() ) );
@@ -47,6 +51,7 @@ void Demo::load()
     /* Start rendering.
      */
     display->show();
+	control->show();
     dicomLoader.close();
 }
 
