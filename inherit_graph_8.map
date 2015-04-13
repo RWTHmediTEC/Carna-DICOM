@@ -1,0 +1,4 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$class_carna_1_1dicom_1_1_volume_grid_factory_base.html" title="Defines type&#45;parameters&#45;independent VolumeGridFactory base interface. " alt="" coords="6,13,181,54"/>
+<area shape="rect" id="node3" href="$class_carna_1_1dicom_1_1_volume_grid_factory.html" title="Instantiates helpers::VolumeGridHelper objects from DICOM series. " alt="" coords="229,5,453,61"/>
+</map>
