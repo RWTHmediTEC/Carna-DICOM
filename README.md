@@ -5,7 +5,7 @@ CarnaDICOM
 provides classes for simple and fast visualization of CT data.
 
 This package provides auxiliary classes for loading DICOM datasets using Carna ≥3.0.1 and GDCM ≥ 2.0.16.
-It also provides optional Qt widgets for CarnaQt ≥1.0.0 and Qt ≥4.8.
+It also provides optional Qt widgets for CarnaQt ≥1.0.1 and Qt ≥4.8.
 
 <img src="https://rwthmeditec.github.io/CarnaDICOM/DICOMBrowser.png">
 
