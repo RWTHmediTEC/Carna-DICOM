@@ -1,3 +1,4 @@
 /build
 /src/doc/Doxyfile
 /include/Carna/dicom/CarnaDICOM.h
+/include/Carna/dicom/Version.h
