@@ -57,7 +57,7 @@
 /** \brief
   * Defines the \ref VersioningPolicies "API patch version number".
   */
-#define CARNADICOM_PATCH_VERSION 0
+#define CARNADICOM_PATCH_VERSION 1
 
 
 

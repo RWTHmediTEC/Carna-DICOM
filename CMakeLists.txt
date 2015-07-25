@@ -3,7 +3,7 @@ project(CarnaDICOM)
 
 set(MAJOR_VERSION   1)
 set(MINOR_VERSION   0)
-set(PATCH_VERSION   0)
+set(PATCH_VERSION   1)
 
 ############################################
 
@@ -83,9 +83,25 @@ configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/misc/Find${PROJECT_NAME}.cmake.in
 ############################################
 
 # Qt
-find_package( Qt4 4.8.0 COMPONENTS QtCore QtGui QtXml )
-include( ${QT_USE_FILE} )
-add_definitions( ${QT_DEFINITIONS} )
+find_package( Qt5Core QUIET )
+find_package( Qt5Widgets QUIET )
+find_package( Qt5Gui QUIET )
+find_package( Qt5Xml QUIET )
+if(Qt5Core_FOUND AND Qt5Widgets_FOUND AND Qt5Gui_FOUND AND Qt5Xml_FOUND)
+    set(Qt5_FOUND TRUE)
+    set(QT_FOUND TRUE)
+    set(QT_LIBRARIES Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Xml)
+    include_directories(
+            ${Qt5Core_INCLUDE_DIRS}
+            ${Qt5Widgets_INCLUDE_DIRS}
+            ${Qt5Gui_INCLUDE_DIRS}
+            ${Qt5Xml_INCLUDE_DIRS}
+        )
+else()
+    find_package( Qt4 4.8.0 COMPONENTS QtCore QtGui QtXml )
+    include( ${QT_USE_FILE} )
+    add_definitions( ${QT_DEFINITIONS} )
+endif()
 
 # Eigen
 find_package( Eigen3 REQUIRED )
@@ -108,9 +124,9 @@ include_directories( ${CARNAQT_INCLUDE_DIR} )
 ############################################
 
 if( QT_FOUND AND CARNAQT_FOUND )
-	set( CARNAQT_ENABLED 1 )
+    set( CARNAQT_ENABLED 1 )
 else()
-	set( CARNAQT_ENABLED 0 )
+    set( CARNAQT_ENABLED 0 )
 endif()
 configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/misc/CarnaDICOM.h.in
                 ${CMAKE_CURRENT_SOURCE_DIR}/include/Carna/dicom/CarnaDICOM.h @ONLY)
@@ -191,21 +207,28 @@ set( MISC
 ############################################
 
 if( QT_FOUND )
-	QT4_WRAP_CPP( PUBLIC_HEADERS_MOC ${PUBLIC_QOBJECT_HEADERS} )
-	QT4_WRAP_CPP( PRIVATE_HEADERS_MOC ${PRIVATE_QOBJECT_HEADERS} )
-	QT4_WRAP_UI( FORMS_HEADERS ${FORMS} )
-	QT4_ADD_RESOURCES( RESOURCES_RCC ${RESOURCES} )
-	
-	include_directories(${CMAKE_PROJECT_DIR}src/include/Carna/dicom)
-	list( APPEND PRIVATE_HEADERS src/include/Carna/dicom/FlowLayout.h )
-	list( APPEND SRC src/dicom/FlowLayout.cpp )
+    if(Qt5_FOUND)
+        QT5_WRAP_CPP( PUBLIC_HEADERS_MOC ${PUBLIC_QOBJECT_HEADERS} )
+        QT5_WRAP_CPP( PRIVATE_HEADERS_MOC ${PRIVATE_QOBJECT_HEADERS} )
+        QT5_WRAP_UI( FORMS_HEADERS ${FORMS} )
+        QT5_ADD_RESOURCES( RESOURCES_RCC ${RESOURCES} )
+    else(Qt5_FOUND)
+        QT4_WRAP_CPP( PUBLIC_HEADERS_MOC ${PUBLIC_QOBJECT_HEADERS} )
+        QT4_WRAP_CPP( PRIVATE_HEADERS_MOC ${PRIVATE_QOBJECT_HEADERS} )
+        QT4_WRAP_UI( FORMS_HEADERS ${FORMS} )
+        QT4_ADD_RESOURCES( RESOURCES_RCC ${RESOURCES} )
+    endif(Qt5_FOUND)
+    
+    include_directories(${CMAKE_PROJECT_DIR}src/include/Carna/dicom)
+    list( APPEND PRIVATE_HEADERS src/include/Carna/dicom/FlowLayout.h )
+    list( APPEND SRC src/dicom/FlowLayout.cpp )
 else()
-	set( PUBLIC_HEADERS_MOC "" )
-	set( PRIVATE_HEADERS_MOC "" )
-	set( FORMS_HEADERS "" )
-	set( RESOURCES_RCC "" )
-	set( CARNAQT_LIBRARIES "" )
-	set( QT_LIBRARIES "" )
+    set( PUBLIC_HEADERS_MOC "" )
+    set( PRIVATE_HEADERS_MOC "" )
+    set( FORMS_HEADERS "" )
+    set( RESOURCES_RCC "" )
+    set( CARNAQT_LIBRARIES "" )
+    set( QT_LIBRARIES "" )
 endif()
 
 ############################################
