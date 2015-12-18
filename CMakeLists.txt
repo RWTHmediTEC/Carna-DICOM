@@ -108,7 +108,7 @@ find_package( Eigen3 REQUIRED )
 include_directories( ${EIGEN3_INCLUDE_DIR} )
 
 # GDCM
-find_package( GDCM 2.0.16 REQUIRED )
+find_package( GDCM 2.4.4 REQUIRED )
 include_directories( ${GDCM_INCLUDE_DIR} )
 
 # Carna

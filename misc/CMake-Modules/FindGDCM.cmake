@@ -17,6 +17,8 @@
 # Leonid Kostrykin, 13.4.2015
 ############################################
 
+include(FindPackageHandleStandardArgs)
+
 find_path(	GDCM_INCLUDE_DIR
 		    gdcmReader.h gdcmImage.h
 		    PATHS "${CMAKE_INSTALL_PREFIX}/include" ENV MEDITEC_LIBS
