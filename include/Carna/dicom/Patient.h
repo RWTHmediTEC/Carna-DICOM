@@ -19,6 +19,7 @@
 #include <Carna/dicom/CarnaDICOM.h>
 #include <Carna/base/noncopyable.h>
 #include <vector>
+#include <memory>
 
 namespace Carna
 {

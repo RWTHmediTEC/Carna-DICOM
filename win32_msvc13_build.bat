@@ -30,6 +30,6 @@ nmake
 nmake install
 
 cd ..\VisualStudio2013
-cmake -G"Visual Studio 12 2013" -DCMAKE_INSTALL_PREFIX="%MEDITEC_LIBS%" -DBUILD_TEST=ON -DBUILD_DEMO=ON ..\..
+cmake -G"Visual Studio 12 2013" -DCMAKE_INSTALL_PREFIX="%MEDITEC_LIBS%" -DBUILD_TEST=OFF -DBUILD_DEMO=OFF ..\..
 
 cd ..\..

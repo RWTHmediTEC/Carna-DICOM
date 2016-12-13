@@ -43,7 +43,9 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/misc/CMake-Modules)
 ############################################
 # Run MediTEC compatiblity script
 ############################################
-
+SET(CMAKE_INSTALL_PREFIX "$ENV{MEDITEC_LIBS}")
+  MESSAGE("********************************************************")
+  MESSAGE(${CMAKE_INSTALL_PREFIX})
 add_subdirectory(misc/MediTEC)
 
 ############################################
@@ -104,15 +106,16 @@ else()
 endif()
 
 # Eigen
-find_package( Eigen3 REQUIRED )
-include_directories( ${EIGEN3_INCLUDE_DIR} )
+include( $ENV{MEDITEC_LIBS}/Eigen/3.2.8/configure.cmake ) 
+#find_package( Eigen3 REQUIRED )
+#include_directories( ${EIGEN3_INCLUDE_DIR} )
 
 # GDCM
 find_package( GDCM 2.4.4 REQUIRED )
 include_directories( ${GDCM_INCLUDE_DIR} )
 
 # Carna
-find_package( Carna 3.0.1 REQUIRED )
+find_package( Carna 3.0.2 REQUIRED )
 include_directories( ${CARNA_INCLUDE_DIR} )
 
 # CarnaQt
